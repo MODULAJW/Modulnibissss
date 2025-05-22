@@ -1,148 +1,165 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>VGA TECH</title>
-<style>
-  * {
-    box-sizing: border-box;
-    user-select: none;
-  }
-  body {
-    margin: 0;
-    padding: 10px;
-    background: repeating-linear-gradient(45deg, #000, #000 10px, #111 10px, #111 20px);
-    color: #00ff00;
-    font-family: 'Share Tech Mono', monospace;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    height: 100vh;
-    width: 100vw;
-    border: 4px solid #00bfff;
-    overflow-x: hidden;
-    position: relative;
-  }
-  h1 {
-    font-size: 6vw;
-    color: #00bfff;
-    text-shadow:
-      0 0 5px #00bfff,
-      0 0 10px #00bfff,
-      0 0 20px #00bfff,
-      0 0 40px #00bfff;
-    margin: 20px 0 10px;
-    text-align: center;
-  }
-  h2 {
-    font-size: 5vw;
-    margin: 10px 0;
-  }
-  #login, #player {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-  #login.active, #player.active {
-    display: flex;
-  }
-  input[type="text"], input[type="file"] {
-    padding: 2.5vw;
-    font-size: 4vw;
-    border: 2px solid #00bfff;
-    border-radius: 8px;
-    background: #000;
-    color: #00ff00;
-    margin-bottom: 10px;
-    width: 80%;
-  }
-  button {
-    padding: 2.5vw 5vw;
-    font-size: 4vw;
-    border: 2px solid #00bfff;
-    background: #000;
-    color: #00ff00;
-    border-radius: 8px;
-    cursor: pointer;
-    margin: 5px;
-  }
-  .lcd {
-    width: 90%;
-    height: 12vw;
-    background: #000;
-    border: 2px solid #00bfff;
-    border-radius: 8px;
-    box-shadow: inset 0 0 15px #00bfff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 15px 0;
-    font-size: 4vw;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    padding: 1vw;
-    text-align: center;
-  }
-  .controls, .speed-controls, .file-inputs {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 15px;
-  }
-  .controls {
-    flex-wrap: nowrap;
-    flex-direction: row;
-  }
-  .file-inputs {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-  .file-inputs label {
-    font-size: 3.5vw;
-    border-top: 1px solid #00bfff;
-    padding-top: 6px;
-    color: #00ff00;
-    margin-bottom: 5px;
-  }
-  audio { display: none; }
-  #expiredNotice, #error {
-    font-size: 3.8vw;
-  }
-  #totalListBtn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 3.5vw;
-    padding: 1vw 2vw;
-    z-index: 1000;
-    border: 2px solid #00bfff;
-    background: #000;
-    color: #00ff00;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  /* Link voucher beli */
-  #voucherLink {
-    margin-top: 10px;
-    font-size: 4vw;
-    color: #00bfff;
-    text-align: center;
-  }
-  #voucherLink a {
-    color: #00bfff;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  #voucherLink a:hover {
-    text-decoration: underline;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VGA TECH</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      user-select: none;
+    }
+    body {
+      margin: 0;
+      padding: 10px;
+      background: repeating-linear-gradient(45deg, #000, #000 10px, #111 10px, #111 20px);
+      color: #00bfff;
+      font-family: 'Share Tech Mono', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      width: 100vw;
+      border: 4px solid #00bfff;
+      overflow-x: hidden;
+      position: relative;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    h1 {
+      font-size: 6vw;
+      color: #00bfff;
+      text-shadow: 0 0 5px #00bfff, 0 0 10px #00bfff, 0 0 20px #00bfff, 0 0 40px #00bfff;
+      margin: 20px 0 10px;
+      text-align: center;
+    }
+    h2 {
+      font-size: 5vw;
+      margin: 10px 0;
+      color: #00bfff;
+    }
+    #login, #player {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      color: #00bfff;
+    }
+    #login.active, #player.active {
+      display: flex;
+    }
+    input[type="text"], input[type="file"] {
+      padding: 2.5vw;
+      font-size: 4vw;
+      border: 2px solid #00bfff;
+      border-radius: 8px;
+      background: #000;
+      color: #00bfff;
+      margin-bottom: 10px;
+      width: 80%;
+    }
+    button {
+      padding: 2.5vw 5vw;
+      font-size: 4vw;
+      border: 2px solid #00bfff;
+      background: #000;
+      color: #00bfff;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 5px;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+    button.clicked {
+      transform: scale(0.95);
+      box-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
+    }
+    .lcd {
+      width: 90%;
+      height: 12vw;
+      background: #000;
+      border: 2px solid #00bfff;
+      border-radius: 8px;
+      box-shadow: inset 0 0 15px #00bfff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 15px 0;
+      font-size: 4vw;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      padding: 1vw;
+      text-align: center;
+      color: #00bfff;
+    }
+    .controls, .speed-controls, .file-inputs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      color: #00bfff;
+    }
+    .controls {
+      flex-wrap: nowrap;
+      flex-direction: row;
+    }
+    .file-inputs {
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+    .file-inputs label {
+      font-size: 3.5vw;
+      border-top: 1px solid #00bfff;
+      padding-top: 6px;
+      color: #00bfff;
+      margin-bottom: 5px;
+    }
+    audio { display: none; }
+    #expiredNotice, #error {
+      font-size: 3.8vw;
+      color: #00bfff;
+    }
+    #totalListBtn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 3.5vw;
+      padding: 1vw 2vw;
+      z-index: 1000;
+      border: 2px solid #00bfff;
+      background: #000;
+      color: #00bfff;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #listModal {
+      position: fixed;
+      top: 10%;
+      left: 5%;
+      width: 90%;
+      height: 80%;
+      background: #000;
+      border: 2px solid #00bfff;
+      color: #00bfff;
+      overflow-y: auto;
+      padding: 2vw;
+      font-size: 4vw;
+      z-index: 2000;
+      display: none;
+      white-space: pre-wrap;
+    }
+    #listModal span {
+      color: #0099ff;
+      cursor: pointer;
+      text-decoration: underline;
+      display: block;
+      margin-bottom: 0.5em;
+    }
+  </style>
 </head>
 <body>
   <h1>VGA TECH</h1>
@@ -151,13 +168,8 @@
     <h2>MASUKKAN VOUCHER</h2>
     <input type="text" id="voucherInput" placeholder="Masukkan kode voucher" />
     <button onclick="login()">Masuk</button>
-    <div id="voucherLink">
-      <a href="https://wa.me/628829075733" target="_blank" rel="noopener noreferrer">
-        BELI VOUCHER KE NOMOR INI : 088290755733
-      </a>
-    </div>
-    <div id="expiredNotice" style="color:red; display:none;">VOUCHER SUDAH KADALUARSA</div>
-    <div id="error" style="color:red;"></div>
+    <div id="expiredNotice" style="display:none;">VOUCHER SUDAH KADALUARSA</div>
+    <div id="error"></div>
   </div>
 
   <div id="player">
@@ -183,201 +195,645 @@
     <audio id="audioPlayer"></audio>
   </div>
 
-<script>
-  const totalScenes = 1000;
-  const audioPlayer = document.getElementById("audioPlayer");
-  const lcd = document.getElementById("lcdDisplay");
-  const validVouchers = [
-    "X8K9J2", "MZ47KL", "D91QLT", "WZ83NE", "A72JKL", "Q19LXP", "BZ47KU", "C39NLE", "ZK81MO", "Y18WPL",
-    "NX29TR", "LK73QZ", "DV28HM", "UI47EP", "WP19LX", "BT48QL", "ME28XK", "VN39LU", "PT28NM", "AR48YX",
-    "KJ38PL", "RE49XM", "QK37LY", "XL20NP", "CW49ZX", "LK92TP", "UZ38NP", "KP48XM", "NX29LP", "HJ47XM",
-    "TA38LK", "GE47KP", "QT92LP", "MB18KL", "RX37NM", "VP29XL", "ZY38LP", "WL28XP", "QA47KM", "JZ39PL",
-    "EZ28LK", "NK37PU", "TZ19LP", "YX48KM", "PL28XO", "MN37QP", "ZR19LX", "DW28XM", "GL47NL", "TR38XP"
-  ];
-  let currentScene = 1;
-  let playbackRate = 1.0;
-  let scenes = {};
-  const dbName = "VGA_DB";
-  let db;
+  <div id="listModal" onclick="this.style.display='none'"></div>
 
-  function openDB() {
-    return new Promise((resolve, reject) => {
-      const request = indexedDB.open(dbName, 1);
-      request.onerror = () => reject("Gagal buka DB");
-      request.onsuccess = () => {
-        db = request.result;
-        resolve();
+  <script>
+    const totalScenes = 1000;
+    const audioPlayer = document.getElementById("audioPlayer");
+    const lcd = document.getElementById("lcdDisplay");
+    const validVouchers = [
+  "X8K9J2", "MZ47KL", "D91QLT", "WZ83NE", "A72JKL", "Q19LXP", "BZ47KU", "C39NLE", "ZK81MO", "Y18WPL",
+  "NX29TR", "LK73QZ", "DV28HM", "UI47EP", "WP19LX", "BT48QL", "ME28XK", "VN39LU", "PT28NM", "AR48YX",
+  "KJ38PL", "RE49XM", "QK37LY", "XL20NP", "CW49ZX", "LK92TP", "UZ38NP", "KP48XM", "NX29LP", "HJ47XM",
+  "TA38LK", "GE47KP", "QT92LP", "MB18KL", "RX37NM", "VP29XL", "ZY38LP", "WL28XP", "QA47KM", "JZ39PL",
+  "EZ28LK", "NK37PU", "TZ19LP", "YX48KM", "PL28XO", "MN37QP", "ZR19LX", "DW28XM", "GL47NL", "TR38XP"
+];
+    let currentScene = 1;
+    let playbackRate = 1.0;
+    let scenes = {};
+    const dbName = "VGA_DB";
+    let db;
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(dbName, 1);
+        request.onerror = () => reject("Gagal buka DB");
+        request.onsuccess = () => {
+          db = request.result;
+          resolve();
+        };
+        request.onupgradeneeded = e => {
+          db = e.target.result;
+          db.createObjectStore("audios");
+        };
+      });
+    }
+
+    function saveToDB(scene, file) {
+      const reader = new FileReader();
+      reader.onload = function() {
+        const transaction = db.transaction("audios", "readwrite");
+        const store = transaction.objectStore("audios");
+        store.put(reader.result, scene);
       };
-      request.onupgradeneeded = e => {
-        db = e.target.result;
-        db.createObjectStore("audios");
-      };
-    });
-  }
-
-  function saveToDB(scene, file) {
-    const reader = new FileReader();
-    reader.onload = function() {
-      const transaction = db.transaction("audios", "readwrite");
-      const store = transaction.objectStore("audios");
-      store.put(reader.result, scene);
-    };
-    reader.readAsArrayBuffer(file);
-  }
-
-  function loadFromDB(scene) {
-    return new Promise((resolve) => {
-      const transaction = db.transaction("audios", "readonly");
-      const store = transaction.objectStore("audios");
-      const req = store.get(scene);
-      req.onsuccess = () => {
-        if (req.result) {
-          const blob = new Blob([req.result]);
-          const url = URL.createObjectURL(blob);
-          scenes[scene].audio = url;
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      };
-    });
-  }
-
-  async function updateScene() {
-    document.getElementById("sceneInfo").textContent = `NOMOR : ${currentScene} - ${totalScenes}`;
-    await loadFromDB(currentScene);
-    lcd.textContent = scenes[currentScene]?.name || "Tidak ada audio";
-  }
-
-  function login() {
-    const code = document.getElementById("voucherInput").value.trim();
-    const expiry = localStorage.getItem("voucher_expiry");
-    const now = Date.now();
-    if (expiry && now < parseInt(expiry)) return showPlayer();
-    if (validVouchers.includes(code)) {
-      const newExpiry = now + 7 * 24 * 60 * 60 * 1000;
-      localStorage.setItem("voucher_expiry", newExpiry);
-      showPlayer();
-    } else {
-      document.getElementById("error").textContent = "Voucher tidak valid!";
+      reader.readAsArrayBuffer(file);
     }
-  }
 
-  function showPlayer() {
-    document.getElementById("login").classList.remove("active");
-    document.getElementById("player").classList.add("active");
-    showWelcomeText();
-  }
-
-  function showTempLCD(text) {
-    lcd.textContent = text;
-    setTimeout(() => updateScene(), 500);
-  }
-
-  function playAudio() {
-    const scene = scenes[currentScene];
-    if (scene?.audio) {
-      audioPlayer.src = scene.audio;
-      audioPlayer.playbackRate = playbackRate;
-      audioPlayer.play();
-      showTempLCD("Play");
+    function loadFromDB(scene) {
+      return new Promise((resolve) => {
+        const transaction = db.transaction("audios", "readonly");
+        const store = transaction.objectStore("audios");
+        const req = store.get(scene);
+        req.onsuccess = () => {
+          if (req.result) {
+            const blob = new Blob([req.result]);
+            const url = URL.createObjectURL(blob);
+            scenes[scene].audio = url;
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        };
+      });
     }
-  }
 
-  function stopAudio() {
-    audioPlayer.pause();
-    showTempLCD("Stop");
-  }
-
-  function nextScene() {
-    currentScene = currentScene % totalScenes + 1;
-    updateScene();
-  }
-
-  function prevScene() {
-    currentScene = (currentScene - 2 + totalScenes) % totalScenes + 1;
-    updateScene();
-  }
-
-  function slower() {
-    playbackRate = Math.max(0.5, playbackRate - 0.1);
-    audioPlayer.playbackRate = playbackRate;
-    showTempLCD("Speed: " + playbackRate.toFixed(1) + "x");
-  }
-
-  function faster() {
-    playbackRate = Math.min(2.0, playbackRate + 0.1);
-    audioPlayer.playbackRate = playbackRate;
-    showTempLCD("Speed: " + playbackRate.toFixed(1) + "x");
-  }
-
-  function renameAudio(event) {
-    if (event) event.preventDefault();
-    const newName = prompt("Ganti nama audio:", scenes[currentScene]?.name || "");
-    if (newName !== null) {
-      scenes[currentScene] = scenes[currentScene] || {};
-      scenes[currentScene].name = newName.slice(0, 30);
-      localStorage.setItem(`scene_name_${currentScene}`, scenes[currentScene].name);
-      updateScene();
+    async function updateScene() {
+      document.getElementById("sceneInfo").textContent = `NOMOR : ${currentScene} - ${totalScenes}`;
+      await loadFromDB(currentScene);
+      lcd.textContent = scenes[currentScene].name || "Tidak ada audio";
     }
-  }
 
-  function showWelcomeText() {
-    let message = " SELAMAT DATANG DI MODUL VGA TECH CUSTOM SELAMAT MEMAINKAN ";
-    let index = 0;
-    let interval = setInterval(() => {
-      lcd.textContent = message.slice(index) + " " + message.slice(0, index);
-      index = (index + 1) % message.length;
-    }, 150);
-    setTimeout(() => {
-      clearInterval(interval);
-      updateScene();
-    }, 5000);
-  }
-
-  document.getElementById("bgInput").addEventListener("change", e => {
-    const file = e.target.files[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      document.body.style.backgroundImage = `url('${url}')`;
-      document.body.style.backgroundSize = "cover";
-    }
-  });
-
-  document.getElementById("audioInput").addEventListener("change", e => {
-    const file = e.target.files[0];
-    if (file) {
-      scenes[currentScene] = scenes[currentScene] || {};
-      scenes[currentScene].name = file.name;
-      saveToDB(currentScene, file);
-      updateScene();
-    }
-  });
-
-  function showTotalList() {
-    let list = "";
-    for(let i=1; i<=totalScenes; i++) {
-      if(scenes[i]?.name) list += i + ": " + scenes[i].name + "\n";
-    }
-    alert(list || "Tidak ada audio tersimpan");
-  }
-
-  // Inisialisasi
-  (async () => {
-    await openDB();
-    for(let i=1; i<=totalScenes; i++) {
-      const savedName = localStorage.getItem(`scene_name_${i}`);
-      if(savedName) {
-        scenes[i] = { name: savedName };
+    function login() {
+      const code = document.getElementById("voucherInput").value.trim();
+      const expiry = localStorage.getItem("voucher_expiry");
+      const now = Date.now();
+      if (expiry && now < parseInt(expiry)) return showPlayer();
+      if (validVouchers.includes(code)) {
+        const newExpiry = now + 7 * 24 * 60 * 60 * 1000;
+        localStorage.setItem("voucher_expiry", newExpiry);
+        showPlayer();
+      } else {
+        document.getElementById("error").textContent = "Voucher tidak valid!";
       }
     }
-    // Cek expired voucher
-    const expiry = localStorage.getItem("voucher_expiry");
-    if(expiry && Date.now() < parseInt(expiry)) {
-      showPlayer();
-    }
-  })();
-</script>
 
+    function showPlayer() {
+      document.getElementById("login").classList.remove("active");
+      document.getElementById("player").classList.add("active");
+      showWelcomeText();
+    }
+
+    function showTempLCD(text) {
+      lcd.textContent = text;
+      setTimeout(() => updateScene(), 500);
+    }
+
+    function playAudio() {
+      const scene = scenes[currentScene];
+      if (scene.audio) {
+        audioPlayer.src = scene.audio;
+        audioPlayer.playbackRate = playbackRate;
+        audioPlayer.play();
+        showTempLCD("Play");
+      }
+    }
+
+    function stopAudio() {
+      audioPlayer.pause();
+      showTempLCD("Stop");
+    }
+
+    function nextScene() {
+      currentScene = currentScene % totalScenes + 1;
+      updateScene();
+    }
+
+    function prevScene() {
+      currentScene = (currentScene - 2 + totalScenes) % totalScenes + 1;
+      updateScene();
+    }
+
+    function slower() {
+      playbackRate = Math.max(0.5, playbackRate - 0.1);
+      audioPlayer.playbackRate = playbackRate;
+      showTempLCD("Speed: " + playbackRate.toFixed(1) + "x");
+    }
+
+    function faster() {
+      playbackRate = Math.min(2.0, playbackRate + 0.1);
+      audioPlayer.playbackRate = playbackRate;
+      showTempLCD("Speed: " + playbackRate.toFixed(1) + "x");
+    }
+
+    function renameAudio(event) {
+      if (event) event.preventDefault();
+      const newName = prompt("Ganti nama audio:", scenes[currentScene].name || "");
+      if (newName !== null) {
+        scenes[currentScene].name = newName.slice(0, 30);
+        localStorage.setItem(`scene_name_${currentScene}`, scenes[currentScene].name);
+        updateScene();
+      }
+    }
+
+    function showWelcomeText() {
+      let message = " SELAMAT DATANG DI MODUL VGA TECH CUSTOM SELAMAT MEMAINKAN ";
+      let index = 0;
+      let interval = setInterval(() => {
+        lcd.textContent = message.slice(index) + " " + message.slice(0, index);
+        index = (index + 1) % message.length;
+      }, 150);
+      setTimeout(() => {
+        clearInterval(interval);
+        updateScene();
+      }, 5000);
+    }
+
+    document.getElementById("bgInput").addEventListener("change", e => {
+      const file = e.target.files[0];
+      if (file) {
+        const url = URL.createObjectURL(file);
+        document.body.style.backgroundImage = `url('${url}')`;
+        document.body.style.backgroundSize = "cover";
+        document.body.style.backgroundPosition = "center center";
+        document.body.style.backgroundRepeat = "no-repeat";
+      }
+    });
+
+    document.getElementById("audioInput").addEventListener("change", e => {
+      const file = e.target.files[0];
+      if (file) {
+        saveToDB(currentScene, file);
+        scenes[currentScene].name = file.name;
+        localStorage.setItem(`scene_name_${currentScene}`, file.name);
+        updateScene();
+      }
+    });
+
+    function showTotalList() {
+      const modal = document.getElementById("listModal");
+      modal.innerHTML = "";
+      let hasAny = false;
+      for (let i = 1; i <= totalScenes; i++) {
+        if (scenes[i].name) {
+          hasAny = true;
+          const span = document.createElement("span");
+          span.textContent = `Scene ${i}: ${scenes[i].name}`;
+          span.onclick = (e) => {
+            e.stopPropagation();
+            currentScene = i;
+            updateScene();
+            modal.style.display = "none";
+          };
+          modal.appendChild(span);
+        }
+      }
+      if (!hasAny) {
+        modal.textContent = "Belum ada MP3 yang disimpan.";
+      }
+      modal.style.display = "block";
+    }
+
+    window.onload = async () => {
+      for (let i = 1; i <= totalScenes; i++) {
+        scenes[i] = {
+          audio: null,
+          name: localStorage.getItem(`scene_name_${i}`) || null
+        };
+      }
+      await openDB();
+      if (localStorage.getItem("voucher_expiry") && Date.now() < parseInt(localStorage.getItem("voucher_expiry"))) {
+        showPlayer();
+      }
+    };
+
+    // Efek klik pada semua tombol
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll("button").forEach(btn => {
+        btn.addEventListener("click", () => {
+          btn.classList.add("clicked");
+          setTimeout(() => btn.classList.remove("cl<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VGA TECH</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      user-select: none;
+    }
+    body {
+      margin: 0;
+      padding: 10px;
+      background: repeating-linear-gradient(45deg, #000, #000 10px, #111 10px, #111 20px);
+      color: #00bfff;
+      font-family: 'Share Tech Mono', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      width: 100vw;
+      border: 4px solid #00bfff;
+      overflow-x: hidden;
+      position: relative;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    h1 {
+      font-size: 6vw;
+      color: #00bfff;
+      text-shadow: 0 0 5px #00bfff, 0 0 10px #00bfff, 0 0 20px #00bfff, 0 0 40px #00bfff;
+      margin: 20px 0 10px;
+      text-align: center;
+    }
+    h2 {
+      font-size: 5vw;
+      margin: 10px 0;
+      color: #00bfff;
+    }
+    #login, #player {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      color: #00bfff;
+    }
+    #login.active, #player.active {
+      display: flex;
+    }
+    input[type="text"], input[type="file"] {
+      padding: 2.5vw;
+      font-size: 4vw;
+      border: 2px solid #00bfff;
+      border-radius: 8px;
+      background: #000;
+      color: #00bfff;
+      margin-bottom: 10px;
+      width: 80%;
+    }
+    button {
+      padding: 2.5vw 5vw;
+      font-size: 4vw;
+      border: 2px solid #00bfff;
+      background: #000;
+      color: #00bfff;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 5px;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+    button.clicked {
+      transform: scale(0.95);
+      box-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
+    }
+    .lcd {
+      width: 90%;
+      height: 12vw;
+      background: #000;
+      border: 2px solid #00bfff;
+      border-radius: 8px;
+      box-shadow: inset 0 0 15px #00bfff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 15px 0;
+      font-size: 4vw;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      padding: 1vw;
+      text-align: center;
+      color: #00bfff;
+    }
+    .controls, .speed-controls, .file-inputs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      color: #00bfff;
+    }
+    .controls {
+      flex-wrap: nowrap;
+      flex-direction: row;
+    }
+    .file-inputs {
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+    .file-inputs label {
+      font-size: 3.5vw;
+      border-top: 1px solid #00bfff;
+      padding-top: 6px;
+      color: #00bfff;
+      margin-bottom: 5px;
+    }
+    audio { display: none; }
+    #expiredNotice, #error {
+      font-size: 3.8vw;
+      color: #00bfff;
+    }
+    #totalListBtn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 3.5vw;
+      padding: 1vw 2vw;
+      z-index: 1000;
+      border: 2px solid #00bfff;
+      background: #000;
+      color: #00bfff;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #listModal {
+      position: fixed;
+      top: 10%;
+      left: 5%;
+      width: 90%;
+      height: 80%;
+      background: #000;
+      border: 2px solid #00bfff;
+      color: #00bfff;
+      overflow-y: auto;
+      padding: 2vw;
+      font-size: 4vw;
+      z-index: 2000;
+      display: none;
+      white-space: pre-wrap;
+    }
+    #listModal span {
+      color: #0099ff;
+      cursor: pointer;
+      text-decoration: underline;
+      display: block;
+      margin-bottom: 0.5em;
+    }
+  </style>
+</head>
+<body>
+  <h1>VGA TECH</h1>
+
+  <div id="login" class="active">
+    <h2>MASUKKAN VOUCHER</h2>
+    <input type="text" id="voucherInput" placeholder="Masukkan kode voucher" />
+    <button onclick="login()">Masuk</button>
+    <div id="expiredNotice" style="display:none;">VOUCHER SUDAH KADALUARSA</div>
+    <div id="error"></div>
+  </div>
+
+  <div id="player">
+    <button id="totalListBtn" onclick="showTotalList()">TOTAL LIST</button>
+    <h2 id="sceneInfo"></h2>
+    <div class="lcd" id="lcdDisplay" onclick="renameAudio(event)">Tidak ada audio</div>
+    <div class="controls">
+      <button onclick="prevScene()">Prev<br>&lt;</button>
+      <button onclick="playAudio()">&#9654; Play</button>
+      <button onclick="stopAudio()">&#9632; Stop</button>
+      <button onclick="nextScene()">Next &#9654;</button>
+    </div>
+    <div class="speed-controls">
+      <button onclick="slower()">- Speed</button>
+      <button onclick="faster()">+ Speed</button>
+    </div>
+    <div class="file-inputs">
+      <label for="bgInput">GANTI BACKGROUND</label>
+      <input type="file" id="bgInput" />
+      <label for="audioInput">PILIH BASURI DARI FILE ANDA</label>
+      <input type="file" id="audioInput" />
+    </div>
+    <audio id="audioPlayer"></audio>
+  </div>
+
+  <div id="listModal" onclick="this.style.display='none'"></div>
+
+  <script>
+    const totalScenes = 1000;
+    const audioPlayer = document.getElementById("audioPlayer");
+    const lcd = document.getElementById("lcdDisplay");
+    const validVouchers = [
+  "X8K9J2", "MZ47KL", "D91QLT", "WZ83NE", "A72JKL", "Q19LXP", "BZ47KU", "C39NLE", "ZK81MO", "Y18WPL",
+  "NX29TR", "LK73QZ", "DV28HM", "UI47EP", "WP19LX", "BT48QL", "ME28XK", "VN39LU", "PT28NM", "AR48YX",
+  "KJ38PL", "RE49XM", "QK37LY", "XL20NP", "CW49ZX", "LK92TP", "UZ38NP", "KP48XM", "NX29LP", "HJ47XM",
+  "TA38LK", "GE47KP", "QT92LP", "MB18KL", "RX37NM", "VP29XL", "ZY38LP", "WL28XP", "QA47KM", "JZ39PL",
+  "EZ28LK", "NK37PU", "TZ19LP", "YX48KM", "PL28XO", "MN37QP", "ZR19LX", "DW28XM", "GL47NL", "TR38XP"
+];
+    let currentScene = 1;
+    let playbackRate = 1.0;
+    let scenes = {};
+    const dbName = "VGA_DB";
+    let db;
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(dbName, 1);
+        request.onerror = () => reject("Gagal buka DB");
+        request.onsuccess = () => {
+          db = request.result;
+          resolve();
+        };
+        request.onupgradeneeded = e => {
+          db = e.target.result;
+          db.createObjectStore("audios");
+        };
+      });
+    }
+
+    function saveToDB(scene, file) {
+      const reader = new FileReader();
+      reader.onload = function() {
+        const transaction = db.transaction("audios", "readwrite");
+        const store = transaction.objectStore("audios");
+        store.put(reader.result, scene);
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function loadFromDB(scene) {
+      return new Promise((resolve) => {
+        const transaction = db.transaction("audios", "readonly");
+        const store = transaction.objectStore("audios");
+        const req = store.get(scene);
+        req.onsuccess = () => {
+          if (req.result) {
+            const blob = new Blob([req.result]);
+            const url = URL.createObjectURL(blob);
+            scenes[scene].audio = url;
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        };
+      });
+    }
+
+    async function updateScene() {
+      document.getElementById("sceneInfo").textContent = `NOMOR : ${currentScene} - ${totalScenes}`;
+      await loadFromDB(currentScene);
+      lcd.textContent = scenes[currentScene].name || "Tidak ada audio";
+    }
+
+    function login() {
+      const code = document.getElementById("voucherInput").value.trim();
+      const expiry = localStorage.getItem("voucher_expiry");
+      const now = Date.now();
+      if (expiry && now < parseInt(expiry)) return showPlayer();
+      if (validVouchers.includes(code)) {
+        const newExpiry = now + 7 * 24 * 60 * 60 * 1000;
+        localStorage.setItem("voucher_expiry", newExpiry);
+        showPlayer();
+      } else {
+        document.getElementById("error").textContent = "Voucher tidak valid!";
+      }
+    }
+
+    function showPlayer() {
+      document.getElementById("login").classList.remove("active");
+      document.getElementById("player").classList.add("active");
+      showWelcomeText();
+    }
+
+    function showTempLCD(text) {
+      lcd.textContent = text;
+      setTimeout(() => updateScene(), 500);
+    }
+
+    function playAudio() {
+      const scene = scenes[currentScene];
+      if (scene.audio) {
+        audioPlayer.src = scene.audio;
+        audioPlayer.playbackRate = playbackRate;
+        audioPlayer.play();
+        showTempLCD("Play");
+      }
+    }
+
+    function stopAudio() {
+      audioPlayer.pause();
+      showTempLCD("Stop");
+    }
+
+    function nextScene() {
+      currentScene = currentScene % totalScenes + 1;
+      updateScene();
+    }
+
+    function prevScene() {
+      currentScene = (currentScene - 2 + totalScenes) % totalScenes + 1;
+      updateScene();
+    }
+
+    function slower() {
+      playbackRate = Math.max(0.5, playbackRate - 0.1);
+      audioPlayer.playbackRate = playbackRate;
+      showTempLCD("Speed: " + playbackRate.toFixed(1) + "x");
+    }
+
+    function faster() {
+      playbackRate = Math.min(2.0, playbackRate + 0.1);
+      audioPlayer.playbackRate = playbackRate;
+      showTempLCD("Speed: " + playbackRate.toFixed(1) + "x");
+    }
+
+    function renameAudio(event) {
+      if (event) event.preventDefault();
+      const newName = prompt("Ganti nama audio:", scenes[currentScene].name || "");
+      if (newName !== null) {
+        scenes[currentScene].name = newName.slice(0, 30);
+        localStorage.setItem(`scene_name_${currentScene}`, scenes[currentScene].name);
+        updateScene();
+      }
+    }
+
+    function showWelcomeText() {
+      let message = " SELAMAT DATANG DI MODUL VGA TECH CUSTOM SELAMAT MEMAINKAN ";
+      let index = 0;
+      let interval = setInterval(() => {
+        lcd.textContent = message.slice(index) + " " + message.slice(0, index);
+        index = (index + 1) % message.length;
+      }, 150);
+      setTimeout(() => {
+        clearInterval(interval);
+        updateScene();
+      }, 5000);
+    }
+
+    document.getElementById("bgInput").addEventListener("change", e => {
+      const file = e.target.files[0];
+      if (file) {
+        const url = URL.createObjectURL(file);
+        document.body.style.backgroundImage = `url('${url}')`;
+        document.body.style.backgroundSize = "cover";
+        document.body.style.backgroundPosition = "center center";
+        document.body.style.backgroundRepeat = "no-repeat";
+      }
+    });
+
+    document.getElementById("audioInput").addEventListener("change", e => {
+      const file = e.target.files[0];
+      if (file) {
+        saveToDB(currentScene, file);
+        scenes[currentScene].name = file.name;
+        localStorage.setItem(`scene_name_${currentScene}`, file.name);
+        updateScene();
+      }
+    });
+
+    function showTotalList() {
+      const modal = document.getElementById("listModal");
+      modal.innerHTML = "";
+      let hasAny = false;
+      for (let i = 1; i <= totalScenes; i++) {
+        if (scenes[i].name) {
+          hasAny = true;
+          const span = document.createElement("span");
+          span.textContent = `Scene ${i}: ${scenes[i].name}`;
+          span.onclick = (e) => {
+            e.stopPropagation();
+            currentScene = i;
+            updateScene();
+            modal.style.display = "none";
+          };
+          modal.appendChild(span);
+        }
+      }
+      if (!hasAny) {
+        modal.textContent = "Belum ada MP3 yang disimpan.";
+      }
+      modal.style.display = "block";
+    }
+
+    window.onload = async () => {
+      for (let i = 1; i <= totalScenes; i++) {
+        scenes[i] = {
+          audio: null,
+          name: localStorage.getItem(`scene_name_${i}`) || null
+        };
+      }
+      await openDB();
+      if (localStorage.getItem("voucher_expiry") && Date.now() < parseInt(localStorage.getItem("voucher_expiry"))) {
+        showPlayer();
+      }
+    };
+
+    // Efek klik pada semua tombol
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll("button").forEach(btn => {
+        btn.addEventListener("click", () => {
+          btn.classList.add("clicked");
+          setTimeout(() => btn.classList.remove("clicked"), 150);
+        });
+      });
+    });
+  </script>
 </body>
-    </html>
+     </html>icked"), 150);
+        });
+      });
+    });
+  </script>
+</body>
+     </html>
