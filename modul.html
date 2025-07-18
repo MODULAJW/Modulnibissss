@@ -5,40 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>VGA TECH</title>
   <style>
-#bt-bluetooth {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 32px;
-  height: 32px;
-  background-color: #111;
-  border: 1.5px solid #00aaff;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 0 4px #004466;
-  cursor: pointer;
-  transition: all 0.15s ease-in-out;
-  z-index: 1000;
-}
-
-#bt-bluetooth:hover {
-  background-color: #001a2e;
-  border-color: #00ddff;
-  box-shadow: 0 0 6px #00ccff;
-}
-
-#bt-bluetooth svg {
-  width: 16px;
-  height: 16px;
-  fill: #00ccff;
-  transition: fill 0.3s;
-}
-
-#bt-bluetooth:hover svg {
-  fill: #00ffff;
-}
 #splashscreen {
   text-align: center;
   font-family: 'Courier New', monospace;
@@ -55,6 +21,7 @@
   align-items: center;
   z-index: 9999;
 }
+
 #splashscreen h1 {
   font-size: 3em;
   text-shadow: 0 0 8px #00ffff, 0 0 12px #0077ff;
@@ -270,20 +237,123 @@
       display: block;
       margin-bottom: 0.5em;
     }
+#piano-container {
+  position: fixed;
+  bottom: -200px; /* awalnya tersembunyi di bawah layar */
+  width: 100%;
+  background: transparent;
+  padding: 6px 0;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+  transition: bottom 0.5s ease; /* efek animasi naik turun */
+}
+
+/* Class tambahan agar bisa muncul ke atas saat aktif */
+#piano-container.active {
+  bottom: 0;
+}
+
+#piano {
+  display: flex;
+  gap: 3px;
+  justify-content: center;
+}
+
+.key {
+  all: unset;
+  background: linear-gradient(to bottom, #fff, #ddd);
+  color: #000;
+  border: 2px solid #666;
+  border-radius: 4px;
+  width: 36px;
+  height: 80px;
+  font-size: 10px;
+  font-family: monospace;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 4px;
+  margin: 1px;
+  box-shadow: 0 2px 0 #999;
+  transition: 0.1s ease-in-out;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.key.active {
+  background: linear-gradient(to bottom, #eee, #bbb);
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+/* Layer hitam & tulisan tengah saat offline */
+#offlineOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: red;
+  font-size: 5vw;
+  font-weight: bold;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 1000;
+}
+
+/* Saat piano-container offline, tampilkan overlay */
+#piano-container.offline #offlineOverlay {
+  display: flex;
+}
+
+/* Saat offline, pianika jadi gelap & tidak bisa ditekan */
+#piano-container.offline #piano {
+  opacity: 0.2;
+  pointer-events: none;
+}
+.blink-text {
+  font-size: 3.5vw;
+  color: #ff8080;
+  margin-top: 1vw;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
   </style>
 </head>
 <body>
-<!-- 🔵 Tombol Bluetooth (ikon saja, tanpa tulisan) -->
-<div id="bt-bluetooth">
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="cyan">
-    <path d="M17 7.53l-4.5-4.5v7.58l-3.36-3.36-1.06 1.06 4.42 4.42-4.42 4.42 1.06 1.06 3.36-3.36v7.58l4.5-4.5-3.33-3.33L17 7.53zm-3.5-2.38l1.88 1.88-1.88 1.88V5.15zm0 14.08v-3.76l1.88 1.88-1.88 1.88z"/>
-  </svg>
-</div>
 <div id="splashscreen">
   <h1> VGA TECH</h1>
   <div id="loadingText">Loading...</div>
   <div class="loading-bar">
     <div id="barFill"></div>
+  </div>
+</div>
+<div id="piano-container">
+  <div id="offlineOverlay">
+  <div>
+    <div style="font-size: 5vw;">KAMU SEDANG OFFLINE</div>
+    <div class="blink-text">NYALAKAN WIFI/INTERNET ANDA ‼️</div>
+  </div>
+</div>
+  <div id="piano">
+    <button class="key" data-note="do">DO</button>
+    <button class="key" data-note="re">RE</button>
+    <button class="key" data-note="mi">MI</button>
+    <button class="key" data-note="fa">FA</button>
+    <button class="key" data-note="sol">SOL</button>
+    <button class="key" data-note="la">LA</button>
+    <button class="key" data-note="si">SI</button>
+    <button class="key" data-note="do2">DO+</button>
   </div>
 </div>
   <h1>VGA TECH </h1>
@@ -294,13 +364,17 @@
     <button onclick="login()">Masuk</button>
    <p style="margin-top: 10px; font-size: 14px; color: #C0C0C0;">
   BELI VOUCHER KE NOMOR INI:
-  <a href="https://wa.me/6288290755733" target="_blank" style="color: green; text-decoration: underline;">088290755733</a>
+  <a href="https://wa.me/6289504546082" target="_blank" style="color: green; text-decoration: underline;">+089504546082</a>
    </p>
     <div id="expiredNotice" style="display:none;">VOUCHER SUDAH KADALUARSA </div>
     <div id="error"></div>
   </div>
 
   <div id="player">
+
+<button id="togglePianoBtn" style="position: absolute; top: 10px; left: 10px; font-size: 7vw; background: none; border: none; z-index: 1000; cursor: pointer;">
+  🎹
+</button>
     <button id="totalListBtn" onclick="showTotalList()">TOTAL LIST</button>
     <h2 id="sceneInfo"></h2>
     <div class="lcd" id="lcdDisplay" onclick="renameAudio(event)">
@@ -326,10 +400,10 @@
   </div>
 
   <div id="listModal" onclick="this.style.display='none'"></div>
-
   <script>
     const totalScenes = 10000;
     const audioPlayer = document.getElementById("audioPlayer");
+audioPlayer.preservesPitch = true;
     const lcd = document.getElementById("lcdDisplay");
     const validVouchers = [
   "X8K9J2", "MZ47KL", "D91QLT", "WZ83NE", "A72JKL", "Q19LXP", "BZ47KU", "C39NLE", "ZK81MO", "Y18WPL",
@@ -518,7 +592,7 @@
         }
       }
       if (!hasAny) {
-        modal.textContent = "Belum ada MP3 yang disimpan.";
+        modal.textContent = "Belum ada BASURI yang disimpan.";
       }
       modal.style.display = "block";
     }
@@ -544,9 +618,7 @@
       });
     });
   });
-  document.getElementById('bt-bluetooth').addEventListener('click', () => {
-  window.location.href = 'intent://android.settings.BLUETOOTH_SETTINGS#Intent;scheme=android.settings;end';
-});
+  
   // Splash screen loading bar
   window.addEventListener("load", () => {
     const barFill = document.getElementById("barFill");
@@ -564,6 +636,75 @@
       }
     }, 25);
   });
-  </script>
-</body>
-  </html>
+const pianoAudios = {
+  do: new Audio("https://cdn.jsdelivr.net/gh/MODULAJW/Modulnibissss@e2b80c2fd83b6c9ac66bfc2704c4744f995ea5ca/DO.mp3"),
+  re: new Audio("https://cdn.jsdelivr.net/gh/MODULAJW/Modulnibissss@3d0b6fa9e87deccb607262a897e98f04e3a9d2f8/re.mp3"),
+  mi: new Audio("https://cdn.jsdelivr.net/gh/MODULAJW/Modulnibissss@a88bb03f038039492236494a6f406047804854ae/mi.mp3"),
+  fa: new Audio("https://cdn.jsdelivr.net/gh/MODULAJW/Modulnibissss@a88bb03f038039492236494a6f406047804854ae/fa.mp3"),
+  sol: new Audio("https://cdn.jsdelivr.net/gh/MODULAJW/Modulnibissss@a88bb03f038039492236494a6f406047804854ae/sol.mp3"),
+  la: new Audio("https://cdn.jsdelivr.net/gh/MODULAJW/Modulnibissss@a88bb03f038039492236494a6f406047804854ae/La.mp3"),
+  si: new Audio("https://cdn.jsdelivr.net/gh/MODULAJW/Modulnibissss@a88bb03f038039492236494a6f406047804854ae/Si.mp3"),
+  do2: new Audio("https://cdn.jsdelivr.net/gh/MODULAJW/Modulnibissss@a88bb03f038039492236494a6f406047804854ae/Do%2B.mp3")
+};
+
+let currentAudio = null;
+let currentNote = null;
+
+function playNote(note, el) {
+  if (note === currentNote) return;
+
+  stopNote();
+
+  currentNote = note;
+  currentAudio = pianoAudios[note].cloneNode(); 
+  currentAudio.currentTime = 0;
+  currentAudio.play();
+  el.classList.add('active');
+}
+
+function stopNote() {
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+  }
+  currentAudio = null;
+  currentNote = null;
+  document.querySelectorAll('.key').forEach(btn => btn.classList.remove('active'));
+}
+
+document.addEventListener('pointerdown', (e) => {
+  const el = document.elementFromPoint(e.clientX, e.clientY);
+  if (el && el.classList.contains('key')) {
+    playNote(el.dataset.note, el);
+  }
+});
+
+document.addEventListener('pointermove', (e) => {
+  const el = document.elementFromPoint(e.clientX, e.clientY);
+  if (el && el.classList.contains('key')) {
+    const note = el.dataset.note;
+    if (note !== currentNote) {
+      playNote(note, el);
+    }
+  }
+});
+
+document.addEventListener('pointerup', stopNote);
+
+// optional: prevent scroll saat main piano di hp
+const pianoContainer = document.getElementById("piano-container");
+if (pianoContainer) {
+  pianoContainer.addEventListener("touchstart", e => e.preventDefault(), { passive: false });
+  pianoContainer.addEventListener("touchmove", e => e.preventDefault(), { passive: false });
+}
+// Toggle pianika muncul/sembunyi saat tombol pianika ditekan
+document.getElementById("togglePianoBtn").addEventListener("click", () => {
+  document.getElementById("piano-container").classList.toggle("active");
+});
+// Deteksi status online/offline & ubah tampilan pianika
+function updateOnlineStatus() {
+  const pianoContainer = document.getElementById("piano-container");
+  if (navigator.onLine) {
+    pianoContainer.classList.remove("offline");
+  } else {
+    pianoC
