@@ -21,7 +21,6 @@
   align-items: center;
   z-index: 9999;
 }
-
 #splashscreen h1 {
   font-size: 3em;
   text-shadow: 0 0 8px #00ffff, 0 0 12px #0077ff;
@@ -287,47 +286,6 @@
   transform: translateY(1px);
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
 }
-/* Layer hitam & tulisan tengah saat offline */
-#offlineOverlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.85);
-  color: red;
-  font-size: 5vw;
-  font-weight: bold;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  z-index: 1000;
-}
-
-/* Saat piano-container offline, tampilkan overlay */
-#piano-container.offline #offlineOverlay {
-  display: flex;
-}
-
-/* Saat offline, pianika jadi gelap & tidak bisa ditekan */
-#piano-container.offline #piano {
-  opacity: 0.2;
-  pointer-events: none;
-}
-.blink-text {
-  font-size: 3.5vw;
-  color: #ff8080;
-  margin-top: 1vw;
-  animation: blink 1s step-end infinite;
-}
-
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
-}
-
   </style>
 </head>
 <body>
@@ -338,13 +296,8 @@
     <div id="barFill"></div>
   </div>
 </div>
+<!-- 🎹 Pianika Nada VGA TECH -->
 <div id="piano-container">
-  <div id="offlineOverlay">
-  <div>
-    <div style="font-size: 5vw;">KAMU SEDANG OFFLINE</div>
-    <div class="blink-text">NYALAKAN WIFI/INTERNET ANDA ‼️</div>
-  </div>
-</div>
   <div id="piano">
     <button class="key" data-note="do">DO</button>
     <button class="key" data-note="re">RE</button>
@@ -364,7 +317,7 @@
     <button onclick="login()">Masuk</button>
    <p style="margin-top: 10px; font-size: 14px; color: #C0C0C0;">
   BELI VOUCHER KE NOMOR INI:
-  <a href="https://wa.me/6289504546082" target="_blank" style="color: green; text-decoration: underline;">+089504546082</a>
+  <a href="https://wa.me/6288290755733" target="_blank" style="color: green; text-decoration: underline;">088290755733</a>
    </p>
     <div id="expiredNotice" style="display:none;">VOUCHER SUDAH KADALUARSA </div>
     <div id="error"></div>
@@ -403,7 +356,6 @@
   <script>
     const totalScenes = 10000;
     const audioPlayer = document.getElementById("audioPlayer");
-audioPlayer.preservesPitch = true;
     const lcd = document.getElementById("lcdDisplay");
     const validVouchers = [
   "X8K9J2", "MZ47KL", "D91QLT", "WZ83NE", "A72JKL", "Q19LXP", "BZ47KU", "C39NLE", "ZK81MO", "Y18WPL",
@@ -656,7 +608,7 @@ function playNote(note, el) {
   stopNote();
 
   currentNote = note;
-  currentAudio = pianoAudios[note].cloneNode(); 
+  currentAudio = pianoAudios[note].cloneNode(); // clone biar bisa overlap
   currentAudio.currentTime = 0;
   currentAudio.play();
   el.classList.add('active');
@@ -701,10 +653,6 @@ if (pianoContainer) {
 document.getElementById("togglePianoBtn").addEventListener("click", () => {
   document.getElementById("piano-container").classList.toggle("active");
 });
-// Deteksi status online/offline & ubah tampilan pianika
-function updateOnlineStatus() {
-  const pianoContainer = document.getElementById("piano-container");
-  if (navigator.onLine) {
-    pianoContainer.classList.remove("offline");
-  } else {
-    pianoC
+  </script>
+</body>
+      </html>
