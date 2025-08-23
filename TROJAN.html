@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Developer Aris</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    font-family: monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    touch-action: none;         
+    overscroll-behavior: none; 
+  }
+
+  /* Tulisan awal KLIK!! */
+  #klik {
+    font-size: 1em;  /* diperkecil */
+    color: yellow;
+    font-weight: bold;
+    animation: blink 0.5s infinite;
+  }
+  @keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+  }
+
+  /* Efek CRT analog biru */
+  .analog {
+    background: radial-gradient(circle at center, #0ff 0%, #001f3f 100%);
+  }
+  .analog::after {
+    content: "";
+    position: absolute;
+    top:0;left:0;
+    width:100%;height:100%;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.2) 0px,
+      rgba(0,0,0,0.2) 2px,
+      transparent 2px,
+      transparent 4px
+    );
+    pointer-events:none;
+    animation: flicker 0.15s infinite;
+  }
+  @keyframes flicker {
+    0% {opacity:0.1;}
+    50%{opacity:0.3;}
+    100%{opacity:0.15;}
+  }
+
+  #typewriter {
+    font-size: 1em; /* diperkecil */
+    color: red;
+    border-right: 2px solid red;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: center;
+    z-index: 2;
+  }
+
+  /* Efek glitch */
+  .glitch {
+    position: relative;
+    color: red;
+  }
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+  .glitch::before {
+    left: 2px;
+    text-shadow: -2px 0 cyan;
+    animation: glitchTop 1s infinite linear alternate-reverse;
+  }
+  .glitch::after {
+    left: -2px;
+    text-shadow: -2px 0 lime;
+    animation: glitchBottom 1.5s infinite linear alternate-reverse;
+  }
+  @keyframes glitchTop {
+    0% { clip: rect(0, 900px, 0, 0); }
+    20% { clip: rect(0, 900px, 60px, 0); }
+    40% { clip: rect(0, 900px, 30px, 0); }
+    60% { clip: rect(0, 900px, 0, 0); }
+    100% { clip: rect(0, 900px, 0, 0); }
+  }
+  @keyframes glitchBottom {
+    0% { clip: rect(0, 900px, 0, 0); }
+    25% { clip: rect(20px, 900px, 100px, 0); }
+    50% { clip: rect(0, 900px, 40px, 0); }
+    75% { clip: rect(10px, 900px, 70px, 0); }
+    100% { clip: rect(0, 900px, 0, 0); }
+  }
+
+  /* Efek strobe */
+  .strobe {
+    animation: flash 0.1s infinite;
+  }
+  @keyframes flash {
+    0% { background: black; }
+    50% { background: white; }
+    100% { background: black; }
+  }
+
+  canvas {
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 1;
+  }
+
+  /* Teks akhir PRANK */
+  #ending {
+    display:none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    text-align: center;
+    position: relative;
+  }
+  #ending h1 {
+    font-size: 1.2em; /* diperkecil */
+    color: #ff0044;
+  }
+  #ending h2 {
+    font-size: 1em; /* diperkecil */
+    font-weight: normal;           
+    color: #00ffff;                
+    margin-top: 10px;
+    text-shadow: 0 0 15px #00ffff, 0 0 25px #00ffff, 0 0 40px #00ffff;
+    font-family: "Brush Script MT", "Lucida Handwriting", cursive;
+    letter-spacing: 2px;           
+  }
+
+  /* Efek emoji hujan */
+  .emoji {
+    position: absolute;
+    font-size: 1em; /* diperkecil */
+    animation: fall linear forwards;
+    user-select: none;
+    pointer-events: none;
+    z-index: 5;
+  }
+  @keyframes fall {
+    from { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+    to { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+  <div id="klik">KLIK!!</div>
+  <div id="typewriter" class="glitch" data-text="DEVELOPER ARIS ( VIRUS TROJAN )" style="display:none;"></div>
+  <canvas id="matrix"></canvas>
+  <div id="ending">
+    <h1 class="glitch" data-text="MAAF YA CUMA PRANK">MAAF YA CUMA PRANK</h1>
+    <h2 class="glitch" data-text="ARIS">ARIS</h2>
+  </div>
+
+<script>
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let audios = [];
+
+// Musik looping
+function playMusic(){
+  const audio = new Audio("https://cdn.jsdelivr.net/gh/MODULAJW/Modulnibissss@e7439ef5d7e66e34c64494c3935fdbb4a6ff695b/TikSave.io_7346072439157312774.mp3");
+  audio.loop = true;
+  audio.play();
+  audios.push(audio);
+}
+playMusic();
+
+// Klik layar → tambah musik
+document.body.addEventListener("click", ()=>playMusic());
+
+// --- Awal "KLIK!!" lalu masuk analog + teks virus ---
+setTimeout(()=>{
+  document.getElementById("klik").style.display="none";
+  document.body.classList.add("analog");
+  document.getElementById("typewriter").style.display="block";
+  startTypewriter();
+},3000);
+
+// Efek ketik + glitch
+const text = "DEVELOPER ARIS ( VIRUS TROJAN )";
+let i = 0;
+const typeDiv = document.getElementById("typewriter");
+
+function startTypewriter(){
+  function typeWriter(){
+    if(i < text.length){
+      typeDiv.setAttribute("data-text", text.substring(0,i+1));
+      typeDiv.textContent = text.substring(0,i+1);
+      i++;
+      setTimeout(typeWriter, 120);
+    } else {
+      setTimeout(()=>{
+        typeDiv.classList.add("glitch");
+        setTimeout(()=>{
+          typeDiv.remove(); 
+          document.body.classList.add("strobe");
+          setTimeout(()=>{
+            document.body.classList.remove("strobe");
+            startMatrix();
+          },4000);
+        },1500);
+      },1000);
+    }
+  }
+  typeWriter();
+}
+
+// Matrix Code Rain + glitch
+function startMatrix(){
+  const letters = "アリス開発者ウイルストロイジャン01234ARIS GANTENG56789!@#$%";
+  const fontSize = 12; /* diperkecil */
+  const columns = canvas.width / fontSize;
+  const drops = Array.from({length: columns}).map(()=>1);
+
+  function draw(){
+    if(Math.random() < 0.03){
+      ctx.fillStyle = "rgba(255,255,255,0.2)";
+    } else if(Math.random() < 0.05){
+      ctx.fillStyle = "rgba(255,0,0,0.2)";
+    } else {
+      ctx.fillStyle = "rgba(0,0,0,0.05)";
+    }
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = ["#0F0","#0FF","#F0F"][Math.floor(Math.random()*3)];
+    ctx.font = fontSize + "px monospace";
+    for(let i=0;i<drops.length;i++){
+      const char = letters[Math.floor(Math.random()*letters.length)];
+      ctx.fillText(char, i*fontSize, drops[i]*fontSize);
+      if(drops[i]*fontSize > canvas.height && Math.random() > 0.975){
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+  setInterval(draw, 33);
+}
+
+// Setelah 60 detik → stop musik, tampil ending + efek emoji
+setTimeout(()=>{
+  audios.forEach(a=>a.pause());
+  audios = [];
+  canvas.style.display="none";
+  document.body.classList.add("analog");
+  document.getElementById("ending").style.display="flex";
+
+  // Hujan emoji
+  function spawnEmoji() {
+    const emojis = ["😂","🔥","💀","✨","🎉","😎","🤖"];
+    const emoji = document.createElement("div");
+    emoji.className = "emoji";
+    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    emoji.style.left = Math.random() * window.innerWidth + "px";
+    emoji.style.animationDuration = (3 + Math.random() * 3) + "s";
+    document.body.appendChild(emoji);
+    setTimeout(()=>emoji.remove(), 6000);
+  }
+  setInterval(spawnEmoji, 500);
+
+},60000);
+</script>
+</body>
+</html>
