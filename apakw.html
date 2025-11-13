@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VGA TECH V2 — Bahan Export to APK</title>
+<style>
+/* ========== RESET & BODY ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body {
+    background: radial-gradient(circle at top, #001833 0%, #000a1f 100%);
+    color: #e6faff;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+    text-align: center;
+}
+
+/* ========== SIDEBAR ========== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    width: 220px;
+    height: 100%;
+    background: linear-gradient(180deg, #00eaff 0%, #0077ff 100%);
+    box-shadow: 2px 0 25px rgba(0,0,0,0.4);
+    transition: 0.4s ease;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 100px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+.sidebar.open { left: 0; }
+.sidebar a {
+    text-decoration: none;
+    color: #0077ff;
+    font-weight: 600;
+    background: #fff;
+    width: 80%;
+    text-align: center;
+    padding: 12px 10px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+.sidebar a:hover {
+    transform: scale(1.05);
+    background: #f0f8ff;
+}
+.sidebar a img {
+    width: 25px;
+    height: 25px;
+    margin-right: 8px;
+}
+
+/* ========== MENU BUTTON ========== */
+.menu-btn {
+    position: fixed;
+    top: 25px;
+    left: 25px;
+    width: 35px;
+    height: 25px;
+    cursor: pointer;
+    z-index: 101;
+    transition: 0.3s;
+}
+.menu-btn:hover { transform: scale(1.1); }
+.menu-btn span {
+    display: block;
+    height: 4px;
+    background: #00eaff;
+    margin: 6px 0;
+    border-radius: 2px;
+    box-shadow: 0 0 10px #00ffff;
+}
+
+/* ========== HEADER ========== */
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.logo {
+    width: 210px;
+    height: auto;
+    margin-bottom: 30px;
+    filter: drop-shadow(0 0 12px rgba(0, 240, 255, 0.9));
+    animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+    0%,100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #00c8ff;
+    margin-bottom: 45px;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.6), 0 0 25px #0077ff;
+    letter-spacing: 1px;
+}
+
+/* ========== LINK CARDS ========== */
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 90%;
+    max-width: 420px;
+    align-items: center;
+    justify-content: center;
+}
+
+.link-card {
+    border: 2px solid rgba(0, 200, 255, 0.8);
+    border-radius: 18px;
+    padding: 20px;
+    background: rgba(0, 25, 60, 0.85);
+    box-shadow: 0 0 25px rgba(0, 200, 255, 0.2);
+    transition: 0.3s ease;
+    backdrop-filter: blur(8px);
+    width: 100%;
+    max-width: 360px;
+}
+.link-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 0 35px rgba(0, 240, 255, 0.4);
+    border-color: #00ffff;
+}
+.link-card p {
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #8ddcff;
+}
+.link-card a {
+    color: #00ffff;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    transition: 0.3s;
+}
+.link-card a:hover {
+    text-shadow: 0 0 10px #00ffff;
+}
+
+/* ========== FIREWORKS ========== */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ========== FOOTER ========== */
+footer {
+    position: absolute;
+    bottom: 20px;
+    color: #77c9ff;
+    font-size: 14px;
+    text-shadow: 0 0 5px rgba(0,255,255,0.4);
+    letter-spacing: 0.3px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    .title { font-size: 24px; }
+    .logo { width: 160px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <a href="https://wa.me/6289504546082" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WA Logo">
+        WhatsApp
+    </a>
+</div>
+
+<!-- Menu Button -->
+<div class="menu-btn" id="menuBtn">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<!-- Fireworks Canvas -->
+<canvas id="fireworks"></canvas>
+
+<!-- Header -->
+<header>
+    <!-- Save as vga-tech-logo.svg or paste inline in your HTML -->
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="240" viewBox="0 0 800 240" role="img" aria-label="VGA TECH logo">
+  <defs>
+    <!-- Blue -> Cyan gradient for the text -->
+    <linearGradient id="gradBlueCyan" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#0066FF"/>
+      <stop offset="1" stop-color="#00F0FF"/>
+    </linearGradient>
+
+    <!-- Subtle darker gradient for thick badge -->
+    <linearGradient id="badgeGrad" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#002a5c"/>
+      <stop offset="1" stop-color="#003a7a"/>
+    </linearGradient>
+
+    <!-- Green analog glow -->
+    <filter id="glowGreen" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Slight inner bevel -->
+    <filter id="bevel" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="soft"/>
+      <feSpecularLighting in="soft" surfaceScale="1" specularConstant="0.3" specularExponent="20" lighting-color="#ffffff" result="spec">
+        <fePointLight x="-200" y="-100" z="200"/>
+      </feSpecularLighting>
+      <feComposite in="spec" in2="SourceAlpha" operator="in" result="lit"/>
+      <feMerge>
+        <feMergeNode in="lit"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Angular scanlines for analog feel -->
+    <pattern id="scanlines" patternUnits="userSpaceOnUse" width="8" height="8">
+      <rect width="8" height="8" fill="transparent"/>
+      <path d="M0 6 L8 2" stroke="#001a2b" stroke-opacity="0.06" stroke-width="2"/>
+    </pattern>
+
+    <!-- Thick rounded geometric font fallback (we use text + stroke for thickness) -->
+  </defs>
+
+  <!-- Outer rounded badge with green border (analog) -->
+  <rect x="8" y="8" rx="18" ry="18" width="784" height="224"
+        fill="url(#badgeGrad)" stroke="#00ff66" stroke-width="6" filter="url(#glowGreen)"/>
+
+  <!-- Inner overlay for scanline vibe -->
+  <rect x="20" y="20" rx="14" ry="14" width="760" height="200" fill="url(#scanlines)" opacity="0.18"/>
+
+  <!-- Decorative left chip-like shape -->
+  <g transform="translate(34,32)">
+    <rect width="160" height="176" rx="12" ry="12" fill="#00183a" opacity="0.9"/>
+    <rect x="8" y="12" width="144" height="152" rx="9" ry="9" fill="transparent" stroke="#003b6b" stroke-width="3"/>
+    <!-- pins -->
+    <g fill="#00ff66" opacity="0.9">
+      <rect x="22" y="150" width="6" height="10" rx="1"/>
+      <rect x="36" y="150" width="6" height="10" rx="1"/>
+      <rect x="50" y="150" width="6" height="10" rx="1"/>
+      <rect x="64" y="150" width="6" height="10" rx="1"/>
+    </g>
+  </g>
+
+  <!-- Main text: "VGA" stacked with strong weight -->
+  <g transform="translate(220,140)" filter="url(#bevel)">
+    <!-- to make text appear thicker, use stroke + stroke-width -->
+    <text x="0" y="-10" font-family="Verdana, 'Segoe UI', Arial, Helvetica, sans-serif"
+          font-weight="900" font-size="96" letter-spacing="-2"
+          fill="url(#gradBlueCyan)" stroke="#00314d" stroke-width="3" paint-order="stroke">
+      VGA
+    </text>
+    <!-- small cyan inner highlight -->
+    <text x="0" y="-10" font-family="Verdana, 'Segoe UI', Arial, Helvetica, sans-serif"
+          font-weight="900" font-size="96" letter-spacing="-2"
+          fill="rgba(255,255,255,0.06)" stroke="none">
+      VGA
+    </text>
+  </g>
+
+  <!-- "TECH" to the right, slightly smaller but bold -->
+  <g transform="translate(420,150)" >
+    <text x="0" y="0" font-family="Verdana, 'Segoe UI', Arial, Helvetica, sans-serif"
+          font-weight="800" font-size="48" letter-spacing="2"
+          fill="url(#gradBlueCyan)" stroke="#002a45" stroke-width="2" paint-order="stroke">
+      TECH
+    </text>
+    <!-- underline / connector -->
+    <rect x="-6" y="12" width="148" height="6" rx="3" fill="#00ff66" opacity="0.08"/>
+  </g>
+
+  <!-- Subtle analog tick marks along top/bottom edge like an oscilloscope -->
+  <g stroke="#00ff66" stroke-opacity="0.12" stroke-width="2">
+    <line x1="40" y1="36" x2="64" y2="36"/>
+    <line x1="48" y1="216" x2="72" y2="216"/>
+    <line x1="720" y1="36" x2="744" y2="36"/>
+    <line x1="720" y1="216" x2="744" y2="216"/>
+  </g>
+
+  <!-- Small caption -->
+  <text x="220" y="196" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#9ad7ff" opacity="0.9">
+    By : VGA TECH
+  </text>
+</svg>
+
+    <h1 class="title">BAHAN EXPORT TO APK</h1>
+
+    <div class="links">
+        <div class="link-card">
+            <p>Apk Editor :</p>
+            <a href="https://www.mediafire.com/file/prcb1u0qnf8ovv6/Apk_Editor_by_Vga.apk/file" target="_blank">Download</a>
+        </div>
+        <div class="link-card">
+            <p>Mentahan APK :</p>
+            <a href="https://www.mediafire.com/file/g8u3w9tosa45xad/Vga.apk/file" target="_blank">Download</a>
+        </div>
+    </div>
+</header>
+
+<footer>© 2025 VGA TECH V2. All rights reserved.</footer>
+
+<script>
+/* === SIDEBAR TOGGLE === */
+const menuBtn = document.getElementById('menuBtn');
+const sidebar = document.getElementById('sidebar');
+menuBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
+
+/* === FIREWORKS === */
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+let particles = [];
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+function createFirework(x, y) {
+    for (let i = 0; i < 50; i++) {
+        particles.push({
+            x, y,
+            angle: Math.random() * 2 * Math.PI,
+            speed: Math.random() * 6 + 1,
+            radius: Math.random() * 2 + 1,
+            life: 100,
+            color: `hsl(${Math.random()*360},100%,60%)`
+        });
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach((p, i) => {
+        p.x += Math.cos(p.angle) * p.speed;
+        p.y += Math.sin(p.angle) * p.speed;
+        p.life -= 2;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        if (p.life <= 0) particles.splice(i, 1);
+    });
+    requestAnimationFrame(animate);
+}
+animate();
+
+document.body.addEventListener("click", e => createFirework(e.clientX, e.clientY));
+</script>
+
+</body>
+</html>
