@@ -1,658 +1,405 @@
 <!DOCTYPE html>
-<html lad">
+<html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VGA TECH</title>
-  <style>
-#splashscreen {
-  text-align: center;
-  font-family: 'Courier New', monospace;
-  color: #00f0ff;
-  background-color: #000020;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-#splashscreen h1 {
-  font-size: 3em;
-  text-shadow: 0 0 8px #00ffff, 0 0 12px #0077ff;
-  margin-bottom: 20px;
-}
-
-#loadingText {
-  font-size: 1.2em;
-  margin-bottom: 15px;
-  animation: blink 1s step-end infinite;
-}
-
-@keyframes blink {
-  50% { opacity: 0; }
-}
-.loading-bar {
-  width: 300px;
-  height: 18px;
-  background: #000000;
-  border: 2px solid #00f0ff;
-  border-radius: 12px;
-  box-shadow: 0 0 8px #00f0ff, inset 0 0 10px #003344;
-  overflow: hidden;
-  position: relative;
-}
-
-#barFill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(
-    120deg,
-    #00ffff,
-    #00ccff,
-    #0099ff,
-    #00ccff,
-    #00ffff
-  );
-  background-size: 200% 100%;
-  animation: shine 2s linear infinite;
-  transition: width 0.1s;
-  border-radius: 10px 0 0 10px;
-  box-shadow: inset 0 0 15px #00ffff;
-}
-
-@keyframes shine {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-    * {
-      box-sizing: border-box;
-      user-select: none;
-    }body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100vw;
-  font-family: 'VT323', monospace;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  background-color: #1c1c3c;
-  background-image: 
-    linear-gradient(0deg, rgba(0,191,255,0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,191,255,0.1) 1px, transparent 1px);
-  background-size: 40px 40px;
-  color: #00bfff;
-  border: 4px solid #00bfff;
-  overflow-x: hidden;
-  position: relative;
-}
-
-@keyframes gridMove {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 40px 40px;
-  }
-}
-    h1 {
-      font-size: 6vw;
-      color: #C0C0C0;
-      text-shadow: 0 0 5px #00bfff, 0 0 10px #00bfff, 0 0 20px #00bfff, 0 0 40px #00bfff;
-      margin: 20px 0 10px;
-      text-align: center;
-    }
-    h2 {
-      font-size: 5vw;
-      margin: 10px 0;
-      color: #00bfff;
-    }
-    #login, #player {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      color: #00bfff;
-    }
-    #login.active, #player.active {
-      display: flex;
-    }
-    input[type="text"], input[type="file"] {
-      padding: 2.5vw;
-      font-size: 4vw;
-      border: 2px solid #B0C4DE;
-      border-radius: 8px;
-      background: #000;
-      color: #00bfff;
-      margin-bottom: 10px;
-      width: 80%;
-    }
-    button {
-      padding: 2.5vw 5vw;
-      font-size: 4vw;
-      border: 2px solid #B0C4DE ;
-      background: #000;
-      color: #00bfff;
-      border-radius: 18px;
-      cursor: pointer;
-      margin: 5px;
-      transition: transform 0.1s ease, box-shadow 0.1s ease;
-    }
-    button.clicked {
-      transform: scale(0.95);
-      box-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
-    }
-    .lcd {
-      width: 90%;
-      height: 12vw;
-      background: #000;
-      border: 2px solid #B0C4DE;
-      border-radius: 8px;
-      box-shadow: inset 0 0 15px #00bfff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 15px 0;
-      font-size: 4vw;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      padding: 1vw;
-      text-align: center;
-      color: #00bfff;
-    }
-    .controls, .speed-controls, .file-inputs {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 15px;
-      color: #00bfff;
-    }
-    .controls {
-      flex-wrap: nowrap;
-      flex-direction: row;
-    }
-    .file-inputs {
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-    }
-    .file-inputs label {
-      font-size: 3.5vw;
-      border-top: 1px solid #00bfff;
-      padding-top: 6px;
-      color: #00bfff;
-      margin-bottom: 5px;
-    }
-    audio { display: none; }
-    #expiredNotice, #error {
-      font-size: 3.8vw;
-      color: #00bfff;
-    }
-    #totalListBtn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 3.5vw;
-      padding: 1vw 2vw;
-      z-index: 1000;
-      border: 2px solid #00bfff;
-      background: #000;
-      color: #00bfff;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    #listModal {
-      position: fixed;
-      top: 10%;
-      left: 5%;
-      width: 90%;
-      height: 80%;
-      background: black;
-      border: 2px solid #C0C0C0;
-      color: #B0C4DE;
-      overflow-y: auto;
-      padding: 2vw;
-      font-size: 4vw;
-      z-index: 2000;
-      display: none;
-      white-space: pre-wrap;
-    }
-    #listModal span {
-      color:#00e5ff;
-      cursor: pointer;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 0.5em;
-    }
-#piano-container {
-  position: fixed;
-  bottom: -200px; /* awalnya tersembunyi di bawah layar */
-  width: 100%;
-  background: transparent;
-  padding: 6px 0;
-  z-index: 999;
-  display: flex;
-  justify-content: center;
-  overflow-x: hidden;
-  transition: bottom 0.5s ease; /* efek animasi naik turun */
-}
-
-/* Class tambahan agar bisa muncul ke atas saat aktif */
-#piano-container.active {
-  bottom: 0;
-}
-
-#piano {
-  display: flex;
-  gap: 3px;
-  justify-content: center;
-}
-
-.key {
-  all: unset;
-  background: linear-gradient(to bottom, #fff, #ddd);
-  color: #000;
-  border: 2px solid #666;
-  border-radius: 4px;
-  width: 36px;
-  height: 80px;
-  font-size: 10px;
-  font-family: monospace;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding-bottom: 4px;
-  margin: 1px;
-  box-shadow: 0 2px 0 #999;
-  transition: 0.1s ease-in-out;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.key.active {
-  background: linear-gradient(to bottom, #eee, #bbb);
-  transform: translateY(1px);
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
-}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VGA TECH V2 - Tersedia Sekarang!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 212, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 150, 0.2) 0%, transparent 50%);
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            padding: 40px 30px;
+            background: rgba(0, 0, 30, 0.7);
+            border-radius: 25px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.5),
+                0 0 100px rgba(0, 150, 255, 0.3);
+            border: 1px solid rgba(0, 200, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #00ffaa, #ffff00);
+            z-index: -1;
+            border-radius: 27px;
+            animation: border-glow 4s linear infinite;
+            background-size: 400% 400%;
+        }
+        
+        .title {
+            font-size: 5.5rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #00ffff, #ff00ff, #00ffaa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            letter-spacing: 3px;
+            line-height: 1.1;
+            animation: title-glow 3s ease-in-out infinite alternate;
+        }
+        
+        .subtitle {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 50px;
+            color: #00ffaa;
+            text-shadow: 0 0 20px rgba(0, 255, 170, 0.7);
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .subtitle::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #00ffff, transparent);
+        }
+        
+        .description {
+            font-size: 1.4rem;
+            line-height: 1.7;
+            margin-bottom: 60px;
+            color: #e0f7ff;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 0 10px rgba(0, 150, 255, 0.5);
+            padding: 0 20px;
+        }
+        
+        .whatsapp-button {
+            display: inline-block;
+            padding: 28px 70px;
+            background: linear-gradient(45deg, #25D366, #128C7E, #075E54);
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-decoration: none;
+            border-radius: 70px;
+            text-align: center;
+            letter-spacing: 1.5px;
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(37, 211, 102, 0.5),
+                inset 0 5px 15px rgba(255, 255, 255, 0.3);
+            transition: all 0.4s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            animation: button-pulse 2s infinite;
+            margin-top: 20px;
+            text-transform: uppercase;
+        }
+        
+        .whatsapp-button:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.7),
+                0 0 60px rgba(37, 211, 102, 0.8),
+                inset 0 5px 20px rgba(255, 255, 255, 0.4);
+            letter-spacing: 2px;
+        }
+        
+        .whatsapp-button:active {
+            transform: translateY(-3px) scale(1.02);
+        }
+        
+        .whatsapp-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.7s;
+            z-index: -1;
+        }
+        
+        .whatsapp-button:hover::before {
+            left: 100%;
+        }
+        
+        .whatsapp-button span {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 8px;
+            opacity: 0.9;
+            letter-spacing: normal;
+        }
+        
+        .floating-text {
+            position: absolute;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-shadow: 0 0 10px rgba(0, 200, 255, 0.5);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-text:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+        
+        .floating-text:nth-child(2) {
+            top: 15%;
+            right: 8%;
+            animation-delay: 1s;
+        }
+        
+        .floating-text:nth-child(3) {
+            bottom: 20%;
+            left: 10%;
+            animation-delay: 2s;
+        }
+        
+        .floating-text:nth-child(4) {
+            bottom: 15%;
+            right: 5%;
+            animation-delay: 3s;
+        }
+        
+        /* Animations */
+        @keyframes border-glow {
+            0% {
+                background-position: 0% 50%;
+                opacity: 0.8;
+            }
+            50% {
+                background-position: 100% 50%;
+                opacity: 1;
+            }
+            100% {
+                background-position: 0% 50%;
+                opacity: 0.8;
+            }
+        }
+        
+        @keyframes title-glow {
+            0% {
+                text-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            }
+            100% {
+                text-shadow: 0 0 50px rgba(0, 255, 255, 0.8), 0 0 70px rgba(255, 0, 255, 0.5);
+            }
+        }
+        
+        @keyframes button-pulse {
+            0% {
+                box-shadow: 
+                    0 15px 35px rgba(0, 0, 0, 0.5),
+                    0 0 40px rgba(37, 211, 102, 0.5),
+                    inset 0 5px 15px rgba(255, 255, 255, 0.3);
+            }
+            50% {
+                box-shadow: 
+                    0 15px 40px rgba(0, 0, 0, 0.6),
+                    0 0 60px rgba(37, 211, 102, 0.7),
+                    inset 0 5px 20px rgba(255, 255, 255, 0.4);
+            }
+            100% {
+                box-shadow: 
+                    0 15px 35px rgba(0, 0, 0, 0.5),
+                    0 0 40px rgba(37, 211, 102, 0.5),
+                    inset 0 5px 15px rgba(255, 255, 255, 0.3);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 4rem;
+            }
+            
+            .subtitle {
+                font-size: 2.2rem;
+            }
+            
+            .description {
+                font-size: 1.2rem;
+                padding: 0 10px;
+            }
+            
+            .whatsapp-button {
+                padding: 22px 50px;
+                font-size: 1.8rem;
+            }
+            
+            .container {
+                padding: 30px 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .title {
+                font-size: 3rem;
+                letter-spacing: 2px;
+            }
+            
+            .subtitle {
+                font-size: 1.8rem;
+            }
+            
+            .description {
+                font-size: 1.1rem;
+                margin-bottom: 40px;
+            }
+            
+            .whatsapp-button {
+                padding: 18px 35px;
+                font-size: 1.5rem;
+            }
+            
+            body {
+                padding: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-<div id="splashscreen">
-  <h1> VGA TECH</h1>
-  <div id="loadingText">Loading...</div>
-  <div class="loading-bar">
-    <div id="barFill"></div>
-  </div>
-</div>
-<!-- 🎹 Pianika Nada VGA TECH -->
-<div id="piano-container">
-  <div id="piano">
-    <button class="key" data-note="do">DO</button>
-    <button class="key" data-note="re">RE</button>
-    <button class="key" data-note="mi">MI</button>
-    <button class="key" data-note="fa">FA</button>
-    <button class="key" data-note="sol">SOL</button>
-    <button class="key" data-note="la">LA</button>
-    <button class="key" data-note="si">SI</button>
-    <button class="key" data-note="do2">DO+</button>
-  </div>
-</div>
-  <h1>VGA TECH </h1>
-
-  <div id="login" class="active">
-    <h2>MASUKKAN VOUCHER</h2>
-    <input type="text" id="voucherInput" placeholder="Masukkan kode voucher" />
-    <button onclick="login()">Masuk</button>
-   <p style="margin-top: 10px; font-size: 14px; color: #C0C0C0;">
-  BELI VOUCHER KE NOMOR INI:
-  <a href="https://wa.me/6288290755733" target="_blank" style="color: green; text-decoration: underline;">088290755733</a>
-   </p>
-    <div id="expiredNotice" style="display:none;">VOUCHER SUDAH KADALUARSA </div>
-    <div id="error"></div>
-  </div>
-
-  <div id="player">
-
-<button id="togglePianoBtn" style="position: absolute; top: 10px; left: 10px; font-size: 7vw; background: none; border: none; z-index: 1000; cursor: pointer;">
-  🎹
-</button>
-    <button id="totalListBtn" onclick="showTotalList()">TOTAL LIST</button>
-    <h2 id="sceneInfo"></h2>
-    <div class="lcd" id="lcdDisplay" onclick="renameAudio(event)">
-
- ada audio</div>
-    <div class="controls">
-      <button onclick="prevScene()">Prev<br>&lt;</button>
-      <button onclick="playAudio()">&#9654; Play</button>
-      <button onclick="stopAudio()">&#9632; Stop</button>
-      <button onclick="nextScene()">Next &#9654;</button>
+    <!-- Floating text elements -->
+    <div class="floating-text">🔥 V2 NI BOSSSS</div>
+    <div class="floating-text">⚡ VGA MAX ⚡</div>
+    <div class="floating-text">🎮 MANTAP NIH 🎮</div>
+    <div class="floating-text">💎 KUALITAS PREMIUM 💎</div>
+    
+    <div class="container">
+        <h1 class="title">VGA TECH V2</h1>
+        <h2 class="subtitle">SUDAH TERSEDIA</h2>
+        
+        <p class="description">
+            VGA TECH V2 . CUSTOM MODUL 1000 DRAFT, BISA CHATTING SAMA PEMAIN MODUL LAINYYA INI SEPERTI APLIKASI WA!! KERENN
+        </p>
+        
+        <a href="https://wa.me/6289504546082?text=Halo%20Bang%2C%20saya%20mau%20beli%20VGA%20TECH%20V2%20dong%21" class="whatsapp-button">
+            BELI SEKARANG
+            <span>GASS CUY 12K aja</span>
+        </a>
     </div>
-    <div class="speed-controls">
-      <button onclick="slower()">- Speed</button>
-      <button onclick="faster()">+ Speed</button>
-    </div>
-    <div class="file-inputs">
-      <label for="bgInput">GANTI BACKGROUND</label>
-      <input type="file" id="bgInput" />
-      <label for="audioInput">PILIH BASURI DARI FILE ANDA</label>
-      <input type="file" id="audioInput" />
-    </div>
-    <audio id="audioPlayer"></audio>
-  </div>
 
-  <div id="listModal" onclick="this.style.display='none'"></div>
-  <script>
-    const totalScenes = 10000;
-    const audioPlayer = document.getElementById("audioPlayer");
-    const lcd = document.getElementById("lcdDisplay");
-    const validVouchers = [
-  "X8K9J2", "MZ47KL", "D91QLT", "WZ83NE", "A72JKL", "Q19LXP", "BZ47KU", "C39NLE", "ZK81MO", "Y18WPL",
-  "NX29TR", "LK73QZ", "DV28HM", "UI47EP", "WP19LX", "BT48QL", "ME28XK", "VN39LU", "PT28NM", "AR48YX",
-  "KJ38PL", "RE49XM", "QK37LY", "XL20NP", "CW49ZX", "LK92TP", "UZ38NP", "KP48XM", "NX29LP", "HJ47XM",
-  "TA38LK", "GE47KP", "QT92LP", "MB18KL", "RX37NM", "VP29XL", "ZY38LP", "WL28XP", "QA47KM", "JZ39PL",
-  "EZ28LK", "NK37PU", "TZ19LP", "YX48KM", "PL28XO", "MN37QP", "ZR19LX", "DW28XM", "GL47NL", "TR38XP"
-];
-    let currentScene= 1;
-    let playbackRate = 1.0;
-    let scenes = {};
-    const dbName = "VGA_DB";
-    let db;
-
-    function openDB() {
-      return new Promise((resolve, reject) => {
-        const request = indexedDB.open(dbName, 1);
-        request.onerror = () => reject("Gagal buka DB");
-        request.onsuccess = () => {
-          db = request.result;
-          resolve();
-        };
-        request.onupgradeneeded = e => {
-          db = e.target.result;
-          db.createObjectStore("audios");
-        };
-      });
-    }
-
-    function saveToDB(scene, file) {
-      const reader = new FileReader();
-      reader.onload = function() {
-        const transaction = db.transaction("audios", "readwrite");
-        const store = transaction.objectStore("audios");
-        store.put(reader.result, scene);
-      };
-      reader.readAsArrayBuffer(file);
-    }
-
-    function loadFromDB(scene) {
-      return new Promise((resolve) => {
-        const transaction = db.transaction("audios", "readonly");
-        const store = transaction.objectStore("audios");
-        const req = store.get(scene);
-        req.onsuccess = () => {
-          if (req.result) {
-            const blob = new Blob([req.result]);
-            const url = URL.createObjectURL(blob);
-            scenes[scene].audio = url;
-            resolve(true);
-          } else {
-            resolve(false);
-          }
-        };
-      });
-    }
-
-    async function updateScene() {
-      document.getElementById("sceneInfo").textContent = `NOMOR : ${currentScene} - ${totalScenes}`;
-      await loadFromDB(currentScene);
-      lcd.textContent = scenes[currentScene].name || "Belum Ada !";
-    }
-
-    function login() {
-      const code = document.getElementById("voucherInput").value.trim();
-      const expiry = localStorage.getItem("voucher_expiry");
-      const now = Date.now();
-      if (expiry && now < parseInt(expiry)) return showPlayer();
-      if (validVouchers.includes(code)) {
-        const newExpiry = now + 7 * 24 * 60 * 60 * 1000;
-        localStorage.setItem("voucher_expiry", newExpiry);
-        showPlayer();
-      } else {
-        document.getElementById("error").textContent = "Voucher tidak valid!";
-      }
-    }
-
-    function showPlayer() {
-      document.getElementById("login").classList.remove("active");
-      document.getElementById("player").classList.add("active");
-      showWelcomeText();
-    }
-
-    function showTempLCD(text) {
-      lcd.textContent = text;
-      setTimeout(() => updateScene(), 500);
-    }
-
-    function playAudio() {
-      const scene = scenes[currentScene];
-      if (scene.audio) {
-        audioPlayer.src = scene.audio;
-        audioPlayer.playbackRate = playbackRate;
-        audioPlayer.play();
-        showTempLCD("Play");
-      }
-    }
-
-    function stopAudio() {
-      audioPlayer.pause();
-      showTempLCD("Stop");
-    }
-
-    function nextScene() {
-      currentScene = currentScene % totalScenes + 1;
-      updateScene();
-    }
-
-    function prevScene() {
-      currentScene = (currentScene - 2 + totalScenes) % totalScenes + 1;
-      updateScene();
-    }
-
-    function slower() {
-      playbackRate = Math.max(0.5, playbackRate - 0.1);
-      audioPlayer.playbackRate = playbackRate;
-      showTempLCD("Speed: " + playbackRate.toFixed(1) + "x");
-    }
-
-    function faster() {
-      playbackRate = Math.min(2.0, playbackRate + 0.1);
-      audioPlayer.playbackRate = playbackRate;
-      showTempLCD("Speed: " + playbackRate.toFixed(1) + "x");
-    }
-
-    function renameAudio(event) {
-      if (event) event.preventDefault();
-      const newName = prompt("Ganti nama audio:", scenes[currentScene].name || "");
-      if (newName !== null) {
-        scenes[currentScene].name = newName.slice(0, 30);
-        localStorage.setItem(`scene_name_${currentScene}`, scenes[currentScene].name);
-        updateScene();
-      }
-    }
-
-    function showWelcomeText() {
-      let message = " SELAMAT DATANG DI MODUL VGA TECH CUSTOM SELAMAT MEMAINKAN ";
-      let index = 0;
-      let interval = setInterval(() => {
-        lcd.textContent = message.slice(index) + " " + message.slice(0, index);
-        index = (index + 1) % message.length;
-      }, 150);
-      setTimeout(() => {
-        clearInterval(interval);
-        updateScene();
-      }, 5000);
-    }
-
-    document.getElementById("bgInput").addEventListener("change", e => {
-      const file = e.target.files[0];
-      if (file) {
-        const url = URL.createObjectURL(file);
-        document.body.style.backgroundImage = `url('${url}')`;
-        document.body.style.backgroundSize = "cover";
-        document.body.style.backgroundPosition = "center center";
-        document.body.style.backgroundRepeat = "no-repeat";
-      }
-    });
-
-    document.getElementById("audioInput").addEventListener("change", e => {
-      const file = e.target.files[0];
-      if (file) {
-        saveToDB(currentScene, file);
-        scenes[currentScene].name = file.name;
-        localStorage.setItem(`scene_name_${currentScene}`, file.name);
-        updateScene();
-      }
-    });
-
-    function showTotalList() {
-      const modal = document.getElementById("listModal");
-      modal.innerHTML = "";
-      let hasAny = false;
-      for (let i = 1; i <= totalScenes; i++) {
-        if (scenes[i].name) {
-          hasAny = true;
-          const span = document.createElement("span");
-          span.textContent = `No ${i}: ${scenes[i].name}`;
-          span.onclick = (e) => {
-            e.stopPropagation();
-            currentScene = i;
-            updateScene();
-            modal.style.display = "none";
-          };
-          modal.appendChild(span);
-        }
-      }
-      if (!hasAny) {
-        modal.textContent = "Belum ada BASURI yang disimpan.";
-      }
-      modal.style.display = "block";
-    }
-
-    window.onload = async () => {
-      for (let i = 1; i <= totalScenes; i++) {
-        scenes[i] = {
-          audio: null,
-          name: localStorage.getItem(`scene_name_${i}`) || null
-        };
-      }
-      await openDB();
-      if (localStorage.getItem("voucher_expiry") && Date.now() < parseInt(localStorage.getItem("voucher_expiry"))) {
-        showPlayer();
-      }
-    };
-  // Efek klik pada semua tombol
-  document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll("button").forEach(btn => {
-      btn.addEventListener("click", () => {
-        btn.classList.add("clicked");
-        setTimeout(() => btn.classList.remove("clicked"), 150);
-      });
-    });
-  });
-  
-  // Splash screen loading bar
-  window.addEventListener("load", () => {
-    const barFill = document.getElementById("barFill");
-    const splash = document.getElementById("splashscreen");
-    let progress = 0;
-
-    const interval = setInterval(() => {
-      progress += 1;
-      barFill.style.width = progress + "%";
-      if (progress >= 100) {
-        clearInterval(interval);
-        splash.style.transition = "opacity 0.5s ease";
-        splash.style.opacity = 0;
-        setTimeout(() => splash.remove(), 500);
-      }
-    }, 25);
-  });
-const pianoAudios = {
-  do: new Audio("https://cdn.jsdelivr.net/gh/MODULAJW/Modulnibissss@e2b80c2fd83b6c9ac66bfc2704c4744f995ea5ca/DO.mp3"),
-  re: new Audio("https://cdn.jsdelivr.net/gh/MODULAJW/Modulnibissss@3d0b6fa9e87deccb607262a897e98f04e3a9d2f8/re.mp3"),
-  mi: new Audio("https://cdn.jsdelivr.net/gh/MODULAJW/Modulnibissss@a88bb03f038039492236494a6f406047804854ae/mi.mp3"),
-  fa: new Audio("https://cdn.jsdelivr.net/gh/MODULAJW/Modulnibissss@a88bb03f038039492236494a6f406047804854ae/fa.mp3"),
-  sol: new Audio("https://cdn.jsdelivr.net/gh/MODULAJW/Modulnibissss@a88bb03f038039492236494a6f406047804854ae/sol.mp3"),
-  la: new Audio("https://cdn.jsdelivr.net/gh/MODULAJW/Modulnibissss@a88bb03f038039492236494a6f406047804854ae/La.mp3"),
-  si: new Audio("https://cdn.jsdelivr.net/gh/MODULAJW/Modulnibissss@a88bb03f038039492236494a6f406047804854ae/Si.mp3"),
-  do2: new Audio("https://cdn.jsdelivr.net/gh/MODULAJW/Modulnibissss@a88bb03f038039492236494a6f406047804854ae/Do%2B.mp3")
-};
-
-let currentAudio = null;
-let currentNote = null;
-
-function playNote(note, el) {
-  if (note === currentNote) return;
-
-  stopNote();
-
-  currentNote = note;
-  currentAudio = pianoAudios[note].cloneNode(); // clone biar bisa overlap
-  currentAudio.currentTime = 0;
-  currentAudio.play();
-  el.classList.add('active');
-}
-
-function stopNote() {
-  if (currentAudio) {
-    currentAudio.pause();
-    currentAudio.currentTime = 0;
-  }
-  currentAudio = null;
-  currentNote = null;
-  document.querySelectorAll('.key').forEach(btn => btn.classList.remove('active'));
-}
-
-document.addEventListener('pointerdown', (e) => {
-  const el = document.elementFromPoint(e.clientX, e.clientY);
-  if (el && el.classList.contains('key')) {
-    playNote(el.dataset.note, el);
-  }
-});
-
-document.addEventListener('pointermove', (e) => {
-  const el = document.elementFromPoint(e.clientX, e.clientY);
-  if (el && el.classList.contains('key')) {
-    const note = el.dataset.note;
-    if (note !== currentNote) {
-      playNote(note, el);
-    }
-  }
-});
-
-document.addEventListener('pointerup', stopNote);
-
-// optional: prevent scroll saat main piano di hp
-const pianoContainer = document.getElementById("piano-container");
-if (pianoContainer) {
-  pianoContainer.addEventListener("touchstart", e => e.preventDefault(), { passive: false });
-  pianoContainer.addEventListener("touchmove", e => e.preventDefault(), { passive: false });
-}
-// Toggle pianika muncul/sembunyi saat tombol pianika ditekan
-document.getElementById("togglePianoBtn").addEventListener("click", () => {
-  document.getElementById("piano-container").classList.toggle("active");
-});
-  </script>
+    <script>
+        // Efek tambahan saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            const title = document.querySelector('.title');
+            const subtitle = document.querySelector('.subtitle');
+            const button = document.querySelector('.whatsapp-button');
+            
+            // Animasi masuk elemen
+            title.style.opacity = '0';
+            title.style.transform = 'translateY(-30px)';
+            
+            subtitle.style.opacity = '0';
+            subtitle.style.transform = 'translateY(-30px)';
+            
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(30px)';
+            
+            // Animasikan elemen masuk
+            setTimeout(() => {
+                title.style.transition = 'opacity 1s ease, transform 1s ease';
+                title.style.opacity = '1';
+                title.style.transform = 'translateY(0)';
+            }, 300);
+            
+            setTimeout(() => {
+                subtitle.style.transition = 'opacity 1s ease, transform 1s ease';
+                subtitle.style.opacity = '1';
+                subtitle.style.transform = 'translateY(0)';
+            }, 800);
+            
+            setTimeout(() => {
+                button.style.transition = 'opacity 1s ease, transform 1s ease';
+                button.style.opacity = '1';
+                button.style.transform = 'translateY(0)';
+            }, 1300);
+            
+            // Efek klik tombol
+            button.addEventListener('click', function(e) {
+                // Tambahkan efek klik
+                this.style.transform = 'scale(0.95)';
+                
+                // Kembalikan setelah 150ms
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+                
+                // Buka WhatsApp
+                const message = "Halo Bang, saya mau beli VGA TECH V2 dong!";
+                const phoneNumber = "6289504546082";
+                window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+            });
+            
+            // Efek hover suara (opsional, tidak ada suara asli di kode ini)
+            button.addEventListener('mouseenter', function() {
+                // Hentikan animasi pulse saat hover
+                this.style.animation = 'none';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                // Kembalikan animasi pulse saat mouse keluar
+                this.style.animation = 'button-pulse 2s infinite';
+            });
+        });
+    </script>
 </body>
-      </html>
+  </html>
