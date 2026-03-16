@@ -1,8 +1,8 @@
 export default function _0xvg(req,res){
 
-const _0x1=5*60*1000
-const _0x2=24*60*60*1000
-
+const ACCESS_TIME = 7 * 24 * 60 * 60 * 1000
+const BLOCK_TIME = 24 * 60 * 60 * 1000
+ 
 if(!global._0xdb){
 global._0xdb={}
 }
