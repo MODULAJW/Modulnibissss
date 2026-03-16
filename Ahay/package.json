@@ -1,0 +1,6 @@
+{
+  "name": "vga-tech-vercel",
+  "version": "1.0.0",
+  "description": "VGA TECH serverless access control for Vercel",
+  "type": "module"
+}

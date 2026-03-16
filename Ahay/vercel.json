@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "src": "/check",
+      "dest": "/api/check.js"
+    },
+    {
+      "src": "/",
+      "dest": "/api/check.js"
+    }
+  ]
+}
