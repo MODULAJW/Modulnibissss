@@ -54,13 +54,17 @@
     <div class="form-group">
       <label><i class="fas fa-music"></i> masukin basuri nya (MP3)</label>
       <label for="mp3FileInput" class="file-label">
-        <i class="fas fa-folder-open"></i> Pilih file Basuri
+        <i class="fas fa-folder-open"></i> Pilih file Basuri (bisa banyak)
       </label>
-      <input type="file" id="mp3FileInput" accept="audio/mpeg, audio/mp3">
+      <input type="file" id="mp3FileInput" accept="audio/mpeg, audio/mp3" multiple>
+      <div id="selectedFilesList" class="selected-files" style="display: none;"></div>
       <div id="fileNameDisplay" class="file-name-hint"></div>
+      <div class="progress-bar-container" id="progressContainer" style="display: none;">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
     </div>
     <button class="btn-elegant" id="uploadBtn">
-      <i class="fas fa-satellite-dish"></i> KIRIM
+      <i class="fas fa-satellite-dish"></i> KIRIM SEMUA
     </button>
     <div id="logArea" class="terminal-loader" style="display: none;"></div>
   </div>
