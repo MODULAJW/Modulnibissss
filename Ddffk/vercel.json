@@ -1,0 +1,10 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/VGATECH.html", "destination": "/VGATECH.html" },
+    { "source": "/file1_style.css", "destination": "/file1_style.css" },
+    { "source": "/file1_script.js", "destination": "/file1_script.js" },
+    { "source": "/file2_style.css", "destination": "/file2_style.css" },
+    { "source": "/file2_script.js", "destination": "/file2_script.js" }
+  ]
+}
