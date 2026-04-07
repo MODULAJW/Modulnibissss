@@ -4,96 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>VGA TECH V2</title>
+    <!-- Google Material Icons + Fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <!-- Firebase CDN -->
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
-    <link rel="stylesheet" href="./file2_style.css">
-    <script src="./file2_script.js" defer></script>
+    <!-- CSS External -->
+    <link rel="stylesheet" href="file2_style.css">
 </head>
 <body>
-    <div class="app-container" id="appMain">
-        <div class="logo-area">
-            <img class="logo-img" src="https://res.cloudinary.com/dwiozm4vz/image/upload/v1774449893/wqbkrlayj1wfvbnaefl2.png" alt="VGA TECH">
-        </div>
-        <div class="info-panel-glass">
-            <div class="song-title" id="currentSongLabel">🎧 SELECT MODULE</div>
-            <div class="stats-row">
-                <div class="counter-badge" id="trackCounter">0/0</div>
-                <div class="bpm-badge" id="bpmDisplay">-- BPM</div>
-            </div>
-            <div class="progress-elegant">
-                <span class="time-text" id="currentTime">00:00</span>
-                <div class="progress-bar-soft" id="progressBg"><div class="progress-fill-glow" id="progressFill"></div></div>
-                <span class="time-text" id="durationTime">00:00</span>
-            </div>
-            <div class="tempo-row">
-                <div class="tempo-chip" id="tempoDisplay">TEMPO</div>
-                <div class="tempo-chip" id="speedDisplay">1.00x</div>
-            </div>
-        </div>
-        <div class="search-section">
-            <div class="search-capsule">
-                <span class="material-icons">search</span>
-                <input type="text" id="searchInput" placeholder="Cari nada..">
-            </div>
-        </div>
-        <div class="playlist-wrapper">
-            <ul class="playlist" id="playlistEl">
-                <li class="empty-message">Loading...</li>
-            </ul>
-        </div>
-        <div class="control-dock-premium">
-            <div class="control-3d-layout">
-                <div class="vertical-group">
-                    <button class="btn-3d-elegant btn-md" id="upBtn"><span class="material-icons">arrow_upward</span></button>
-                    <button class="btn-3d-elegant btn-md" id="downBtn"><span class="material-icons">arrow_downward</span></button>
-                </div>
-                <div class="center-group-3d">
-                    <button class="btn-3d-elegant btn-speed" id="speedDownBtn"><span class="material-icons">slow_motion_video</span></button>
-                    <button class="btn-3d-elegant btn-play-xl" id="playBtn"><span class="material-icons">play_arrow</span></button>
-                    <button class="btn-3d-elegant btn-speed" id="speedUpBtn"><span class="material-icons">speed</span></button>
-                </div>
-                <div class="vertical-group">
-                    <button class="btn-3d-elegant btn-md" id="pauseBtn"><span class="material-icons">pause</span></button>
-                    <button class="btn-3d-elegant btn-md" id="stopBtn"><span class="material-icons">stop</span></button>
-                </div>
-            </div>
-            <div class="extra-tool-group">
-                <button class="btn-3d-elegant btn-tool" id="bluetoothBtn"><span class="material-icons">bluetooth</span></button>
-                <button class="btn-3d-elegant btn-tool" id="bgBtn"><span class="material-icons">wallpaper</span></button>
-            </div>
-            <button class="add-btn-premium" id="addSongBtn"><span class="material-icons">add_circle</span> TAMBAH BASURI</button>
-        </div>
-        <input type="file" id="fileInput" accept=".mp3,audio/mp3">
-        <audio id="audioPlayer" preload="metadata"></audio>
+
+<div class="app-container" id="appMain">
+    <div class="logo-area">
+        <img class="logo-img" src="https://res.cloudinary.com/dwiozm4vz/image/upload/v1774449893/wqbkrlayj1wfvbnaefl2.png" alt="VGA TECH">
     </div>
-    <div id="bluetoothPage" class="bt-full-elegant">
-        <div class="bt-header-elegant">
-            <div class="back-btn-3d" id="closeBtPage"><span class="material-icons">arrow_back</span></div>
-            <div class="bt-title">BLUETOOTH SCAN</div>
+
+    <div class="info-panel-glass">
+        <div class="song-title" id="currentSongLabel">🎧 SELECT MODULE</div>
+        <div class="stats-row">
+            <div class="counter-badge" id="trackCounter">0/0</div>
+            <div class="bpm-badge" id="bpmDisplay">-- BPM</div>
         </div>
-        <div class="radar-pulse">
-            <div class="pulse-circle"><div class="inner-core"></div></div>
+        <div class="progress-elegant">
+            <span class="time-text" id="currentTime">00:00</span>
+            <div class="progress-bar-soft" id="progressBg"><div class="progress-fill-glow" id="progressFill"></div></div>
+            <span class="time-text" id="durationTime">00:00</span>
         </div>
-        <div class="scan-status" id="scanStatusText"> Mencari perangkat...</div>
-        <div class="device-list-elegant" id="deviceListArea">
-            <div style="text-align:center; color:#b9efcf;">Tekan tombol scan & pilih device</div>
-        </div>
-        <div style="display:flex; justify-content:center;">
-            <button class="bt-scan-elegant" id="manualScanBt"><span class="material-icons">bluetooth_searching</span> SCAN ULANG</button>
-        </div>
-        <div class="scan-status" style="margin-top: 10px;" id="btStatusMsg">Klik ikon bluetooth untuk pairing</div>
-    </div>
-    <div id="renameModal" class="rename-modal-glass">
-        <div class="rename-card-glass">
-            <h3 style="color:#7be0a2;">✏️ RENAME MP3</h3>
-            <input type="text" id="renameInput" placeholder="Nama baru...">
-            <div style="display:flex; gap:12px; justify-content:center;">
-                <button id="renameSaveBtn" style="background:#3aa86a; border:none; padding:8px 20px; border-radius:40px; font-weight:bold;">SIMPAN</button>
-                <button id="renameCancelBtn" style="background:#3a4a44; border:none; padding:8px 20px; border-radius:40px;">BATAL</button>
-            </div>
+        <div class="tempo-row">
+            <div class="tempo-chip" id="tempoDisplay">TEMPO</div>
+            <div class="tempo-chip" id="speedDisplay">1.00x</div>
         </div>
     </div>
+
+    <div class="search-section">
+        <div class="search-capsule">
+            <span class="material-icons">search</span>
+            <input type="text" id="searchInput" placeholder="Cari nada..">
+        </div>
+    </div>
+
+    <div class="playlist-wrapper">
+        <ul class="playlist" id="playlistEl">
+            <li class="empty-message">Loading...</li>
+        </ul>
+    </div>
+
+    <div class="control-dock-premium">
+        <div class="control-3d-layout">
+            <div class="vertical-group">
+                <button class="btn-3d-elegant btn-md" id="upBtn"><span class="material-icons">arrow_upward</span></button>
+                <button class="btn-3d-elegant btn-md" id="downBtn"><span class="material-icons">arrow_downward</span></button>
+            </div>
+            <div class="center-group-3d">
+                <button class="btn-3d-elegant btn-speed" id="speedDownBtn"><span class="material-icons">slow_motion_video</span></button>
+                <button class="btn-3d-elegant btn-play-xl" id="playBtn"><span class="material-icons">play_arrow</span></button>
+                <button class="btn-3d-elegant btn-speed" id="speedUpBtn"><span class="material-icons">speed</span></button>
+            </div>
+            <div class="vertical-group">
+                <button class="btn-3d-elegant btn-md" id="pauseBtn"><span class="material-icons">pause</span></button>
+                <button class="btn-3d-elegant btn-md" id="stopBtn"><span class="material-icons">stop</span></button>
+            </div>
+        </div>
+        <div class="extra-tool-group">
+            <button class="btn-3d-elegant btn-tool" id="pianikaBtn"><span class="material-icons">piano</span></button>
+            <button class="btn-3d-elegant btn-tool" id="bluetoothBtn"><span class="material-icons">bluetooth</span></button>
+            <button class="btn-3d-elegant btn-tool" id="bgBtn"><span class="material-icons">wallpaper</span></button>
+            <button class="btn-3d-elegant btn-tool" id="chatBtn"><span class="material-icons">forum</span></button>
+        </div>
+        <button class="add-btn-premium" id="addSongBtn"><span class="material-icons">add_circle</span> TAMBAH BASURI</button>
+    </div>
+    <input type="file" id="fileInput" accept="audio/mp3,audio/mpeg" multiple>
+    <audio id="audioPlayer" preload="metadata"></audio>
+</div>
+
+<div id="bluetoothPage" class="bt-full-elegant" style="display:none;">
+    <div class="bt-header-elegant">
+        <div class="back-btn-3d" id="closeBtPage"><span class="material-icons">arrow_back</span></div>
+        <div class="bt-title">BLUETOOTH SCAN</div>
+    </div>
+    <div class="radar-pulse"><div class="radar-inner"><div class="radar-core"></div></div></div>
+    <div class="scan-status" id="scanStatusText">Mencari perangkat...</div>
+    <div class="device-list-elegant" id="deviceListArea"></div>
+    <div class="scan-btn-container"><button class="bt-scan-elegant" id="manualScanBt">SCAN ULANG</button></div>
+    <div class="scan-status scan-footer" id="btStatusMsg">Klik ikon bluetooth untuk pairing</div>
+</div>
+
+<div id="renameModal" class="rename-modal-glass">
+    <div class="rename-card-glass">
+        <span class="material-icons modal-icon">edit_note</span>
+        <h3>Rename MP3</h3>
+        <input type="text" id="renameInput" placeholder="Nama baru..." autocomplete="off">
+        <div class="rename-actions">
+            <button id="renameSaveBtn" class="btn-save">SIMPAN</button>
+            <button id="renameCancelBtn" class="btn-cancel">BATAL</button>
+        </div>
+    </div>
+</div>
+
+<div id="deleteModal" class="delete-modal-glass">
+    <div class="delete-card-glass">
+        <span class="material-icons modal-icon">delete_forever</span>
+        <h3>Hapus Nada?</h3>
+        <div class="delete-actions">
+            <button id="deleteYesBtn" class="btn-yes">IYA</button>
+            <button id="deleteNoBtn" class="btn-no">TIDAK</button>
+        </div>
+    </div>
+</div>
+
+<!-- JS External -->
+<script src="file2_script.js"></script>
 </body>
 </html>
