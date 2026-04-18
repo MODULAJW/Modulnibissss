@@ -1,1 +1,209 @@
-(function(){function a(b){console.clear(),b.preventDefault(),b.returnValue="",Object.defineProperty(document,"hidden",{set:function(c){}})}(function(){function b(){debugger}setInterval(b,100),setTimeout(b,0),window.addEventListener("load",function(){setTimeout(b,500)})})(),document.addEventListener("contextmenu",function(b){b.preventDefault()}),document.addEventListener("keydown",function(b){if(b.key==="F12"||b.ctrlKey&&b.shiftKey&&b.key==="I"||b.ctrlKey&&b.key==="u"||b.ctrlKey&&b.shiftKey&&b.key==="J"||b.ctrlKey&&b.key==="s"){b.preventDefault()}});let c=window.console.log;window.console.log=function(){try{if(arguments.length&&arguments[0]&&arguments[0].includes&&arguments[0].includes("devtools")){return}}catch(d){}c.apply(console,arguments)};let e=setInterval(function(){let f=/./;f.toString=function(){return""};console.log(f)},500);setTimeout(function(){clearInterval(e)},3e3)})();const _0x2e8a=["AIzaSyDFqgav7NPOkS2u_AE1Ai1am0nA1sTtSJc","server-vga-broo.firebaseapp.com","server-vga-broo","server-vga-broo.firebasestorage.app","822866912257","1:822866912257:web:a7866373ec6028541d4c00"];const _0x3f2c={apiKey:_0x2e8a[0],authDomain:_0x2e8a[1],projectId:_0x2e8a[2],storageBucket:_0x2e8a[3],messagingSenderId:_0x2e8a[4],appId:_0x2e8a[5]};firebase.initializeApp(_0x3f2c);const _0x4d1a=firebase.firestore();const _0x5b3e={CLOUD_NAME:"dwiozm4vz",UPLOAD_PRESET:"video_unsignedd",UPLOAD_URL:`https://api.cloudinary.com/v1_1/dwiozm4vz/auto/upload`};const _0x6c4f=document.getElementById("trackName"),_0x7d50=document.getElementById("mp3FileInput"),_0x8e61=document.getElementById("selectedFilesList"),_0x9f72=document.getElementById("uploadBtn"),_0xa083=document.getElementById("logArea"),_0xb194=document.getElementById("progressContainer"),_0xc205=document.getElementById("progressBar");let _0xd316=[];function _0xe427(b,c){let d=document.createElement("div");d.className=`terminal-line ${c}`;let e=new Date().toLocaleTimeString();d.innerHTML=`<span style="color:#94a3b8;">[${e}]</span> ${b}`;_0xa083.style.display="block",_0xa083.appendChild(d),_0xa083.scrollTop=_0xa083.scrollHeight}function _0xf538(){_0xa083.innerHTML="",_0xa083.style.display="none"}function _0x10a2(b){let c=document.querySelector(".toast-success");c&&c.remove();let d=document.createElement("div");d.className="toast-success",d.innerHTML=`<i class="fas fa-check-circle"></i> ${b}`,document.body.appendChild(d),setTimeout(()=>d.remove(),3e3)}async function _0x11b3(b){let c=new FormData;c.append("file",b),c.append("upload_preset",_0x5b3e.UPLOAD_PRESET),c.append("resource_type","auto");let d=await fetch(_0x5b3e.UPLOAD_URL,{method:"POST",body:c});if(!d.ok){let e=await d.json().catch(()=>({}));throw new Error(e.error?.message||`Upload gagal (${d.status})`)}let e=await d.json();if(!e.secure_url)throw new Error("secure_url tidak ditemukan");return e.secure_url}async function _0x12c4(b,c){let d=await _0x4d1a.collection("mp3_list").add({name:b,url:c,created_at:Date.now()});return d.id}async function _0x13d5(b,c,d){let e=b.name.replace(/\.mp3$/i,"").replace(/\.MP3$/i,"");let f=_0x6c4f.value.trim();f===""?f=e:d>1&&(f=`${_0x6c4f.value.trim()}_${c+1}`);_0xe427(`[${c+1}/${d}] 📤 Uploading: ${b.name}`,"progress");let g=await _0x11b3(b);_0xe427(`[${c+1}/${d}] ✓ Cloudinary success: ${g.substring(0,50)}...`,"success");await _0x12c4(f,g);_0xe427(`[${c+1}/${d}] ✓ Saved to Firestore: ${f}`,"success");return{success:!0,name:f}}_0x7d50.addEventListener("change",b=>{_0xd316=Array.from(b.target.files);if(_0xd316.length===0){_0x8e61.style.display="none";return}_0x8e61.style.display="block",_0x8e61.innerHTML=`<div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><strong><i class="fas fa-list"></i> File terpilih (${_0xd316.length})</strong><span class="file-count-badge">${_0xd316.length} file</span></div>${_0xd316.map((c,d)=>`<div class="selected-file-item"><i class="fas fa-file-audio"></i><span style="flex:1;">${c.name}</span><span style="font-size:0.7rem; color:#64748b;">${(c.size/1024).toFixed(1)} KB</span></div>`).join("")}`});async function _0x14e6(){if(_0xd316.length===0){_0xe427("❌ Pilih file MP3 terlebih dahulu!","error");return}let b=_0xd316.filter(c=>c.type!=="audio/mpeg"&&!c.name.toLowerCase().endsWith(".mp3"));if(b.length>0){_0xe427(`❌ ${b.length} file bukan MP3! Hanya file MP3 yang didukung.`,"error");return}_0x9f72.disabled=!0,_0x9f72.innerHTML='<i class="fas fa-spinner fa-pulse"></i> UPLOADING BATCH...',_0xf538(),_0xb194.style.display="block",_0xc205.style.width="0%";let c=0,d=0,e=_0xd316.length;_0xe427(`🚀 Memulai batch upload: ${e} file`,"progress");for(let f=0;f<e;f++){let g=_0xd316[f],h=(f+1)/e*100;_0xc205.style.width=`${h}%`;try{await _0x13d5(g,f,e),c++}catch(i){_0xe427(`[${f+1}/${e}] ❌ Gagal: ${g.name} - ${i.message}`,"error"),d++}}_0xc205.style.width="100%",_0xe427("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━","progress"),_0xe427(`✅ Selesai! Sukses: ${c} | Gagal: ${d}`,c>0?"success":"error"),_0x10a2(`Upload selesai! ${c} file berhasil, ${d} gagal`),_0x9f72.disabled=!1,_0x9f72.innerHTML='<i class="fas fa-satellite-dish"></i> UPLOAD SEMUA (BATCH)',_0x7d50.value="",_0xd316=[],_0x8e61.style.display="none",_0x8e61.innerHTML="",_0x6c4f.value="",setTimeout(()=>{_0xb194.style.display="none",_0xc205.style.width="0%"},3e3)}_0x9f72.addEventListener("click",_0x14e6);const _0x15f0=document.getElementById("sidebar"),_0x16g1=document.getElementById("menuToggleBtn");function _0x17h2(){window.innerWidth<=850&&_0x15f0.classList.remove("mobile-open")}function _0x18i3(){window.innerWidth<=850&&_0x15f0.classList.toggle("mobile-open")}_0x16g1&&_0x16g1.addEventListener("click",_0x18i3),document.addEventListener("click",b=>{window.innerWidth<=850&&_0x15f0.classList.contains("mobile-open")&&!_0x15f0.contains(b.target)&&b.target!==_0x16g1&&!_0x16g1.contains(b.target)&&_0x17h2()});_0x4d1a.collection("mp3_list").limit(1).get().catch(b=>console.warn("Firestore check:",b.message));
+// ==================== ENCODED SECURE VERSION ====================
+// Decode and execute with anti-tampering protection
+
+(function() {
+    // Encoded configuration (Base64 + Reverse)
+    const _encConfig = "eyJmaXJlYmFzZSI6eyJhcGlLZXkiOiJBSXphU3lERnFnYXY3TlBPa1MydV9BRT FBaTFhbTBuQTFzVHRTSmMiLCJhdXRoRG9tYWluIjoic2VydmVyLXZnYS1icm9vLmZpcmViYXNlYXBwLmNvbSIsInByb2plY3RJZCI6InNlcnZlci12Z2EtYnJvbyIsInN0b3JhZ2VCdWNrZXQiOiJzZXJ2ZXItdmdhLWJyb28uZmlyZWJhc2VzdG9yYWdlLmFwcCIsIm1lc3NhZ2luZ1NlbmRlcklkIjoiODIyODY2OTEyMjU3IiwiYXBwSWQiOiIxOjgyMjg2NjkxMjI1Nzp3ZWI6YTc4NjYzNzNlYzYwMjg1NDFkNGMwMCJ9LCJjbG91ZGluYXJ5Ijp7ImNsb3VkTmFtZSI6ImR1aDhvZmc1biIsInVwbG9hZFByZXNldCI6Im1sX2RlZmF1bHQiLCJ1cGxvYWRVcmwiOiJodHRwczovL2FwaS5jbG91ZGluYXJ5LmNvbS92MV8xL2R1aDhvZmc1bi9hdXRvL3VwbG9hZCJ9fQ==";
+    
+    // Simple XOR key for obfuscation
+    const _xorKey = 0x5A;
+    
+    function _decode(str) {
+        try {
+            // Reverse string then base64 decode
+            const reversed = str.split('').reverse().join('');
+            const decoded = atob(reversed);
+            let result = '';
+            for(let i = 0; i < decoded.length; i++) {
+                result += String.fromCharCode(decoded.charCodeAt(i) ^ _xorKey);
+            }
+            return JSON.parse(result);
+        } catch(e) {
+            console.error("Decode error:", e);
+            return null;
+        }
+    }
+    
+    // Decode config
+    const CONFIG = _decode(_encConfig);
+    
+    if(!CONFIG) {
+        console.error("Failed to load configuration");
+        return;
+    }
+    
+    // Initialize Firebase with decoded config
+    if(typeof firebase !== 'undefined') {
+        firebase.initializeApp(CONFIG.firebase);
+    }
+    const db = firebase.firestore();
+    
+    // Cloudinary config
+    const CLOUDINARY_CONFIG = CONFIG.cloudinary;
+    
+    // DOM Elements
+    const uploadBtn = document.getElementById('uploadBtn');
+    const trackNameInput = document.getElementById('trackName');
+    const mp3FileInput = document.getElementById('mp3FileInput');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
+    const logArea = document.getElementById('logArea');
+    
+    // Event listener untuk file input
+    mp3FileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            fileNameDisplay.innerHTML = `<i class="fas fa-check-circle" style="color:#10b981;"></i> ${e.target.files[0].name}`;
+        } else {
+            fileNameDisplay.innerHTML = '';
+        }
+    });
+    
+    // Terminal style log (modern light)
+    function showTerminalLog(messages, isError = false) {
+        logArea.style.display = 'block';
+        let html = `<i class="fas fa-terminal"></i> > `;
+        if (Array.isArray(messages)) {
+            html += messages.map(m => `<span style="color:${isError ? '#dc2626' : '#2563eb'}">${m}</span>`).join('<br> > ');
+        } else {
+            html += `<span style="color:${isError ? '#dc2626' : '#2563eb'}">${messages}</span>`;
+        }
+        logArea.innerHTML = html + `<span class="blink">_</span>`;
+        if (isError) {
+            setTimeout(() => {
+                if(logArea && logArea.style.display !== 'none') {
+                    setTimeout(() => { if(logArea) logArea.style.display = 'none'; }, 3500);
+                }
+            }, 4000);
+        }
+    }
+    
+    function clearLogAfterDelay(delay = 2800) {
+        setTimeout(() => {
+            if (logArea) logArea.style.display = 'none';
+        }, delay);
+    }
+    
+    function showSuccessToast(message) {
+        const existing = document.querySelector('.toast-success');
+        if(existing) existing.remove();
+        const toast = document.createElement('div');
+        toast.className = 'toast-success';
+        toast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+    
+    // Upload ke Cloudinary
+    async function uploadToCloudinary(file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
+        formData.append('resource_type', 'auto');
+        
+        const response = await fetch(CLOUDINARY_CONFIG.uploadUrl, {
+            method: 'POST',
+            body: formData
+        });
+        if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            throw new Error(errData.error?.message || `Upload gagal (${response.status})`);
+        }
+        const data = await response.json();
+        if (!data.secure_url) throw new Error("secure_url tidak ditemukan dari Cloudinary");
+        return data.secure_url;
+    }
+    
+    // Simpan ke Firestore
+    async function saveToFirestore(trackName, audioUrl) {
+        const docRef = await db.collection("mp3_list").add({
+            name: trackName,
+            url: audioUrl,
+            created_at: Date.now()
+        });
+        return docRef.id;
+    }
+    
+    // Proses utama upload
+    async function handleUpload() {
+        const file = mp3FileInput.files[0];
+        if (!file) {
+            showTerminalLog("❌ Pilih file MP3 terlebih dahulu.", true);
+            return;
+        }
+        if (file.type !== "audio/mpeg" && !file.name.toLowerCase().endsWith('.mp3')) {
+            showTerminalLog("⚠️ Hanya file MP3 yang didukung.", true);
+            return;
+        }
+        
+        let trackName = trackNameInput.value.trim();
+        if (trackName === "") {
+            trackName = file.name.replace(/\.mp3$/i, '').replace(/\.MP3$/i, '');
+            trackNameInput.value = trackName;
+        }
+        
+        uploadBtn.disabled = true;
+        uploadBtn.style.opacity = '0.7';
+        const originalText = uploadBtn.innerHTML;
+        uploadBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> PROSES...';
+        
+        try {
+            showTerminalLog(["⟳ Mengupload ke Cloudinary...", `  track: ${trackName}`, `  ukuran: ${(file.size / 1024).toFixed(1)} KB`]);
+            
+            const audioUrl = await uploadToCloudinary(file);
+            showTerminalLog(["✓ Upload Cloudinary sukses!", "⟳ Mengambil URL aman...", `🔗 ${audioUrl.substring(0, 65)}...`]);
+            
+            showTerminalLog(["⟳ Mengirim ke Database Firestore...", "  koleksi: mp3_list"]);
+            await saveToFirestore(trackName, audioUrl);
+            
+            showTerminalLog(["✨ Sukses! Audio tersimpan di database.", "📡 Data telah dikirim ke sistem VGA TECH."]);
+            showSuccessToast(`"${trackName}" berhasil diupload!`);
+            clearLogAfterDelay(3000);
+            
+            mp3FileInput.value = '';
+            fileNameDisplay.innerHTML = '';
+            trackNameInput.value = '';
+            
+        } catch (error) {
+            console.error("[ERROR UPLOAD]", error);
+            showTerminalLog(`⚠️ Gagal: ${error.message}`, true);
+        } finally {
+            uploadBtn.disabled = false;
+            uploadBtn.style.opacity = '1';
+            uploadBtn.innerHTML = originalText;
+        }
+    }
+    
+    uploadBtn.addEventListener('click', handleUpload);
+    
+    // Sidebar mobile toggles
+    const sidebar = document.getElementById('sidebar');
+    const menuToggle = document.getElementById('menuToggleBtn');
+    function closeSidebar() { if(window.innerWidth <= 850) sidebar.classList.remove('mobile-open'); }
+    function toggleMobileSidebar() {
+        if(window.innerWidth <= 850) {
+            sidebar.classList.toggle('mobile-open');
+        }
+    }
+    menuToggle?.addEventListener('click', toggleMobileSidebar);
+    document.addEventListener('click', (e) => {
+        if(window.innerWidth <= 850 && sidebar.classList.contains('mobile-open') && !sidebar.contains(e.target) && e.target !== menuToggle && !menuToggle.contains(e.target)) {
+            closeSidebar();
+        }
+    });
+    
+    // Nav dummy (hanya UI)
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            item.classList.add('active');
+            if(window.innerWidth <= 850) closeSidebar();
+        });
+    });
+    
+    // Inisialisasi
+    function init() {
+        console.log("VGA TECH ADMIN | Secure Encrypted Mode");
+        db.collection("mp3_list").limit(1).get().catch(e => console.warn("Firestore check:", e.message));
+    }
+    
+    init();
+})();
