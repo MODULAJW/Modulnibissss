@@ -1,23 +1,269 @@
-// ========== ENCODED SECURE JS ==========
-// Encoded dengan metode berlapis untuk keamanan maksimal
+// Firebase init
+const firebaseConfig = {
+    apiKey: "AIzaSyDHSWmNFH0M2xxAHscSaVf5S8EbGecLzh4",
+    authDomain: "vga-tech-v2-88b79.firebaseapp.com",
+    projectId: "vga-tech-v2-88b79",
+    storageBucket: "vga-tech-v2-88b79.firebasestorage.app",
+    messagingSenderId: "736275916549",
+    appId: "1:736275916549:web:31d62d90aad3c1f2adf96c"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const usersCollection = db.collection("users");
 
-(function(){
-    // Layer 1: Hex encoded
-    const _layer1 = "766172206669726562617365436F6E666967203D207B0A202020206170694B65793A202241497A6153794453576D4E4648304D327878414873635361566635533845624765634C7A6834222C0A2020202061757468446F6D61696E3A20227667612D746563682D76322D38386237392E66697265626173656170702E636F6D222C0A2020202070726F6A65637449643A20227667612D746563682D76322D3838623739222C0A2020202073746F726167654275636B65743A20227667612D746563682D76322D38386237392E666972656261736573746F726167652E617070222C0A202020206D6573736167696E6753656E64657249643A2022373336323735393136353439222C0A2020202061707049643A2022313A3733363237353931363534393A7765623A33316436326439306161643363316632616466393663220A7D3B0A66697265626173652E696E697469616C697A65286669726562617365436F6E666967293B0A636F6E7374206462203D2066697265626173652E6669726573746F726528293B0A636F6E7374207573657273436F6C6C656374696F6E203D2064622E636F6C6C656374696F6E2822757365727322293B0A6C657420616C6C5573657273203D205B5D3B0A6C65742073656C656374696F6E4D6F6465203D2066616C73653B0A6C65742073656C65637465645573657273536574203D206E65772053657428293B0A636F6E737420757365727347726964203D20646F63756D656E742E676574456C656D656E7442794964282275736572734772696422293B0A636F6E73742061646442746E203D20646F63756D656E742E676574456C656D656E744279496428226164645573657242746E22293B0A636F6E737420757365726E616D65496E70203D20646F63756D656E742E676574456C656D656E74427949642822757365726E616D6522293B0A636F6E73742070617373776F7264496E70203D20646F63756D656E742E676574456C656D656E7442794964282270617373776F726422293B0A636F6E7374206475726174696F6E496E70203D20646F63756D656E742E676574456C656D656E744279496428226475726174696F6E22293B0A636F6E737420656E61626C6553656C65637442746E203D20646F63756D656E742E676574456C656D656E74427949642822656E61626C6553656C65637442746E22293B0A636F6E73742064656C65746553656C656374656442746E203D20646F63756D656E742E676574456C656D656E7442794964282264656C65746553656C656374656442746E22293B0A636F6E73742064656C657465416C6C42746E203D20646F63756D656E742E676574456C656D656E7442794964282264656C657465416C6C42746E22293B0A636F6E73742075736572436F756E745370616E203D20646F63756D656E742E676574456C656D656E7442794964282275736572436F756E7422293B0A636F6E7374206D6F64616C4F7665726C6179203D20646F63756D656E742E676574456C656D656E7442794964282264657461696C4D6F64616C22293B0A636F6E7374206D6F64616C436F6E74656E74203D20646F63756D656E742E676574456C656D656E744279496428226D6F64616C436F6E74656E7422293B0A636F6E737420636C6F73654D6F64616C42746E203D20646F63756D656E742E676574456C656D656E74427949642822636C6F73654D6F64616C42746E22293B0A636F6E737420746F617374456C203D20646F63756D656E742E676574456C656D656E74427949642822746F6173744D736722293B0A636F6E737420746F617374546578745370616E203D20646F63756D656E742E676574456C656D656E74427949642822746F6173745465787422293B0A66756E6374696F6E2073686F77546F617374286D736729207B0A20202020746F617374546578745370616E2E696E6E657254657874203D206D73673B0A20202020746F617374456C2E636C6173734C6973742E616464282273686F7722293B0A2020202073657454696D656F7574282829203D3E20746F617374456C2E636C6173734C6973742E72656D6F7665282273686F7722292C2032383030293B0A7D0A66756E6374696F6E20726573657453656C656374696F6E4D6F64652829207B0A2020202073656C656374696F6E4D6F6465203D2066616C73653B0A2020202073656C656374656455736572735365742E636C65617228293B0A2020202072656E64657255736572734772696428293B0A20202020656E61626C6553656C65637442746E2E696E6E657248544D4C203D20603C7370616E20636C6173733D226D6174657269616C2D73796D626F6C732D726F756E646564223E636865636B5F626F785F6F75746C696E655F626C616E6B3C2F7370616E3e2050696C6968603B0A7D0A66756E6374696F6E2072656E6465725573657273477269642829207B0A2020202069662821616C6C55736572732E6C656E67746829207B0A202020202020207573657273477269642E696E6E657248544D4C203D20603C646976207374796C653D22677269642D636F6C756D6E3A312F2D313B20746578742D616C69676E3A63656E7465723B2070616464696E673A3272656D3B206261636B67726F756E643A7267626128302C302C302C302E33293B20626F726465722D7261646975733A3272656D3B223e8J+SqyBUaWRhayBhZGEgdXNlci4gVGFtYmFra2FuIHVzZXIgYmFydSDwn5KrPC9kaXY+YDs0A2020202020202075736572436F756E745370616E2E696E6E657254657874203D202230223B0A2020202020202072657475726E3B0A202020207D0A2020202075736572436F756E745370616E2E696E6E657254657874203D20616C6C55736572732E6C656E6774683B0A202020206C65742068746D6C203D2027273B0A20202020616C6C55736572732E666F72456163682875736572203D3E207B0A20202020202020636F6E737420646F634964203D20757365722E69643B0A20202020202020636F6E73742064617461203D20757365722E646174613B0A20202020202020636F6E7374206973416374697665203D20646174612E646576696365496420262620646174612E646576696365496420213D3D206E756C6C3B0A20202020202020636F6E73742073746174757354657874203D206973416374697665203F2022416B74696622203A202242656c756d20646967756E616B616E223B0A20202020202020636F6E73742073746174757349636F6E203D206973416374697665203F2022636865636B5F636972636C6522203A2022686F7572676C6173735F656D707479223B0A20202020202020636F6E737420636865636B6564203D2073656C656374656455736572735365742E68617328646F634964293B0A2020202020202068746D6C202B3D20600A2020202020202020203C64697620636C6173733D22757365722D636172642220646174612D69643D22247B646F6349647D223E0A202020202020202020202020247B73656C656374696F6E4D6F6465203F20600A2020202020202020202020202020203C64697620636C6173733D22636172642D636865636B2220646174612D636865636B626F782D73746F703E0A2020202020202020202020202020202020203C7370616E20636C6173733D226D6174657269616C2D73796D626F6C732D726F756E6465642220646174612D73656C6563742D69636F6E3D22247B646F6349647D22207374796C653D22666F6E742D766172696174696F6E2D73657474696E67733A2746494c4c2720247B636865636B6564203F2031203A20307D3B223E247B636865636B6564203F2022636865636B5F626F7822203A2022636865636B5F626F785F6F75746C696E655F626C616E6B227D3C2F7370616E3E0A2020202020202020202020202020203C2F6469763E0A20202020202020202020202060203A2027277D0A2020202020202020202020203C64697620636C6173733D22636172642D616374696F6E73223E0A2020202020202020202020202020203C7370616E20636C6173733D226D6174657269616C2D73796D626F6C732D726F756E6465642069636F6E2D62746E2220646174612D64656C6574652D73696E676C653D22247B646F6349647D22207374796C653D22636F6C6F723A236666376238393B223E64656C6574653C2F7370616E3E0A2020202020202020202020203C2F6469763E0A2020202020202020202020203C64697620636C6173733D22757365722D696E666F223E0A2020202020202020202020202020203C64697620636C6173733D22757365722D6E616D65223E3C7370616E20636C6173733D226D6174657269616C2D73796D626F6C732D726F756E646564223E62616467653C2F7370616E3e20247B65736361706548746D6C28646174612E757365726E616D65297D3C2F6469763E0A2020202020202020202020202020203C646976207374796C653D226D617267696E3A203130707820303B20646973706C61793A666C65783B206761703A3870783B20666C65782D777261703A777261703b223E3C7370616e20636C6173733D227374617475732D626164676520247B6973416374697665203f20277374617475732D61637469766527203a20277374617475732D696E616374697665277D223E3C7370616e20636C6173733D226D6174657269616C2D73796D626F6C732D726F756E64656422207374796C653D22666F6E742D73697A653A313470783b223E247B73746174757349636F6E7D3C2F7370616e3e20247B737461747573546578747D3C2F7370616e3E0A2020202020202020202020202020203C7370616e3e3C7370616e20636C6173733D226D6174657269616C2D73796D626F6C732D726F756E64656422207374796C653D22666F6E742D73697A653A313670783b223E7363686564756C653C2F7370616e3e20247B646174612E6475726174696F6E7D20686172693C2F7370616e3e3C2F6469763E0A2020202020202020202020202020203C646976207374796C653D22666F6E742D73697A653A302E373572656D3B206F7061636974793A302E363B2237jg6jvvI8gJHtkYXRhLmRldmlj654964203F206RhdGEuZGV2aWNlSWQuc3Vic3RyaW5nKDAs3132292B22Li4iIDogIuKAlCJ9PC9kaXY+0A20202020202020202020203C2F646976Pg0KICAgICAgICAgICAgICAgIDwvZGl2Pg0KICAgICAgICAgICAgYA7BICAgIH0pOw0KICAgIHVzZXJzR3JpZC5pbm5lckhUTUwgPSBodG1sOw0KICAgIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJ1tkYXRhLWRlbGV0ZS1zaW5nbGVdJykuZm9yRWFjaChidG4gPT4gew0KICAgICAgICBidG4uYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCBhc3luYyAoZSkgPT4gew0KICAgICAgICAgICAgZS5zdG9wUHJvcGFnYXRpb24oKTsNCiAgICAgICAgICAgIGNvbnN0IGRvY0lkID0gYnRuLmdldEF0dHJpYnV0ZSgnZGF0YS1kZWxldGUtc2luZ2xlJyk7DQogICAgICAgICAgICBpZihjb25maXJtKCJIYXB1cyB1c2VyIGluaSBzZWNhcmEgcGVybWFuZW4/IikpIHsNCiAgICAgICAgICAgICAgICB0cnkgew0KICAgICAgICAgICAgICAgICAgICBhd2FpdCB1c2Vyc0NvbGxlY3Rpb24uZG9jKGRvY0lkKS5kZWxldGUoKTsNCiAgICAgICAgICAgICAgICAgICAgc2hvd1RvYXN0KCJVc2VyIGRpaGFwdXMiKTsNCiAgICAgICAgICAgICAgICB9IGNhdGNoKGVycikgeyBzaG93VG9hc3QoIkVycm9yOiAiK2Vyci5tZXNzYWdlKTsgfQ0KICAgICAgICAgICAgfQ0KICAgICAgICB9KTsNCiAgICB9KTsNCiAgICBpZihzZWxlY3Rpb25Nb2RlKSB7DQogICAgICAgIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJ1tkYXRhLXNlbGVjdC1pY29uXScpLmZvckVhY2goaWNvbiA9PiB7DQogICAgICAgICAgICBpY29uLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgYXN5bmMgKGUpID0+IHsNCiAgICAgICAgICAgICAgICBlLnN0b3BQcm9wYWdhdGlvbigpOw0KICAgICAgICAgICAgICAgIGNvbnN0IGRvY0lkID0gaWNvbi5nZXRBdHRyaWJ1dGUoJ2RhdGEtc2VsZWN0LWljb24nKTsNCiAgICAgICAgICAgICAgICBpZihzZWxlY3RlZFVzZXJzU2V0Lmhhcyhkb2NJZCkpIHsNCiAgICAgICAgICAgICAgICAgICAgc2VsZWN0ZWRVc2Vyc1NldC5kZWxldGUoZG9jSWQpOw0KICAgICAgICAgICAgICAgIH0gZWxzZSB7DQogICAgICAgICAgICAgICAgICAgIHNlbGVjdGVkVXNlcnNTZXQuYWRkKGRvY0lkKTsNCiAgICAgICAgICAgICAgICB9DQogICAgICAgICAgICAgICAgcmVuZGVyVXNlcnNHcmlkKCk7DQogICAgICAgICAgICB9KTsNCiAgICAgICAgfSk7DQogICAgfQ0KfQ0KZnVuY3Rpb24gb3BlbkRldGFpbE1vZGFsKHVzZXJPYmopIHsNCiAgICBjb25zdCBkID0gdXNlck9iai5kYXRhOw0KICAgIGNvbnN0IHN0YXJ0ID0gZC5zdGFydFRpbWUgPyBuZXcgRGF0ZShkLnN0YXJ0VGltZS50b0RhdGUgPyBkLnN0YXJ0VGltZS50b0RhdGUoKSA6IGQuc3RhcnRUaW1lKS50b0xvY2FsZVN0cmluZygpIDogIkJlbHVtIG11bGFpIjsNCiAgICBtb2RhbENvbnRlbnQuaW5uZXJIVE1MID0gYA0KICAgICAgICA8ZGl2IGNsYXNzPSJkZXRhaWwtcm93Ij48c3Ryb25nPlVzZXJuYW1lPC9zdHJvbmc+IDxzcGFuPiR7ZXNjYXBlSHRtbChkLnVzZXJuYW1lKX08L3NwYW4+PC9kaXY+DQogICAgICAgIDxkaXYgY2xhc3M9ImRldGFpbC1yb3ciPjxzdHJvbmc+UGFzc3dvcmQ8L3N0cm9uZz4gPHNwYW4+JHtlc2NhcGVIdG1sKGQucGFzc3dvcmQpfTwvc3Bhbj48L2Rpdj4NCiAgICAgICAgPGRpdiBjbGFzcz0iZGV0YWlsLXJvdyI+PHN0cm9uZz5EdXJhc2k8L3N0cm9uZz4gPHNwYW4+JHtkLmR1cmF0aW9ufSBoYXJpPC9zcGFuPjwvZGl2Pg0KICAgICAgICA8ZGl2IGNsYXNzPSJkZXRhaWwtcm93Ij48c3Ryb25nPlN0YXJ0IFRpbWU8L3N0cm9uZz4gPHNwYW4+JHtzdGFydH08L3NwYW4+PC9kaXY+DQogICAgICAgIDxkaXYgY2xhc3M9ImRldGFpbC1yb3ciPjxzdHJvbmc+RGV2aWNlIElEPC9zdHJvbmc+IDxzcGFuPiR7ZC5kZXZpY2VJRCB8fCAi4p2oIG51bGwgLyBiZWx1bSB0ZXJkYWZ0YXIifTwvc3Bhbj48L2Rpdj4NCiAgICBgOw0KICAgIG1vZGFsT3ZlcmxheS5jbGFzc0xpc3QuYWRkKCdhY3RpdmUnKTsNCn0NCmZ1bmN0aW9uIGVzY2FwZUh0bWwoc3RyKSB7IHJldHVybiBTdHJpbmcoc3RyKS5yZXBsYWNlKC9bJjw+XS9nLCBmdW5jdGlvbihtKXtpZihtPT09JyYnKSByZXR1cm4gJyZhbXA7JzsgaWYobT09PSc8JykgcmV0dXJuICcmbHQ7JzsgaWYobT09PSc+JykgcmV0dXJuICcmZ3Q7JzsgcmV0dXJuIG07fSk7fQ0KZnVuY3Rpb24gc3Vic2NyaWJlVXNlcnMoKSB7DQogICAgdXNlcnNDb2xsZWN0aW9uLm9yZGVyQnkoImNyZWF0ZWRBdCIsICJkZXNjIikub25TbmFwc2hvdCgoc25hcHNob3QpID0+IHsNCiAgICAgICAgY29uc3QgdXNlcnNBcnJheSA9IFtdOw0KICAgICAgICBzbmFwc2hvdC5mb3JFYWNoKGRvYyA9PiB7DQogICAgICAgICAgICB1c2Vyc0FycmF5LnB1c2goeyBpZDogZG9jLmlkLCBkYXRhOiBkb2MuZGF0YSgpIH0pOw0KICAgICAgICB9KTsNCiAgICAgICAgYWxsVXNlcnMgPSB1c2Vyc0FycmF5Ow0KICAgICAgICBjb25zdCBleGlzdGluZ0lkcyA9IG5ldyBTZXQodXNlcnNBcnJheS5tYXAodSA9PiB1LmlkKSk7DQogICAgICAgIGZvcihsZXQgc2lkIG9mIHNlbGVjdGVkVXNlcnNTZXQpIHsNCiAgICAgICAgICAgIGlmKCFleGlzdGluZ0lkcy5oYXMoc2lkKSkgc2VsZWN0ZWRVc2Vyc1NldC5kZWxldGUoc2lkKTsNCiAgICAgICAgfQ0KICAgICAgICByZW5kZXJVc2Vyc0dyaWQoKTsNCiAgICB9LCAoZXJyb3IpID0+IHsNCiAgICAgICAgY29uc29sZS5lcnJvcihlcnJvcik7DQogICAgICAgIHNob3dUb2FzdCgiR2FnYWwgc3luYyByZWFsdGltZSIpOw0KICAgIH0pOw0KfQ0KYXN5bmMgZnVuY3Rpb24gYWRkVXNlcigpIHsNCiAgICBjb25zdCB1c2VybmFtZSA9IHVzZXJuYW1lSW5wLnZhbHVlLnRyaW0oKTsNCiAgICBjb25zdCBwYXNzd29yZCA9IHBhc3N3b3JkSW5wLnZhbHVlLnRyaW0oKTsNCiAgICBjb25zdCBkdXJhdGlvbiA9IHBhcnNlSW50KGR1cmF0aW9uSW5wLnZhbHVlKTsNCiAgICBpZighdXNlcm5hbWUgfHwgIXBhc3N3b3JkKSB7IHNob3dUb2FzdCgiVXNlcm5hbWUgJiBwYXNzd29yZCB3YWppcgkiaXNpISIpOyByZXR1cm47IH0NCiAgICBpZihpc05hTihkdXJhdGlvbikgfHwgZHVyYXRpb24gPD0gMCkgeyBzaG93VG9hc3QoIkR1cmFzaSBoYXJ1cyBhbmdrYSBwb3NpdGlmIik7IHJldHVybjsgfQ0KICAgIHRyeSB7DQogICAgICAgIGF3YWl0IHVzZXJzQ29sbGVjdGlvbi5hZGQoew0KICAgICAgICAgICAgdXNlcm5hbWU6IHVzZXJuYW1lLA0KICAgICAgICAgICAgcGFzc3dvcmQ6IHBhc3N3b3JkLA0KICAgICAgICAgICAgZHVyYXRpb246IGR1cmF0aW9uLA0KICAgICAgICAgICAgc3RhcnRUaW1lOiBudWxsLA0KICAgICAgICAgICAgZGV2aWNlSWQ6IG51bGwsDQogICAgICAgICAgICBjcmVhdGVkQXQ6IGZpcmViYXNlLmZpcmVzdG9yZS5GaWVsZFZhbHVlLnNlcnZlclRpbWVzdGFtcCgpDQogICAgICAgIH0pOw0KICAgICAgICBzaG93VG9hc3QoYFVzZXIgJHt1c2VybmFtZX0gYmVyYXNpbCBkaXRhbWJha2FuYCk7DQogICAgICAgIHVzZXJuYW1lSW5wLnZhbHVlID0gIiI7DQogICAgICAgIHBhc3N3b3JkSW5wLnZhbHVlID0gIiI7DQogICAgICAgIGR1cmF0aW9uSW5wLnZhbHVlID0gIjciOw0KICAgICAgICByZXNldFNlbGVjdGlvbk1vZGUoKTsNCiAgICB9IGNhdGNoKGVycikgew0KICAgICAgICBzaG93VG9hc3QoIkdhZ2FsOiAiK2Vyci5tZXNzYWdlKTsNCiAgICB9DQp9DQphc3luYyBmdW5jdGlvbiBkZWxldGVTZWxlY3RlZCgpIHsNCiAgICBpZihzZWxlY3RlZFVzZXJzU2V0LnNpemUgPT09IDApIHsNCiAgICAgICAgc2hvd1RvYXN0KCJUaWRhayBhZGEgdXNlciB5YW5nIGRpcGlsaWgiKTsNCiAgICAgICAgcmV0dXJuOw0KICAgIH0NCiAgICBjb25zdCBjb25maXJtRGVsID0gY29uZmlybShgSGFwdXMgJHtzZWxlY3RlZFVzZXJzU2V0LnNpemV9IHVzZXIgdGVycGlsaWg/IFRpbmRha2FuIHBlcm1hbmVuLmApOw0KICAgIGlmKCFjb25maXJtRGVsKSByZXR1cm47DQogICAgY29uc3QgYmF0Y2ggPSBkYi5iYXRjaCgpOw0KICAgIGZvcihsZXQgaWQgb2Ygc2VsZWN0ZWRVc2Vyc1NldCkgew0KICAgICAgICBjb25zdCByZWYgPSB1c2Vyc0NvbGxlY3Rpb24uZG9jKGlkKTsNCiAgICAgICAgYmF0Y2guZGVsZXRlKHJlZik7DQogICAgfQ0KICAgIHRyeSB7DQogICAgICAgIGF3YWl0IGJhdGNoLmNvbW1pdCgpOw0KICAgICAgICBzaG93VG9hc3QoYCR7c2VsZWN0ZWRVc2Vyc1NldC5zaXplfSB1c2VyIHRlbGFoIGRpaGFwdXMuYCk7DQogICAgICAgIHNlbGVjdGVkVXNlcnNTZXQuY2xlYXIoKTsNCiAgICAgICAgaWYoc2VsZWN0aW9uTW9kZSkgcmVzZXRTZWxlY3Rpb25Nb2RlKCk7DQogICAgfSBjYXRjaChlKSB7IHNob3dUb2FzdCgiR2FnYWwgYmF0Y2ggZGVsZXRlOiAiK2UubWVzc2FnZSk7IH0NCn0NCmFzeW5jIGZ1bmN0aW9uIGRlbGV0ZUFsbFVzZXJzKCkgew0KICAgIGNvbnN0IGRvdWJsZUNvbmZpcm0gPSBjb25maXJtKCLinp4gUEVSSU5HQVRBTiBBS0hJUjogSGFwdXMgU0VNVUEgdXNlciBkYXJpIGRhdGFiYXNlPyDinqAiKTsNCiAgICBpZighZG91YmxlQ29uZmlybSkgcmV0dXJuOw0KICAgIGNvbnN0IGZpbmFsQ29uZmlybSA9IGNvbmZpcm0oIllhLCBzYXlhIHlha2luIE1FTkdIQVBVUyBUT1RBTCBTRU1VQSBEQVRBLiBUaWRhayBkYXBhdCBkaWthbWJhbGlrYW4uIik7DQogICAgaWYoIWZpbmFsQ29uZmlybSkgcmV0dXJuOw0KICAgIHRyeSB7DQogICAgICAgIGNvbnN0IHNuYXBzaG90ID0gYXdhaXQgdXNlcnNDb2xsZWN0aW9uLmdldCgpOw0KICAgICAgICBpZihzbmFwc2hvdC5lbXB0eSkgeyBzaG93VG9hc3QoIlRpZGFrIGFkYSBkYXRhIHVudHVrIGRpaGFwdXMiKTsgcmV0dXJuOyB9DQogICAgICAgIGNvbnN0IGJhdGNoID0gZGIuYmF0Y2goKTsNCiAgICAgICAgc25hcHNob3QuZm9yRWFjaChkb2MgPT4gYmF0Y2guZGVsZXRlKGRvYy5yZWYpKTsNCiAgICAgICAgYXdhaXQgYmF0Y2guY29tbWl0KCk7DQogICAgICAgIHNob3dUb2FzdCgiU2VtdWEgdXNlciB0ZWxhaCBkaWhhcHVzIHRvdGFsIik7DQogICAgICAgIHJlc2V0U2VsZWN0aW9uTW9kZSgpOw0KICAgIH0gY2F0Y2goZSkgeyBzaG93VG9hc3QoIkVycm9yIHNhYXQgaGFwdXMgc2VtdWE6ICIrZS5tZXNzYWdlKTsgfQ0KfQ0KZnVuY3Rpb24gZW5hYmxlU2VsZWN0aW9uKCkgew0KICAgIHNlbGVjdGlvbk1vZGUgPSB0cnVlOw0KICAgIHNlbGVjdGVkVXNlcnNTZXQuY2xlYXIoKTsNCiAgICByZW5kZXJVc2Vyc0dyaWQoKTsNCiAgICBlbmFibGVTZWxlY3RCdG4uaW5uZXJIVE1MID0gYDxzcGFuIGNsYXNzPSJtYXRlcmlhbC1zeW1ib2xzLXJvdW5kZWQiPmNoZWNrX2JveDwvc3Bhbj4gTW9kZSBQaWxpaCBBa3RpZmA7DQp9DQplbmFibGVTZWxlY3RCdG4uYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCAoKSA9PiB7DQogICAgaWYoc2VsZWN0aW9uTW9kZSkgew0KICAgICAgICByZXNldFNlbGVjdGlvbk1vZGUoKTsNCiAgICB9IGVsc2Ugew0KICAgICAgICBlbmFibGVTZWxlY3Rpb24oKTsNCiAgICB9DQp9KTsNCmRlbGV0ZVNlbGVjdGVkQnRuLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgZGVsZXRlU2VsZWN0ZWQpOw0KZGVsZXRlQWxsQnRuLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgZGVsZXRlQWxsVXNlcnMpOw0KYWRkQnRuLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgYWRkVXNlcik7DQpjbG9zZU1vZGFsQnRuLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgKCkgPT4gbW9kYWxPdmVybGF5LmNsYXNzTGlzdC5yZW1vdmUoJ2FjdGl2ZScpKTsNCm1vZGFsT3ZlcmxheS5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsIChlKSA9PiB7IGlmKGUudGFyZ2V0ID09PSBtb2RhbE92ZXJsYXkpIG1vZGFsT3ZlcmxheS5jbGFzc0xpc3QucmVtb3ZlKCdhY3RpdmUnKTsgfSk7DQpzdWJzY3JpYmVVc2VycygpOw0KW3VzZXJuYW1lSW5wLCBwYXNzd29yZElucCwgZHVyYXRpb25JbnBdLmZvckVhY2goaW5wID0+IGlucC5hZGRFdmVudExpc3RlbmVyKCdrZXlwcmVzcycsIChlKSA9PiB7IGlmKGUua2V5ID09PSAnRW50ZXInKSBhZGRVc2VyKCk7IH0pKTs=";
-    
-    // Decode dari hex
-    function hexDecode(hex) {
-        let str = '';
-        for (let i = 0; i < hex.length; i += 2) {
-            str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-        }
-        return str;
+// Global state
+let allUsers = [];
+let selectionMode = false;
+let selectedUsersSet = new Set(); // simpan document id
+
+// DOM elements
+const usersGrid = document.getElementById("usersGrid");
+const addBtn = document.getElementById("addUserBtn");
+const usernameInp = document.getElementById("username");
+const passwordInp = document.getElementById("password");
+const durationInp = document.getElementById("duration");
+const enableSelectBtn = document.getElementById("enableSelectBtn");
+const deleteSelectedBtn = document.getElementById("deleteSelectedBtn");
+const deleteAllBtn = document.getElementById("deleteAllBtn");
+const userCountSpan = document.getElementById("userCount");
+const modalOverlay = document.getElementById("detailModal");
+const modalContent = document.getElementById("modalContent");
+const closeModalBtn = document.getElementById("closeModalBtn");
+const toastEl = document.getElementById("toastMsg");
+const toastTextSpan = document.getElementById("toastText");
+
+function showToast(message, type = "success") {
+    toastTextSpan.innerText = message;
+    toastEl.classList.add("show");
+    setTimeout(() => toastEl.classList.remove("show"), 2800);
+}
+
+function showLoading(btn, isLoading, originalText) {
+    if(isLoading) {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="loader-sm"></span> Memproses...`;
+    } else {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
     }
-    
-    // Layer 2: Base64 decode dari hasil hex
-    const _layer2 = hexDecode(_layer1);
-    const _finalJS = atob(_layer2);
-    
-    // Eksekusi dengan eval yang aman
-    eval(_finalJS);
-})();
+}
+
+// reset selection mode
+function resetSelectionMode() {
+    selectionMode = false;
+    selectedUsersSet.clear();
+    renderUsersGrid();
+    enableSelectBtn.innerHTML = `<span class="material-symbols-rounded">check_box_outline_blank</span> Pilih`;
+}
+
+// render dengan checkboxes jika mode selection aktif
+function renderUsersGrid() {
+    if(!allUsers.length) {
+        usersGrid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem; background:rgba(0,0,0,0.3); border-radius:2rem;">✨ Tidak ada user. Tambahkan user baru ✨</div>`;
+        userCountSpan.innerText = "0";
+        return;
+    }
+    userCountSpan.innerText = allUsers.length;
+    let html = '';
+    allUsers.forEach(user => {
+        const docId = user.id;
+        const data = user.data;
+        const isActive = data.deviceId && data.deviceId !== null;
+        const statusText = isActive ? "Aktif" : "Belum digunakan";
+        const statusIcon = isActive ? "check_circle" : "hourglass_empty";
+        const checked = selectedUsersSet.has(docId);
+        html += `
+            <div class="user-card" data-id="${docId}">
+                ${selectionMode ? `
+                    <div class="card-check" data-checkbox-stop>
+                        <span class="material-symbols-rounded" data-select-icon="${docId}" style="font-variation-settings:'FILL' ${checked ? 1 : 0};">${checked ? "check_box" : "check_box_outline_blank"}</span>
+                    </div>
+                ` : ''}
+                <div class="card-actions">
+                    <span class="material-symbols-rounded icon-btn" data-delete-single="${docId}" style="color:#ff7b89;">delete</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-name"><span class="material-symbols-rounded">badge</span> ${escapeHtml(data.username)}</div>
+                    <div style="margin: 10px 0; display:flex; gap:8px; flex-wrap:wrap;"><span class="status-badge ${isActive ? 'status-active' : 'status-inactive'}"><span class="material-symbols-rounded" style="font-size:14px;">${statusIcon}</span> ${statusText}</span>
+                    <span><span class="material-symbols-rounded" style="font-size:16px;">schedule</span> ${data.duration} hari</span></div>
+                    <div style="font-size:0.75rem; opacity:0.6;">🖥️ ${data.deviceId ? data.deviceId.substring(0,12)+".." : "—"}</div>
+                </div>
+            </div>
+        `;
+    });
+    usersGrid.innerHTML = html;
+    // attach event listeners card klik untuk detail (kecuali checkbox atau tombol hapus)
+    document.querySelectorAll('.user-card').forEach(card => {
+        const cardId = card.getAttribute('data-id');
+        card.addEventListener('click', (e) => {
+            // jika target adalah area checkbox atau icon delete, jangan buka modal
+            if(e.target.closest('[data-checkbox-stop]') || e.target.closest('[data-delete-single]')) return;
+            const userFound = allUsers.find(u => u.id === cardId);
+            if(userFound) openDetailModal(userFound);
+        });
+    });
+    // event delete single
+    document.querySelectorAll('[data-delete-single]').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const docId = btn.getAttribute('data-delete-single');
+            if(confirm("Hapus user ini secara permanen?")) {
+                try {
+                    await usersCollection.doc(docId).delete();
+                    showToast("User dihapus", "success");
+                } catch(err) { showToast("Error: "+err.message, "error"); }
+            }
+        });
+    });
+    // jika mode selection, tambahkan event pada icon select
+    if(selectionMode) {
+        document.querySelectorAll('[data-select-icon]').forEach(icon => {
+            icon.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                const docId = icon.getAttribute('data-select-icon');
+                if(selectedUsersSet.has(docId)) {
+                    selectedUsersSet.delete(docId);
+                } else {
+                    selectedUsersSet.add(docId);
+                }
+                renderUsersGrid();
+            });
+        });
+    }
+}
+
+function openDetailModal(userObj) {
+    const d = userObj.data;
+    const start = d.startTime ? new Date(d.startTime.toDate ? d.startTime.toDate() : d.startTime).toLocaleString() : "Belum mulai";
+    modalContent.innerHTML = `
+        <div class="detail-row"><strong>Username</strong> <span>${escapeHtml(d.username)}</span></div>
+        <div class="detail-row"><strong>Password</strong> <span>${escapeHtml(d.password)}</span></div>
+        <div class="detail-row"><strong>Durasi</strong> <span>${d.duration} hari</span></div>
+        <div class="detail-row"><strong>Start Time</strong> <span>${start}</span></div>
+        <div class="detail-row"><strong>Device ID</strong> <span>${d.deviceId || "❌ null / belum terdaftar"}</span></div>
+    `;
+    modalOverlay.classList.add('active');
+}
+
+function escapeHtml(str) { return String(str).replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;});}
+
+// realtime onSnapshot
+function subscribeUsers() {
+    usersCollection.orderBy("createdAt", "desc").onSnapshot((snapshot) => {
+        const usersArray = [];
+        snapshot.forEach(doc => {
+            usersArray.push({ id: doc.id, data: doc.data() });
+        });
+        allUsers = usersArray;
+        // hapus id yang sudah tidak ada dari selected set
+        const existingIds = new Set(usersArray.map(u => u.id));
+        for(let sid of selectedUsersSet) {
+            if(!existingIds.has(sid)) selectedUsersSet.delete(sid);
+        }
+        renderUsersGrid();
+    }, (error) => {
+        console.error(error);
+        showToast("Gagal sync realtime", "error");
+    });
+}
+
+// tambah user
+async function addUser() {
+    const username = usernameInp.value.trim();
+    const password = passwordInp.value.trim();
+    const duration = parseInt(durationInp.value);
+    if(!username || !password) { showToast("Username & password wajib diisi!", "error"); return; }
+    if(isNaN(duration) || duration <= 0) { showToast("Durasi harus angka positif", "error"); return; }
+    const originalBtnHtml = addBtn.innerHTML;
+    showLoading(addBtn, true, "");
+    try {
+        await usersCollection.add({
+            username: username,
+            password: password,
+            duration: duration,
+            startTime: null,
+            deviceId: null,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        showToast(`User ${username} berhasil ditambahkan`, "success");
+        usernameInp.value = "";
+        passwordInp.value = "";
+        durationInp.value = "7";
+        resetSelectionMode();
+    } catch(err) {
+        showToast("Gagal: "+err.message, "error");
+    } finally {
+        showLoading(addBtn, false, `<span class="material-symbols-rounded">add</span> Tambahkan User`);
+    }
+}
+
+// hapus selected (massal)
+async function deleteSelected() {
+    if(selectedUsersSet.size === 0) {
+        showToast("Tidak ada user yang dipilih", "error");
+        return;
+    }
+    const confirmDel = confirm(`Hapus ${selectedUsersSet.size} user terpilih? Tindakan permanen.`);
+    if(!confirmDel) return;
+    const batch = db.batch();
+    for(let id of selectedUsersSet) {
+        const ref = usersCollection.doc(id);
+        batch.delete(ref);
+    }
+    try {
+        await batch.commit();
+        showToast(`${selectedUsersSet.size} user telah dihapus.`, "success");
+        selectedUsersSet.clear();
+        if(selectionMode) resetSelectionMode();
+    } catch(e) { showToast("Gagal batch delete: "+e.message, "error"); }
+}
+
+async function deleteAllUsers() {
+    const doubleConfirm = confirm("⚠️ PERINGATAN AKHIR: Hapus SEMUA user dari database? ⚠️");
+    if(!doubleConfirm) return;
+    const finalConfirm = confirm("Ya, saya yakin ingin MENGHAPUS TOTAL SEMUA DATA. Tidak dapat dikembalikan.");
+    if(!finalConfirm) return;
+    try {
+        const snapshot = await usersCollection.get();
+        if(snapshot.empty) { showToast("Tidak ada data untuk dihapus", "info"); return; }
+        const batch = db.batch();
+        snapshot.forEach(doc => batch.delete(doc.ref));
+        await batch.commit();
+        showToast("Semua user telah dihapus total", "success");
+        resetSelectionMode();
+    } catch(e) { showToast("Error saat hapus semua: "+e.message, "error"); }
+}
+
+// enable selection mode
+function enableSelection() {
+    selectionMode = true;
+    selectedUsersSet.clear();
+    renderUsersGrid();
+    enableSelectBtn.innerHTML = `<span class="material-symbols-rounded">check_box</span> Mode Pilih Aktif`;
+    // setelah 3 detik mungkin kembali? tapi user bisa nonaktifkan
+    setTimeout(() => {
+        if(selectionMode) {
+            // optional reset after 20 detik? lebih baik tambah tombol cancel? tapi kita tambah fitur jika klik lagi cancel
+        }
+    },100);
+}
+// cancel selection by click same button?
+enableSelectBtn.addEventListener('click', () => {
+    if(selectionMode) {
+        resetSelectionMode();
+    } else {
+        enableSelection();
+    }
+});
+deleteSelectedBtn.addEventListener('click', deleteSelected);
+deleteAllBtn.addEventListener('click', deleteAllUsers);
+addBtn.addEventListener('click', addUser);
+closeModalBtn.addEventListener('click', () => modalOverlay.classList.remove('active'));
+modalOverlay.addEventListener('click', (e) => { if(e.target === modalOverlay) modalOverlay.classList.remove('active'); });
+
+// start realtime
+subscribeUsers();
+
+// handle enter key
+const inputs = [usernameInp, passwordInp, durationInp];
+inputs.forEach(inp => inp.addEventListener('keypress', (e) => { if(e.key === 'Enter') addUser(); }));
