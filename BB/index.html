@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>VGA TECH ADMIN</title>
+  <title>VGA TECH ADMIN | Audio Control System</title>
   <!-- Google Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -267,6 +267,8 @@
       border-left: 4px solid #3b82f6;
       margin-top: 18px;
       box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+      max-height: 300px;
+      overflow-y: auto;
     }
     .blink {
       animation: blink 1s step-end infinite;
@@ -274,6 +276,24 @@
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
+    }
+    
+    /* batch progress */
+    .batch-progress {
+      background: #eef2ff;
+      border-radius: 20px;
+      padding: 12px 16px;
+      margin-top: 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #1e40af;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .batch-progress i {
+      font-size: 1rem;
     }
 
     /* ========= REMOVED DATABASE PREVIEW SECTION ========= */
@@ -362,6 +382,16 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      flex-wrap: wrap;
+    }
+    .file-badge {
+      background: #e2e8f0;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
   </style>
 </head>
@@ -376,7 +406,7 @@
     <h1>VGA TECH</h1>
     <p>ADMIN // AUDIO CONTROL</p>
     <div class="badge-premium">
-      <i class="fas fa-microchip"></i>
+      <i class="fas fa-microchip"></i> SYSTEM v3.0 · LIGHT
     </div>
   </div>
   <div class="nav-links">
@@ -388,7 +418,7 @@
     </div>
   </div>
   <div class="version">
-    <i class="fas fa-shield-alt"></i> 
+    <i class="fas fa-shield-alt"></i> FIREBASE • CLOUDINARY
   </div>
 </aside>
 
@@ -400,19 +430,19 @@
       <span>Panel Admin VGA TECH</span>
     </div>
     <div class="form-group">
-      <label><i class="fas fa-tag"></i> TRACK NAME</label>
-      <input type="text" id="trackName" placeholder="Contoh: VGA Anthem / Neon Pulse" autocomplete="off">
+      <label><i class="fas fa-tag"></i> TRACK NAME (opsional, akan auto dari nama file jika kosong)</label>
+      <input type="text" id="trackName" placeholder="Kosongkan jika ingin auto dari nama file" autocomplete="off">
     </div>
     <div class="form-group">
-      <label><i class="fas fa-music"></i> AUDIO FILE (MP3)</label>
+      <label><i class="fas fa-music"></i> PILIH BANYAK FILE MP3 (support multiple)</label>
       <label for="mp3FileInput" class="file-label">
-        <i class="fas fa-folder-open"></i> Pilih file audio
+        <i class="fas fa-folder-open"></i> Pilih file audio (bisa banyak)
       </label>
-      <input type="file" id="mp3FileInput" accept="audio/mpeg, audio/mp3">
+      <input type="file" id="mp3FileInput" accept="audio/mpeg, audio/mp3" multiple>
       <div id="fileNameDisplay" class="file-name-hint"></div>
     </div>
     <button class="btn-elegant" id="uploadBtn">
-      <i class="fas fa-satellite-dish"></i>KIRIM
+      <i class="fas fa-satellite-dish"></i>KIRIM SEMUA
     </button>
     <div id="logArea" class="terminal-loader" style="display: none;"></div>
   </div>
@@ -441,8 +471,8 @@
   const db = firebase.firestore();
   
   // Cloudinary config
-  const CLOUD_NAME = "duh8ofg5n";   // bisa disesuaikan nanti
-  const UPLOAD_PRESET = "ml_default"; // unsigned preset untuk auto/upload
+  const CLOUD_NAME = "duh8ofg5n";
+  const UPLOAD_PRESET = "ml_default";
   const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`;
   
   // DOM Elements
@@ -452,37 +482,47 @@
   const fileNameDisplay = document.getElementById('fileNameDisplay');
   const logArea = document.getElementById('logArea');
   
+  // Tampilkan daftar file yang dipilih
   mp3FileInput.addEventListener('change', (e) => {
-    if (e.target.files.length > 0) {
-      fileNameDisplay.innerHTML = `<i class="fas fa-check-circle" style="color:#10b981;"></i> ${e.target.files[0].name}`;
+    const files = e.target.files;
+    if (files.length > 0) {
+      let html = `<i class="fas fa-list"></i> ${files.length} file dipilih: `;
+      Array.from(files).forEach((f, idx) => {
+        html += `<span class="file-badge"><i class="fas fa-music"></i> ${f.name.length > 25 ? f.name.substring(0,22)+'...' : f.name}</span>`;
+        if (idx < files.length - 1) html += ' ';
+      });
+      fileNameDisplay.innerHTML = html;
     } else {
       fileNameDisplay.innerHTML = '';
     }
   });
   
-  // Terminal style log (modern light)
-  function showTerminalLog(messages, isError = false) {
+  // Terminal style log (modern light) - bisa append multiple lines
+  let logLines = [];
+  function showTerminalLog(messages, isError = false, keepPrevious = true) {
+    if (!keepPrevious) {
+      logLines = [];
+    }
     logArea.style.display = 'block';
-    let html = `<i class="fas fa-terminal"></i> > `;
     if (Array.isArray(messages)) {
-      html += messages.map(m => `<span style="color:${isError ? '#dc2626' : '#2563eb'}">${m}</span>`).join('<br> > ');
+      logLines.push(...messages.map(m => ({ text: m, isError })));
     } else {
-      html += `<span style="color:${isError ? '#dc2626' : '#2563eb'}">${messages}</span>`;
+      logLines.push({ text: messages, isError });
     }
-    logArea.innerHTML = html + `<span class="blink">_</span>`;
-    if (isError) {
-      setTimeout(() => {
-        if(logArea && logArea.style.display !== 'none') {
-          setTimeout(() => { if(logArea) logArea.style.display = 'none'; }, 3500);
-        }
-      }, 4000);
-    }
+    // render
+    let html = `<i class="fas fa-terminal"></i> > `;
+    html += logLines.map(line => 
+      `<span style="color:${line.isError ? '#dc2626' : '#2563eb'}">${line.text}</span>`
+    ).join('<br> > ');
+    html += `<span class="blink">_</span>`;
+    logArea.innerHTML = html;
+    // auto scroll
+    logArea.scrollTop = logArea.scrollHeight;
   }
   
-  function clearLogAfterDelay(delay = 2800) {
-    setTimeout(() => {
-      if (logArea) logArea.style.display = 'none';
-    }, delay);
+  function clearLog() {
+    logLines = [];
+    logArea.style.display = 'none';
   }
   
   function showSuccessToast(message) {
@@ -511,7 +551,6 @@
       throw new Error(errData.error?.message || `Upload gagal (${response.status})`);
     }
     const data = await response.json();
-    console.log("[DEBUG] Cloudinary response:", data);
     if (!data.secure_url) throw new Error("secure_url tidak ditemukan dari Cloudinary");
     return data.secure_url;
   }
@@ -523,61 +562,90 @@
       url: audioUrl,
       created_at: Date.now()
     });
-    console.log("[DEBUG] Firestore ID:", docRef.id);
     return docRef.id;
   }
   
-  // Proses utama upload
+  // Proses upload batch
   async function handleUpload() {
-    const file = mp3FileInput.files[0];
-    if (!file) {
-      showTerminalLog("❌ Pilih file MP3 terlebih dahulu.", true);
-      return;
-    }
-    if (file.type !== "audio/mpeg" && !file.name.toLowerCase().endsWith('.mp3')) {
-      showTerminalLog("⚠️ Hanya file MP3 yang didukung.", true);
+    const files = mp3FileInput.files;
+    if (!files || files.length === 0) {
+      showTerminalLog("❌ Pilih minimal 1 file MP3 terlebih dahulu.", true, true);
       return;
     }
     
-    let trackName = trackNameInput.value.trim();
-    if (trackName === "") {
-      trackName = file.name.replace(/\.mp3$/i, '').replace(/\.MP3$/i, '');
-      trackNameInput.value = trackName;
+    // Validasi semua file MP3
+    for (let i = 0; i < files.length; i++) {
+      if (files[i].type !== "audio/mpeg" && !files[i].name.toLowerCase().endsWith('.mp3')) {
+        showTerminalLog(`⚠️ File "${files[i].name}" bukan MP3. Batalkan proses.`, true, true);
+        return;
+      }
     }
+    
+    const globalTrackName = trackNameInput.value.trim();
     
     // Disable tombol
     uploadBtn.disabled = true;
     uploadBtn.style.opacity = '0.7';
     const originalText = uploadBtn.innerHTML;
-    uploadBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> PROSES...';
+    uploadBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> PROSES BATCH...';
+    clearLog();
+    showTerminalLog([`🚀 Memulai upload BATCH (${files.length} file)...`], false, true);
     
-    try {
-      showTerminalLog(["⟳ Mengupload ke Cloudinary...", `  track: ${trackName}`, `  ukuran: ${(file.size / 1024).toFixed(1)} KB`]);
+    let successCount = 0;
+    let failCount = 0;
+    const errors = [];
+    
+    for (let idx = 0; idx < files.length; idx++) {
+      const file = files[idx];
+      let trackName = globalTrackName;
+      if (trackName === "") {
+        trackName = file.name.replace(/\.mp3$/i, '').replace(/\.MP3$/i, '');
+      } else if (files.length > 1) {
+        // jika banyak file dan trackName diisi, tambahkan indeks biar unik
+        trackName = `${globalTrackName}_${idx+1}`;
+      }
       
-      const audioUrl = await uploadToCloudinary(file);
-      console.log("[CLOUDINARY URL]", audioUrl);
-      showTerminalLog(["✓ Upload Cloudinary sukses!", "⟳ Mengambil URL aman...", `🔗 ${audioUrl.substring(0, 65)}...`]);
+      showTerminalLog([`[${idx+1}/${files.length}] ⟳ Upload: ${file.name}`, `  → track: ${trackName}`, `  → ukuran: ${(file.size / 1024).toFixed(1)} KB`], false, false);
       
-      showTerminalLog(["⟳ Mengirim ke Database Firestore...", "  koleksi: mp3_list"]);
-      await saveToFirestore(trackName, audioUrl);
+      try {
+        const audioUrl = await uploadToCloudinary(file);
+        showTerminalLog([`[${idx+1}/${files.length}] ✓ Cloudinary OK`, `  → URL: ${audioUrl.substring(0, 60)}...`], false, false);
+        
+        await saveToFirestore(trackName, audioUrl);
+        showTerminalLog([`[${idx+1}/${files.length}] ✨ Sukses tersimpan di Firestore!`], false, false);
+        successCount++;
+        
+      } catch (error) {
+        console.error(`Gagal upload ${file.name}:`, error);
+        showTerminalLog([`[${idx+1}/${files.length}] ❌ Gagal: ${error.message}`], true, false);
+        failCount++;
+        errors.push(`${file.name}: ${error.message}`);
+      }
       
-      showTerminalLog(["✨ Sukses! Audio tersimpan di database.", "📡 Data telah dikirim ke sistem VGA TECH."]);
-      showSuccessToast(`"${trackName}" berhasil diupload!`);
-      clearLogAfterDelay(3000);
-      
-      // Reset form
-      mp3FileInput.value = '';
-      fileNameDisplay.innerHTML = '';
-      trackNameInput.value = '';
-      
-    } catch (error) {
-      console.error("[ERROR UPLOAD]", error);
-      showTerminalLog(`⚠️ Gagal: ${error.message}`, true);
-    } finally {
-      uploadBtn.disabled = false;
-      uploadBtn.style.opacity = '1';
-      uploadBtn.innerHTML = originalText;
+      // jeda kecil agar tidak overload
+      await new Promise(r => setTimeout(r, 300));
     }
+    
+    // Ringkasan akhir
+    if (successCount > 0) {
+      showTerminalLog([`✅ Selesai! Berhasil: ${successCount} file, Gagal: ${failCount} file`], false, false);
+      showSuccessToast(`${successCount} file berhasil diupload!`);
+    } else {
+      showTerminalLog([`❌ Semua file gagal diupload. Cek koneksi atau format.`], true, false);
+    }
+    
+    if (errors.length > 0 && errors.length <= 5) {
+      showTerminalLog([`Detail error:`, ...errors], true, false);
+    }
+    
+    // Reset form setelah selesai
+    mp3FileInput.value = '';
+    fileNameDisplay.innerHTML = '';
+    if (files.length === 1) trackNameInput.value = ''; // hanya reset jika single upload biar praktis
+    
+    uploadBtn.disabled = false;
+    uploadBtn.style.opacity = '1';
+    uploadBtn.innerHTML = originalText;
   }
   
   uploadBtn.addEventListener('click', handleUpload);
@@ -607,10 +675,9 @@
     });
   });
   
-  // Inisialisasi (tidak ada listener database karena tidak perlu menampilkan list)
+  // Inisialisasi
   function init() {
-    console.log("VGA TECH ADMIN | Light mode • No audio preview list • Firebase + Cloudinary ready");
-    // Opsional: test koneksi Firestore (hanya untuk debugging)
+    console.log("VGA TECH ADMIN | MULTI UPLOAD ACTIVE • Support batch upload");
     db.collection("mp3_list").limit(1).get().catch(e => console.warn("Firestore check:", e.message));
   }
   
