@@ -1,0 +1,285 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: linear-gradient(145deg, #fef9f0 0%, #f0f4fe 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Super Elegant Card */
+.super-card {
+  max-width: 600px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(2px);
+  border-radius: 56px;
+  box-shadow: 0 35px 68px rgba(0, 20, 50, 0.12), 0 8px 24px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(110, 160, 230, 0.25);
+}
+
+/* Header Glowing */
+.header-glow {
+  padding: 28px 28px 16px;
+  text-align: center;
+  background: white;
+}
+
+.header-glow h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #1A3E6F, #2D6DC2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  letter-spacing: -0.5px;
+}
+
+.header-glow h1 span.material-icons {
+  font-size: 2.2rem;
+  color: #2D6DC2;
+  background: none;
+  -webkit-background-clip: unset;
+}
+
+.subhead {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #5c6f91;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Camera Area No Mirror! */
+.camera-zone {
+  padding: 20px 24px 12px;
+  background: #ffffff;
+}
+
+.cam-wrapper {
+  background: #101f2c;
+  border-radius: 40px;
+  overflow: hidden;
+  box-shadow: 0 16px 30px -12px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255,255,245,0.2);
+  position: relative;
+}
+
+video, canvas {
+  width: 100%;
+  display: block;
+  border-radius: 36px;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+  background: #0f1a24;
+}
+
+/* 🔥 INI PENTING: NON-MIRROR (scale(1) normal / tanpa flip) */
+video {
+  transform: scaleX(1);
+}
+
+canvas {
+  display: none;
+}
+
+.badge-hd {
+  position: absolute;
+  bottom: 14px;
+  right: 16px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #FFE6B3;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: monospace;
+  pointer-events: none;
+}
+
+.badge-hd span.material-icons {
+  font-size: 0.9rem;
+  color: #FFD966;
+}
+
+/* Tombol keren */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
+
+.btn-premium {
+  background: white;
+  border: 1.2px solid #cddff5;
+  padding: 12px 24px;
+  border-radius: 60px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+  color: #1e4a76;
+  font-family: inherit;
+}
+
+.btn-premium span.material-icons {
+  font-size: 1.2rem;
+  color: #2b6ed7;
+}
+
+.btn-premium:hover {
+  background: #f3f9ff;
+  border-color: #8bb7f0;
+  transform: translateY(-2px);
+}
+
+/* CTA Utama - ASIK BANGET */
+.btn-asik {
+  background: linear-gradient(105deg, #1F5EC9, #143F7A);
+  border: none;
+  width: calc(100% - 48px);
+  margin: 20px 24px 24px;
+  padding: 18px 16px;
+  border-radius: 100px;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: 0.25s;
+  box-shadow: 0 20px 35px -10px rgba(31, 94, 201, 0.45);
+  font-family: inherit;
+}
+
+.btn-asik:active {
+  transform: scale(0.97);
+}
+
+/* Result Panel Kocak + Keren */
+.result-panel-asik {
+  background: #ffffff;
+  margin: 4px 24px 28px 24px;
+  border-radius: 48px;
+  padding: 24px 20px;
+  transition: 0.3s;
+  border: 1px solid #eef3fe;
+  box-shadow: 0 20px 35px -16px rgba(0, 0, 0, 0.05);
+}
+
+.score-big {
+  text-align: center;
+}
+
+.score-number {
+  font-size: 5.2rem;
+  font-weight: 800;
+  background: linear-gradient(145deg, #1F4E8C, #3874D6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+
+.percent-sign {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(145deg, #5f7fb0, #3a6eb4);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.label-glow {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #6d86ac;
+  margin-top: 6px;
+}
+
+.verdict-asik {
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-top: 18px;
+  background: #f1f6fe;
+  padding: 14px 20px;
+  border-radius: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #163457;
+}
+
+.hidden {
+  display: none;
+}
+
+.spinner-classy {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.footer-sans {
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #9aafcd;
+  padding: 12px 24px 26px;
+  background: white;
+  border-top: 1px solid #edf3fc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+@media (max-width: 520px) {
+  .super-card {
+    border-radius: 40px;
+  }
+  .btn-asik {
+    width: calc(100% - 32px);
+    margin: 16px 16px 20px;
+  }
+  .score-number {
+    font-size: 4rem;
+  }
+}
