@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>RizzXploit</title>
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="rizxploit1388.css">
+</head>
+<body>
+
+<!-- ======= SPLASH SCREEN SUPER ELEGANT ======= -->
+<div class="splash-screen" id="splashScreen">
+  <div class="splash-diamond"></div>
+  <div class="splash-logo">RizzXploit</div>
+  <div class="splash-progress">
+    <div class="splash-progress-fill" id="splashFill"></div>
+  </div>
+  <div class="splash-text"></div>
+</div>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<canvas id="particleCanvas" class="particle-canvas"></canvas>
+<div class="bg-blob" style="top:-80px; left:-120px;"></div>
+<div class="bg-blob" style="bottom:-20px; right:-80px; width: 650px; height: 650px;"></div>
+
+<nav class="navbar" id="navbar">
+  <div class="logo">RizzXploit</div>
+  <div class="menu-icon" id="menuIcon"><i class="fas fa-bolt"></i></div>
+  <div class="nav-links" id="navLinks">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#testimonials">Testimonials</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<main>
+  <section id="home" class="container">
+    <div class="hero">
+      <div class="hero-content fade-up">
+        <div class="hero-badge"><i class="fas fa-crown"></i> Visionary Creator</div>
+        <h1>RizzXploit</h1>
+        <div class="typing-text" id="typedText"></div>
+        <p class="hero-desc">Membangun realitas digital dengan estetika tinggi, performa kilat, dan inovasi tanpa batas. Siap mengubah ide menjadi pengalaman interaktif masa depan.</p>
+        <div class="btn-group">
+          <a href="#" class="btn btn-primary" id="hireBtn">PESAN SEKARANG <i class="fas fa-arrow-right"></i></a>
+          <a href="#" class="btn btn-outline" id="downloadCV">EXPLORER CV <i class="fas fa-file-pdf"></i></a>
+        </div>
+      </div>
+      <div class="hero-avatar fade-up">
+        <div class="avatar-wrapper">
+          <div class="liquid-border"></div>
+          <img class="avatar-img" src="https://res.cloudinary.com/duh8ofg5n/image/upload/v1778202896/20260311_192226_h9ee6d.png" alt="RizzXploit Profile">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="container fade-up">
+    <div class="glass-card">
+      <h2 style="font-size: 2rem; margin-bottom: 1rem;">Tentang <span style="color:#0af;">Saya</span></h2>
+      <p style="line-height: 1.7;">Full-stack arsitek digital dengan jiwa futuristik, ahli dalam menciptakan antarmuka fluid dan interaksi memukau. Berpengalaman dalam immersive web, 3D, dan performa tinggi. Kolaborasi dengan brand global membawa hasil visioner.</p>
+      <div class="stats-container">
+        <div class="stat-item"><div class="stat-number">4+</div><div>Years Experience</div></div>
+        <div class="stat-item"><div class="stat-number">32+</div><div>Projects Done</div></div>
+        <div class="stat-item"><div class="stat-number">22+</div><div>Happy Clients</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="container fade-up">
+    <h2 style="font-size: 2rem; text-align:center;">Mastery <span style="color:#0af;">Tech Stack</span></h2>
+    <div class="skill-grid">
+      <div class="skill-card"><i class="fab fa-html5"></i><h4>HTML5</h4></div>
+      <div class="skill-card"><i class="fab fa-css3-alt"></i><h4>CSS3</h4></div>
+      <div class="skill-card"><i class="fab fa-js"></i><h4>JavaScript (ES6+)</h4></div>
+      <div class="skill-card"><i class="fab fa-react"></i><h4>React.js</h4></div>
+      <div class="skill-card"><i class="fas fa-database"></i><h4>Node.js</h4></div>
+      <div class="skill-card"><i class="fas fa-bolt"></i><h4>GSAP / Three.js</h4></div>
+    </div>
+  </section>
+
+  <section id="testimonials" class="container fade-up">
+    <h2 style="font-size: 2rem; text-align:center;">Client <span style="color:#0af;">Testimonials</span></h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card"><i class="fas fa-quote-left"></i><div class="rating">★★★★★</div><p class="testimonial-text">“RizzXploit mengubah portfolio kami menjadi pengalaman sinematik. Kreativitas tanpa batas, kode berkualitas tinggi!”</p><div class="testimonial-author"><div class="author-avatar">A</div><div class="author-info"><h4>Alina Devina</h4><p>CEO, NovaTech Studio</p></div></div></div>
+      <div class="testimonial-card"><i class="fas fa-quote-left"></i><div class="rating">★★★★★</div><p class="testimonial-text">“Kolaborasi dengan Rizz adalah game changer! Website interaktif meningkatkan engagement hingga 150%.”</p><div class="testimonial-author"><div class="author-avatar">M</div><div class="author-info"><h4>Michael Tan</h4><p>Lead Product, Creatix</p></div></div></div>
+      <div class="testimonial-card"><i class="fas fa-quote-left"></i><div class="rating">★★★★★</div><p class="testimonial-text">“UI/UX seperti lukisan modern. Animasi halus, performa sempurna. Highly recommended!”</p><div class="testimonial-author"><div class="author-avatar">S</div><div class="author-info"><h4>Sandra Wijaya</h4><p>Founder, Orbit Digital</p></div></div></div>
+    </div>
+  </section>
+
+  <section id="projects" class="container fade-up">
+    <h2 style="font-size: 2rem; text-align:center;">Featured <span style="color:#0af;">Creations</span></h2>
+    <div class="project-grid">
+      <div class="project-card"><i class="fas fa-cube" style="font-size: 2rem; color:#0af;"></i><h3>CyberForge XR</h3><p>Pengalaman Web3 dan AR revolusioner.</p><a href="#" class="project-preview">Explore →</a></div>
+      <div class="project-card"><i class="fas fa-chart-simple" style="font-size: 2rem; color:#0af;"></i><h3>Nexus AI Dash</h3><p>Dashboard AI futuristik realtime insight.</p><a href="#" class="project-preview">Explore →</a></div>
+      <div class="project-card"><i class="fas fa-vr-cardboard" style="font-size: 2rem; color:#0af;"></i><h3>Metaverse Port</h3><p>Platform virtual event interaktif 3D.</p><a href="#" class="project-preview">Explore →</a></div>
+    </div>
+  </section>
+
+  <section id="contact" class="container fade-up">
+    <div class="glass-card">
+      <h2 style="margin-bottom: 1rem;">Let's <span style="color:#0af;">Connect</span></h2>
+      <form class="contact-form" id="contactForm">
+        <input type="text" placeholder="Full Name" required>
+        <input type="email" placeholder="Email Address" required>
+        <textarea rows="4" placeholder="Kirim pesan visioner..." required></textarea>
+        <button type="submit" class="btn btn-primary" style="width:100%">Kirim Pesan <i class="fas fa-paper-plane"></i></button>
+      </form>
+      <div class="social-icons" style="margin-top: 2rem; text-align: center;">
+        <a href="#" id="instagramLink" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="#" id="linkedinLink" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" id="githubLink" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="#" id="whatsappLink" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" id="tiktokLink" target="_blank"><i class="fab fa-tiktok"></i></a>
+      </div>
+      <p style="font-size:0.75rem; text-align:center; margin-top:1rem;"></p>
+    </div>
+  </section>
+</main>
+<footer><p>© 2021 | RizzXploit</p></footer>
+
+<script src="rizxploit99182.js"></script>
+</body>
+</html>
