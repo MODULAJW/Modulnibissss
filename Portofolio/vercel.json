@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/(.*)", "destination": "/Index.html" }
   ],
   "headers": [
     {
@@ -26,7 +26,7 @@
       ]
     },
     {
-      "source": "/script.js",
+      "source": "/rizxploit99182.js",
       "headers": [
         {
           "key": "Cache-Control",
