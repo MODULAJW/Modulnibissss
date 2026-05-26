@@ -103,8 +103,8 @@
     checkActiveSessionAndRedirect();
     
     // ========= URL LOGO =========
-    const logo1 = "https://res.cloudinary.com/dwiozm4vz/image/upload/v1774449893/wqbkrlayj1wfvbnaefl2.png";
-    const logo2 = "https://res.cloudinary.com/dwiozm4vz/image/upload/v1774524752/gtbloooicxhkoz0ncvxx.png";
+    const logo1 = "https://res.cloudinary.com/duh8ofg5n/image/upload/v1776511565/1000033351_njyn5j.png";
+    const logo2 = "https://res.cloudinary.com/duh8ofg5n/image/upload/v1776511565/1000033351_njyn5j.png";
     
     let currentLogoIndex = 0;
     const logoWrapper = document.getElementById('logoWrapper');
