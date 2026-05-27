@@ -15,7 +15,120 @@
 </head>
 <body>
 
-<div class="app-container" id="appMain">
+<!-- PROTECTION SCRIPT - CEK LOGIN SEBELUM LOAD KONTEN -->
+<script>
+    (function() {
+        // Firebase Config untuk proteksi
+        const firebaseConfig = {
+            apiKey: "AIzaSyDHSWmNFH0M2xxAHscSaVf5S8EbGecLzh4",
+            authDomain: "vga-tech-v2-88b79.firebaseapp.com",
+            projectId: "vga-tech-v2-88b79",
+            storageBucket: "vga-tech-v2-88b79.firebasestorage.app",
+            messagingSenderId: "736275916549",
+            appId: "1:736275916549:web:31d62d90aad3c1f2adf96c"
+        };
+        
+        // Inisialisasi Firebase untuk cek
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+        
+        // Fungsi cek session
+        async function checkAndProtect() {
+            // Cek session di localStorage
+            const activeSession = localStorage.getItem('vga_active_session');
+            
+            if (!activeSession) {
+                // Tidak ada session, redirect ke index
+                window.location.href = "./index.html";
+                return false;
+            }
+            
+            try {
+                const sessionData = JSON.parse(activeSession);
+                const { username, loginTimestamp, durationDays } = sessionData;
+                
+                if (!username || !loginTimestamp || !durationDays) {
+                    localStorage.removeItem('vga_active_session');
+                    window.location.href = "./index.html";
+                    return false;
+                }
+                
+                // Validasi ke Firebase
+                const usersRef = db.collection('users');
+                const querySnapshot = await usersRef.where('username', '==', username).limit(1).get();
+                
+                if (querySnapshot.empty) {
+                    localStorage.removeItem('vga_active_session');
+                    window.location.href = "./index.html";
+                    return false;
+                }
+                
+                const userDoc = querySnapshot.docs[0];
+                const userData = userDoc.data();
+                const startTimeFromDB = userData.startTime || null;
+                const durationDaysFromDB = userData.duration || 0;
+                const deviceIdFromDB = userData.deviceId || null;
+                const currentDeviceId = localStorage.getItem('vga_device_id') || null;
+                
+                // Cek device ID
+                if (deviceIdFromDB !== null && currentDeviceId !== null && deviceIdFromDB !== currentDeviceId) {
+                    localStorage.removeItem('vga_active_session');
+                    window.location.href = "./index.html";
+                    return false;
+                }
+                
+                // Cek masa aktif
+                if (startTimeFromDB !== null && durationDaysFromDB > 0) {
+                    const now = Date.now();
+                    const elapsedMs = now - startTimeFromDB;
+                    const maxDurationMs = durationDaysFromDB * 24 * 60 * 60 * 1000;
+                    
+                    if (elapsedMs > maxDurationMs) {
+                        localStorage.removeItem('vga_active_session');
+                        window.location.href = "./index.html";
+                        return false;
+                    }
+                } else {
+                    localStorage.removeItem('vga_active_session');
+                    window.location.href = "./index.html";
+                    return false;
+                }
+                
+                // Session valid, update timestamp di localStorage
+                const updatedSession = {
+                    username: username,
+                    loginTimestamp: startTimeFromDB,
+                    durationDays: durationDaysFromDB
+                };
+                localStorage.setItem('vga_active_session', JSON.stringify(updatedSession));
+                
+                // Lanjutkan render halaman
+                return true;
+                
+            } catch (e) {
+                console.error("Error checking session:", e);
+                localStorage.removeItem('vga_active_session');
+                window.location.href = "./index.html";
+                return false;
+            }
+        }
+        
+        // Eksekusi proteksi, jika gagal redirect, jika sukses tampilkan konten
+        checkAndProtect().then(valid => {
+            if (valid) {
+                // Hapus loading screen jika ada, tampilkan konten
+                const body = document.body;
+                const appContainer = document.getElementById('appMain');
+                if (appContainer) appContainer.style.display = 'flex';
+            }
+        });
+    })();
+</script>
+
+<!-- Sembunyikan konten awal sampai validasi selesai -->
+<div id="appMain" class="app-container" style="display: none;">
     <div class="logo-area">
         <img class="logo-img" src="https://res.cloudinary.com/duh8ofg5n/image/upload/v1776511565/1000033351_njyn5j.png" alt="VGA TECH">
     </div>
