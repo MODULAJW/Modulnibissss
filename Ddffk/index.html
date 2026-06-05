@@ -1,7 +1,453 @@
-<h1>maintenance</h1>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VGA TECH V2</title>
+
+<link rel="stylesheet"
+href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 
 <style>
-  h1}
-  color : yellow
-  {
+/* apa kontol si gabisa pembuat modul */
+:root{
+--yellow:#ffe600;
+--black:#000;
+--white:#fff;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+-webkit-tap-highlight-color:transparent;
+}
+
+body{
+background:var(--yellow);
+overflow:hidden;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+position:relative;
+color:#000;
+}
+
+/* GRID */
+
+body::before{
+content:"";
+position:absolute;
+inset:0;
+background:
+linear-gradient(rgba(0,0,0,.08) 2px,transparent 2px),
+linear-gradient(90deg,rgba(0,0,0,.08) 2px,transparent 2px);
+background-size:45px 45px;
+animation:gridMove 8s linear infinite;
+}
+
+@keyframes gridMove{
+0%{
+transform:translateY(0);
+}
+100%{
+transform:translateY(45px);
+}
+}
+
+/* MAIN PANEL */
+
+.panel{
+position:relative;
+z-index:5;
+width:92%;
+max-width:1000px;
+background:#000;
+border:5px solid #000;
+box-shadow:
+14px 14px 0 #fff,
+28px 28px 0 #111;
+overflow:hidden;
+animation:show .7s ease;
+}
+
+@keyframes show{
+from{
+opacity:0;
+transform:scale(.9) rotate(-2deg);
+}
+to{
+opacity:1;
+transform:scale(1) rotate(0);
+}
+}
+
+/* TOP */
+
+.topbar{
+background:var(--yellow);
+padding:18px 22px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:5px solid #000;
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.logo{
+width:62px;
+height:62px;
+object-fit:cover;
+background:#fff;
+padding:4px;
+border:4px solid #000;
+}
+
+.name{
+font-size:28px;
+font-weight:900;
+letter-spacing:3px;
+text-transform:uppercase;
+}
+
+.live{
+display:flex;
+align-items:center;
+gap:8px;
+font-size:15px;
+font-weight:900;
+background:#000;
+color:var(--yellow);
+padding:10px 14px;
+border:3px solid #fff;
+}
+
+/* CONTENT */
+
+.content{
+padding:35px;
+text-align:center;
+}
+
+.big{
+font-size:85px;
+font-weight:900;
+line-height:1;
+text-transform:uppercase;
+color:var(--yellow);
+margin-bottom:18px;
+text-shadow:
+6px 6px 0 #fff;
+animation:shake 2s infinite;
+}
+
+@keyframes shake{
+0%{transform:translateX(0);}
+20%{transform:translateX(-2px);}
+40%{transform:translateX(2px);}
+60%{transform:translateX(-1px);}
+80%{transform:translateX(1px);}
+100%{transform:translateX(0);}
+}
+
+.desc{
+font-size:17px;
+line-height:1.8;
+color:#d0d0d0;
+max-width:760px;
+margin:auto;
+margin-bottom:28px;
+}
+
+/* VIDEO */
+
+.videoBox{
+position:relative;
+overflow:hidden;
+border:5px solid var(--yellow);
+background:#000;
+box-shadow:
+0 0 25px rgba(255,230,0,.25);
+}
+
+video{
+width:100%;
+display:block;
+pointer-events:none;
+}
+
+/* SCAN */
+
+.scan{
+position:absolute;
+inset:0;
+background:
+linear-gradient(
+transparent 92%,
+rgba(255,255,255,.08) 100%
+);
+background-size:100% 6px;
+mix-blend-mode:screen;
+animation:scan 4s linear infinite;
+pointer-events:none;
+}
+
+@keyframes scan{
+0%{
+transform:translateY(-10px);
+}
+100%{
+transform:translateY(10px);
+}
+}
+
+/* MARQUEE */
+
+.marquee{
+width:100%;
+overflow:hidden;
+background:var(--yellow);
+border-top:5px solid #000;
+padding:14px 0;
+white-space:nowrap;
+}
+
+.marquee span{
+display:inline-block;
+font-size:24px;
+font-weight:900;
+color:#000;
+text-transform:uppercase;
+padding-left:100%;
+animation:run 12s linear infinite;
+}
+
+@keyframes run{
+0%{
+transform:translateX(0);
+}
+100%{
+transform:translateX(-100%);
+}
+}
+
+/* FOOTER */
+
+.footer{
+background:#000;
+color:var(--yellow);
+padding:16px;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:10px;
+font-size:14px;
+font-weight:900;
+border-top:5px solid #fff;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:700px){
+
+.big{
+font-size:48px;
+}
+
+.name{
+font-size:18px;
+}
+
+.logo{
+width:50px;
+height:50px;
+}
+
+.desc{
+font-size:14px;
+}
+
+.content{
+padding:22px;
+}
+
+.marquee span{
+font-size:17px;
+}
+
+}
+
 </style>
+</head>
+
+<body oncontextmenu="return false">
+
+<!-- AUDIO -->
+
+<audio
+id="music"
+autoplay
+loop
+preload="auto">
+
+<source
+src="https://files.catbox.moe/5tfk7b.mp3"
+type="audio/mpeg">
+
+</audio>
+
+<!-- PANEL -->
+
+<div class="panel">
+
+<!-- TOP -->
+
+<div class="topbar">
+
+<div class="brand">
+
+<img
+src="https://res.cloudinary.com/duh8ofg5n/image/upload/v1776511565/1000033351_njyn5j.png"
+class="logo">
+
+<div class="name">
+VGA TECH V2
+</div>
+
+</div>
+
+<div class="live">
+
+<span class="material-symbols-outlined">
+construction
+</span>
+
+MAINTENANCE
+
+</div>
+
+</div>
+
+<!-- CONTENT -->
+
+<div class="content">
+
+<div class="big">
+UPDATE<br>SYSTEM
+</div>
+
+<div class="desc">
+VGA TECH V2 sedang melakukan update dan peningkatan sistem
+agar server lebih cepat, stabil, dan profesional.
+Silakan tunggu hingga proses selesai.
+</div>
+
+<div class="videoBox">
+
+<video
+autoplay
+muted
+loop
+playsinline
+preload="auto"
+disablePictureInPicture
+controlsList="nodownload nofullscreen noremoteplayback">
+
+<source
+src="https://files.catbox.moe/6gwvfp.mp4"
+type="video/mp4">
+
+</video>
+
+<div class="scan"></div>
+
+</div>
+
+</div>
+
+<!-- MARQUEE -->
+
+<div class="marquee">
+<span>
+VGA TECH V2 UPDATE DULU YAKKK • VGA TECH V2 UPDATE DULU YAKKK • VGA TECH V2 UPDATE DULU YAKKK •
+</span>
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+<span class="material-symbols-outlined">
+memory
+</span>
+
+VGA TECH SERVER STATUS : MAINTENANCE
+
+</div>
+
+</div>
+
+<script>
+
+/* SUPER FAST AUDIO */
+
+const music = document.getElementById("music");
+
+music.volume = 1;
+
+async function forcePlay(){
+
+try{
+await music.play();
+}catch(e){}
+
+}
+
+window.addEventListener("load", forcePlay);
+
+document.addEventListener(
+"touchstart",
+forcePlay,
+{ once:true }
+);
+
+document.addEventListener(
+"click",
+forcePlay,
+{ once:true }
+);
+
+/* STOP WHEN EXIT */
+
+window.addEventListener("pagehide", () => {
+music.pause();
+music.currentTime = 0;
+});
+
+/* BLOCK INSPECT */
+
+document.addEventListener("keydown", e => {
+
+if(
+e.key === "F12" ||
+(e.ctrlKey && e.shiftKey && e.key === "I") ||
+(e.ctrlKey && e.shiftKey && e.key === "J") ||
+(e.ctrlKey && e.key === "U")
+){
+e.preventDefault();
+}
+
+});
+
+</script>
+
+</body>
+</html>
