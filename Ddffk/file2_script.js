@@ -9,7 +9,6 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const storage = firebase.storage(); // TAMBAHKAN STORAGE REFERENCE
 
 // IndexedDB Configuration
 const DB_NAME = 'VGA_BASURI_DB';
@@ -78,27 +77,6 @@ function updateSpeedUI() {
     tempoDisplaySpan.innerText = `TEMPO ${bpmVal}`;
     bpmDisplaySpan.innerText = `${bpmVal} BPM`;
 }
-
-// ========== FIX: SUPPORT AUDIO DI SAFARI IPHONE ==========
-function fixAudioForSafari() {
-    // Force audio format yang didukung Safari
-    if (audio) {
-        // Set preload metadata untuk performa lebih baik
-        audio.preload = 'metadata';
-        
-        // Hapus blob URL lama jika ada memory leak
-        window.addEventListener('beforeunload', () => {
-            if (allSongs) {
-                allSongs.forEach(song => {
-                    if (song.url && song.url.startsWith('blob:')) {
-                        URL.revokeObjectURL(song.url);
-                    }
-                });
-            }
-        });
-    }
-}
-fixAudioForSafari();
 
 // ========== INDEXEDDB OPERATIONS ==========
 function openLocalDB() {
@@ -256,62 +234,23 @@ function setSelectedIndex(index) {
     renderPlaylist();
 }
 
-// ========== FIXED: PLAY AUDIO DENGAN DUKUNGAN IPHONE ==========
 function playCurrent() {
     if (selectedIndex === -1 || filteredSongs.length === 0) return;
     const song = filteredSongs[selectedIndex];
     if (!song.url) return;
-    
-    // Fix untuk Safari: pause dulu sebelum ganti src
-    const wasPlaying = !audio.paused;
-    if (wasPlaying) {
-        audio.pause();
-    }
-    
     if (audio.src !== song.url) {
         audio.src = song.url;
         audio.load();
-        
-        // Tambahkan event listener untuk error handling di Safari
-        audio.addEventListener('error', function(e) {
-            console.warn('Audio error:', e);
-            // Coba alternatif jika format tidak didukung
-            if (song.blobData && song.isLocal) {
-                // Re-create blob dengan tipe MIME yang lebih spesifik
-                const mimeType = song.blobData.type || 'audio/mpeg';
-                const newBlob = new Blob([song.blobData], { type: mimeType });
-                const newUrl = URL.createObjectURL(newBlob);
-                audio.src = newUrl;
-                audio.load();
-                audio.play().catch(err => console.warn('Retry play failed:', err));
-            }
-        }, { once: true });
-        
         audio.play().then(() => {
             playingIndex = selectedIndex;
             renderPlaylist();
-        }).catch(e => {
-            console.warn('Playback error:', e);
-            // Di iPhone, mungkin perlu user interaction pertama
-            if (e.name === 'NotAllowedError') {
-                showToast('Tap play lagi untuk memutar audio', false);
-            }
-        });
+        }).catch(e => console.warn);
     } else {
         audio.play().then(() => {
             playingIndex = selectedIndex;
             renderPlaylist();
-        }).catch(e => console.warn('Playback error:', e));
+        }).catch(e => console.warn);
     }
-}
-
-// Toast helper untuk feedback
-function showToast(msg, isError = false) {
-    let toast = document.createElement('div');
-    toast.style.cssText = `position:fixed;bottom:20px;left:20px;right:20px;background:${isError ? '#ff4444cc' : '#00ffccaa'};color:#000;padding:12px;border-radius:8px;text-align:center;z-index:10000;font-size:12px;backdrop-filter:blur(10px);`;
-    toast.innerText = msg;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 2000);
 }
 
 function filterSongs() {
@@ -354,13 +293,7 @@ async function executeDelete(docId, isLocal) {
         try {
             await deleteLocalSongFromDB(docId);
             const localIdx = allSongs.findIndex(s => s.id === docId && s.isLocal);
-            if (localIdx !== -1) {
-                // Revoke blob URL sebelum dihapus
-                if (allSongs[localIdx].url && allSongs[localIdx].url.startsWith('blob:')) {
-                    URL.revokeObjectURL(allSongs[localIdx].url);
-                }
-                allSongs.splice(localIdx, 1);
-            }
+            if (localIdx !== -1) allSongs.splice(localIdx, 1);
             if (selectedIndex >= allSongs.length) selectedIndex = allSongs.length - 1;
             if (playingIndex >= allSongs.length) playingIndex = -1;
             filterSongs();
@@ -378,86 +311,31 @@ async function executeDelete(docId, isLocal) {
     }
 }
 
-// ========== FIXED: UPLOAD MP3 DENGAN DUKUNGAN IPHONE & FORMAT AUDIO ==========
 async function addLocalMp3(file) {
-    // Dukung berbagai format audio
-    const validAudioTypes = ['audio/mpeg', 'audio/mp3', 'audio/mp4', 'audio/m4a', 'audio/x-m4a', 'audio/wav', 'audio/aac', 'audio/aacp'];
-    const isAudio = validAudioTypes.includes(file.type) || file.name.match(/\.(mp3|m4a|aac|wav)$/i);
-    
-    if (!isAudio) {
-        showToast('Format tidak didukung. Gunakan MP3, M4A, AAC, atau WAV', true);
-        return;
-    }
-    
-    // Ambil nama file tanpa ekstensi
-    let fileName = file.name.replace(/\.[^/.]+$/, '');
-    if (fileName.length > 50) fileName = fileName.substring(0, 47) + '...';
-    
-    // Buat blob URL untuk play di Safari/iPhone
+    const fileName = file.name.replace(/\.mp3$/i, '');
     const objectUrl = URL.createObjectURL(file);
-    
-    // Simpan blob data untuk IndexedDB (tetap simpan file asli)
-    const newSong = { 
-        name: fileName, 
-        blobData: file, 
-        url: objectUrl, 
-        createdAt: Date.now(), 
-        isLocal: true,
-        fileType: file.type || 'audio/mpeg'
-    };
-    
+    const newSong = { name: fileName, blobData: file, url: objectUrl, createdAt: Date.now(), isLocal: true };
     try {
         const id = await saveLocalSongToDB(newSong);
         newSong.id = id;
-        allSongs.unshift({ 
-            id: id, 
-            name: fileName, 
-            url: objectUrl, 
-            isLocal: true,
-            blobData: file,
-            fileType: file.type
-        });
+        allSongs.unshift({ id, name: fileName, url: objectUrl, isLocal: true });
         filterSongs();
-        showToast(`✅ ${fileName} berhasil ditambahkan`, false);
-        
-        // Auto-select lagu baru
-        if (filteredSongs.length > 0) {
-            setSelectedIndex(0);
-        }
     } catch (e) {
-        console.error('Save to IndexedDB error:', e);
-        showToast('Gagal menyimpan lagu', true);
-        URL.revokeObjectURL(objectUrl);
+        console.error(e);
     }
 }
 
-// ========== FIXED: LOAD DATA DARI INDEXEDDB DENGAN RECOVERY URL ==========
+// ========== LOAD DATA FROM FIREBASE & INDEXEDDB ==========
 async function loadAllData() {
     await openLocalDB();
     const localItems = await loadLocalSongsFromDB();
-    
-    // Recreate blob URLs untuk setiap lagu lokal
-    const localFormatted = localItems.map(item => {
-        let audioUrl;
-        if (item.blobData) {
-            // Recreate URL dari blob yang tersimpan
-            audioUrl = URL.createObjectURL(item.blobData);
-        } else if (item.url && item.url.startsWith('blob:')) {
-            audioUrl = item.url;
-        } else {
-            audioUrl = null;
-        }
-        
-        return {
-            id: item.id,
-            name: item.name,
-            url: audioUrl,
-            isLocal: true,
-            createdAt: item.createdAt,
-            blobData: item.blobData,
-            fileType: item.fileType
-        };
-    }).filter(item => item.url !== null); // Filter yang gagal load
+    const localFormatted = localItems.map(item => ({
+        id: item.id,
+        name: item.name,
+        url: URL.createObjectURL(item.blobData),
+        isLocal: true,
+        createdAt: item.createdAt
+    }));
     
     db.collection("mp3_list").orderBy("created_at", "desc").onSnapshot(snapshot => {
         let firebaseList = [];
@@ -474,15 +352,12 @@ async function loadAllData() {
         allSongs = [...localFormatted, ...firebaseList];
         filterSongs();
     }, err => {
-        console.error("Firebase error:", err);
-        // Tetap tampilkan lagu lokal meskipun Firebase error
-        allSongs = [...localFormatted];
-        filterSongs();
-        playlistEl.innerHTML = '<li class="empty-message">⚠️ Koneksi Firebase bermasalah, hanya lagu lokal tersedia</li>';
+        console.error(err);
+        playlistEl.innerHTML = '<li class="empty-message">❌ Firebase error, data lokal tetap ada</li>';
     });
 }
 
-// ========== BLUETOOTH FUNCTIONS (TETAP SAMA) ==========
+// ========== BLUETOOTH FUNCTIONS ==========
 function showBt() {
     btPage.style.display = 'flex';
     document.getElementById('appMain').style.display = 'none';
@@ -533,7 +408,7 @@ async function startScan() {
         btStatusSpan.innerText = `✔️ ${devName} ditemukan. Klik untuk connect.`;
         scanStatusSpan.innerText = "Scan selesai, pilih device";
     } catch (err) {
-        btStatusSpan.innerText = "⏸ Scan dibatalkan. Demo mode aktif";
+        btStatusSpan.innerText = "⏸ Scan dibatalkan. ";
         if (discoveredDevices.length === 0) {
             discoveredDevices = [{ name: "NEO SPEAKER (Demo)" }, { name: "VGA RADIO (Demo)" }];
             updateDeviceUI();
@@ -565,12 +440,6 @@ audio.addEventListener('ended', () => {
     }
 });
 
-// Error handling untuk audio
-audio.addEventListener('error', (e) => {
-    console.warn('Audio element error:', e);
-    showToast('Gagal memutar audio, format mungkin tidak didukung', true);
-});
-
 // Progress Bar Click
 progressBg.addEventListener('click', (e) => {
     if (!audio.duration) return;
@@ -579,28 +448,13 @@ progressBg.addEventListener('click', (e) => {
     audio.currentTime = perc * audio.duration;
 });
 
-// ========== FIXED: CONTROL BUTTONS DENGAN DUKUNGAN IPHONE ==========
-addSongBtn.addEventListener('click', () => { 
-    fileInput.click(); 
-});
+// Control Buttons
+addSongBtn.addEventListener('click', () => { fileInput.click(); });
 fileInput.addEventListener('change', (e) => {
-    const files = Array.from(e.target.files);
-    // Support multiple format audio
-    const audioFiles = files.filter(f => {
-        const validTypes = ['audio/mpeg', 'audio/mp3', 'audio/mp4', 'audio/m4a', 'audio/x-m4a', 'audio/wav', 'audio/aac'];
-        return validTypes.includes(f.type) || f.name.match(/\.(mp3|m4a|aac|wav)$/i);
-    });
-    
-    if (audioFiles.length === 0 && files.length > 0) {
-        showToast('Pilih file audio (MP3, M4A, AAC, WAV)', true);
-    }
-    
-    if (audioFiles.length > 0) {
-        audioFiles.forEach(f => addLocalMp3(f));
-    }
+    const files = Array.from(e.target.files).filter(f => f.type === 'audio/mp3' || f.name.endsWith('.mp3'));
+    if (files.length > 0) files.forEach(f => addLocalMp3(f));
     fileInput.value = '';
 });
-
 playBtn.addEventListener('click', () => {
     if (filteredSongs.length === 0) return;
     if (selectedIndex === -1 && filteredSongs.length) setSelectedIndex(0);
@@ -684,7 +538,7 @@ manualScanBt.addEventListener('click', () => {
     startScan();
 });
 
-// Placeholder untuk Pianika & Chat (tetap)
+// Placeholder for Pianika & Chat
 pianikaBtn.addEventListener('click', () => console.log("Pianika"));
 chatBtn.addEventListener('click', () => console.log("Chat"));
 
